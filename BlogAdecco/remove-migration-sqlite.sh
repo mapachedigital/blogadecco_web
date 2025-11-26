@@ -1,7 +1,7 @@
 #/bin/sh
 
 # Copyright (c) 2021, Mapache Digital
-# Version: 1.0
+# Version: 1.1
 # Author: Samuel Kobelkowsky
 # Email: samuel@mapachedigital.com
 #
@@ -10,10 +10,11 @@
 PATH=/bin:/usr/bin:/c/Program\ Files/dotnet:/opt/homebrew/bin:/usr/local/share/dotnet
 
 # Configure the following variables:
-SOLUTION="../BlogAdecco.sln"
+SOLUTION="../BlogAdecco.slnx"
 SQLPROJECT="../SqliteMigrations"
 DATABASEPROVIDER="Sqlite"
 UPDATE="no"
+CONTEXT="ApplicationDbContext"
 
 usage() { echo -e "\nUsage $0."; }
 
@@ -27,5 +28,5 @@ done
 shift $((OPTIND-1))
 MIGRATIONNAME="$1"
 
-dotnet ef migrations remove --project $SQLPROJECT -- --DatabaseProvider $DATABASEPROVIDER
+dotnet ef migrations remove --project $SQLPROJECT --context $CONTEXT -- --DatabaseProvider $DATABASEPROVIDER
 dotnet build $SOLUTION
