@@ -27,7 +27,7 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager,
         IUserUtils _userUtils, ApplicationDbContext _context) : IBlogAdeccoUtils
 {
     /// <summary>
-    /// Obtain all the rols that are "inferior" to the current logged in user
+    /// Obtain all the roles that are "inferior" to the current logged in user
     /// </summary>
     public async Task<List<string>> MySubordinatedRolesAsync()
     {

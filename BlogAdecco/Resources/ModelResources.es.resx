@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Company" xml:space="preserve">
+    <value>Compañía</value>
+  </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>Nombres</value>
+  </data>
+  <data name="I agree with Grupo Adecco privacy policy" xml:space="preserve">
+    <value>Estoy de acuerdo con la política de privacidad de Grupo Adecco</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Apellidos</value>
+  </data>
+  <data name="Remember me?" xml:space="preserve">
+    <value>¿Recordarme? </value>
+  </data>
 </root>

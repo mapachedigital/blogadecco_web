@@ -19,8 +19,6 @@ public class Globals
     public const string ConfigSuperAdminCompany = "SuperAdmin:Company";
     public const string ConfigSuperAdminPhoneNumber = "SuperAdmin:PhoneNumber";
     public const string ConfigSuperAdminPassword = "SuperAdmin:Password";
-    public const string ConfigSuperAdminCompanyWebsite = "SuperAdmin:CompanyWebsite";
-    public const string ConfigSuperAdminLandlineNumber = "SuperAdmin:LandlinePhoneNumber";
 
     public const string StorageContainerNameAttachments = "attachments";
 }
