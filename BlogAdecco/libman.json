@@ -1,0 +1,51 @@
+{
+  "version": "3.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "bootstrap@5.3.8",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "css/bootstrap.min.css",
+        "js/bootstrap.bundle.min.js",
+        "js/bootstrap.bundle.min.js.map"
+      ]
+    },
+    {
+      "library": "select2@4.0.13",
+      "destination": "wwwroot/lib/select2/",
+      "files": [
+        "js/select2.min.js",
+        "css/select2.min.css",
+        "js/i18n/es.min.js"
+      ]
+    },
+    {
+      "library": "jquery-validate@1.21.0",
+      "destination": "wwwroot/lib/jquery-validate/",
+      "files": [
+        "jquery.validate.min.js",
+        "additional-methods.min.js",
+        "localization/messages_es.min.js"
+      ]
+    },
+    {
+      "library": "qrcodejs@1.0.0",
+      "destination": "wwwroot/lib/qrcodejs/",
+      "files": [
+        "qrcode.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-icons@1.13.1",
+      "destination": "wwwroot/lib/bootstrap-icons/",
+      "files": [
+        "bootstrap-icons.svg",
+        "font/bootstrap-icons.min.css",
+        "font/fonts/bootstrap-icons.woff2",
+        "font/fonts/bootstrap-icons.woff"
+      ]
+    }
+  ]
+}

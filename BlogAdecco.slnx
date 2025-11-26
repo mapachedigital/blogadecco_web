@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="../GrupoAdecco/MDWidgets/MDMessaging/MDMessaging.csproj" />
-  <Project Path="../GrupoAdecco/MDWidgets/MDWidgets/MDWidgets.csproj" />
   <Project Path="BlogAdecco/BlogAdecco.csproj" />
+  <Project Path="MDWidgets/MDMessaging/MDMessaging.csproj" />
+  <Project Path="MDWidgets/MDWidgets/MDWidgets.csproj" />
 </Solution>
