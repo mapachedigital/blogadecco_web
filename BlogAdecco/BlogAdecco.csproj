@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\GrupoAdecco\MDWidgets\MDMessaging\MDMessaging.csproj" />
+    <ProjectReference Include="..\..\GrupoAdecco\MDWidgets\MDWidgets\MDWidgets.csproj" />
+  </ItemGroup>
+
 </Project>
