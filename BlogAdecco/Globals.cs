@@ -20,5 +20,7 @@ public class Globals
     public const string ConfigSuperAdminPhoneNumber = "SuperAdmin:PhoneNumber";
     public const string ConfigSuperAdminPassword = "SuperAdmin:Password";
 
+    public const string GoogleTagManagerCode = "GTM-PWLRVCKL";
+
     public const string StorageContainerNameAttachments = "attachments";
 }

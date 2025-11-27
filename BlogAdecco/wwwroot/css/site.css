@@ -29,3 +29,52 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+a {
+    color: #0077cc;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+#cookieConsent {
+    position: fixed;
+    bottom: 0;
+    font-size: 15px;
+    padding: 12px 10px;
+    text-align: center;
+    font-weight: 300;
+    box-shadow: 0 -1px 10px 0 rgba(172, 171, 171, 0.3);
+    width: 100%;
+    z-index: 10000;
+    background: white;
+}
+
+    #cookieConsent .cookiePrivacy {
+        font-weight: 550;
+        margin: 0px 20px 0px 15px;
+        color: rgb(68,68,68);
+        text-decoration: none;
+    }
+
+    #cookieConsent .cookieButton {
+        color: rgb(255,255,255);
+        background-color: rgb(10,0,0);
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1;
+        margin-top: 5px;
+        padding: 9px 12px;
+        display: inline-block;
+        margin-left: 5px;
+        text-decoration: none;
+    }

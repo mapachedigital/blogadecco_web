@@ -117,10 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Grupo Adecco uses cookies to provide you with a better experience." xml:space="preserve">
+    <value>Grupo Adecco utiliza cookies para brindarte una mejor experiencia.</value>
+  </data>
+  <data name="I accept" xml:space="preserve">
+    <value>Acepto</value>
+  </data>
+  <data name="Language:" xml:space="preserve">
+    <value>Idioma:</value>
+  </data>
+  <data name="Loading..." xml:space="preserve">
+    <value>Cargando...</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Ingresar</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
   <data name="Original Request" xml:space="preserve">
     <value>Petición original</value>
   </data>
+  <data name="Read Privacy Notice" xml:space="preserve">
+    <value>Leer Aviso de Privacidad</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
   <data name="The page you are looking for cannot be found." xml:space="preserve">
     <value>No se pudo encontrar esa página</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Título</value>
   </data>
 </root>
