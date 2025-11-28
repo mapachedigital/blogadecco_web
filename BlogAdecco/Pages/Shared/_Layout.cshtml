@@ -30,12 +30,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BlogAdecco.styles.css" asp-append-version="true" />
 
-    <!-- SEO -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta property="og:locale" content="es_MX" />
-    <meta property="og:site_name" content="Blog Adecco" />
-    <meta property="og:title" content="@ViewData["Title"] - Grupo Adecco" />
-    <meta property="twitter:title" content="@ViewData["Title"] - Grupo Adecco" />
+    @await Component.InvokeAsync("Seo", ViewData["SeoInfo"])
 </head>
 <body>
     <noscript>

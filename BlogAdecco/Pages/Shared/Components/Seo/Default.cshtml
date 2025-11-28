@@ -1,0 +1,64 @@
+﻿@model BlogAdecco.Pages.Shared.Components.Seo.SeoInfo
+
+    <!-- SEO Begin -->
+@if (!string.IsNullOrWhiteSpace(Model.Description))
+{
+    <meta name="description" content="@Model.Description" />
+}
+@if (!string.IsNullOrWhiteSpace(Model.CanonicalUrl))
+{
+    <link rel="canonical" href="@Model.CanonicalUrl" />
+}
+@if (!string.IsNullOrWhiteSpace(Model.Robots))
+{
+    <meta name="robots" content="@Model.Robots" />
+}
+@if (!string.IsNullOrWhiteSpace(Model.GoogleSiteVerification))
+{
+    <meta name="google-site-verification" content="@Model.GoogleSiteVerification" />
+}
+@if (Model.OgInfo?.Title != null)
+{
+    <meta property="og:title" content="@Model.OgInfo.Title" />
+}
+@if (Model.OgInfo?.Type != null)
+{
+    <meta property="og:type" content="@Model.OgInfo.Type" />
+}
+@if (Model.OgInfo?.Image != null)
+{
+    <meta property="og:image" content="@Model.OgInfo.Image" />
+}
+@if (Model.OgInfo?.Url != null)
+{
+    <meta property="og:url" content="@Model.OgInfo.Url" />
+}
+@if (Model.OgInfo?.Description != null)
+{
+    <meta property="og:description" content="@Model.OgInfo.Description" />
+}
+@if (Model.OgInfo?.Locale != null)
+{
+    <meta property="og:locale" content="@Model.OgInfo.Locale" />
+}
+@if (Model.OgInfo?.SiteName != null)
+{
+    <meta property="og:site_name" content="@Model.OgInfo.SiteName" />
+}
+@if (Model.OgInfo?.Video != null)
+{
+    <meta property="og:video" content="@Model.OgInfo.Video" />
+}
+@if (Model.TwitterInfo?.Card != null)
+{
+    <meta property="twitter:card" content="@Model.TwitterInfo.Card" />
+}
+@if (Model.TwitterInfo?.Site != null)
+{
+    <meta property="twitter:site" content="@Model.TwitterInfo.Site" />
+}
+@if (Model.TwitterInfo?.Creator != null)
+{
+    <meta property="twitter:creator" content="@Model.TwitterInfo.Creator" />
+}
+    <!-- SEO End -->

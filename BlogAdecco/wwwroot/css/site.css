@@ -21,6 +21,11 @@ body {
   margin-bottom: 60px;
 }
 
+/* Set a default size for images with sizes="auto" to prevent layout shifts */
+img:is([sizes="auto" i], [sizes^="auto," i]) {
+    contain-intrinsic-size: 1500px 750px
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;

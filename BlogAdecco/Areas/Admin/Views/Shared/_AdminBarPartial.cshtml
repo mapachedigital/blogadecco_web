@@ -12,7 +12,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserUtils UserUtils
 
-@if (!SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User))
 {
     <!-- Admin bar -->
     @* In HTML it's ok to include CSS inside the body, not only in the head of the html file *@
