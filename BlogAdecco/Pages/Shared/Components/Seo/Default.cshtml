@@ -61,4 +61,28 @@
 {
     <meta property="twitter:creator" content="@Model.TwitterInfo.Creator" />
 }
+@if (Model.OgInfo?.Article?.Section != null)
+{
+    <meta property="article:section" content="@Model.OgInfo.Article.Section" />
+}
+@if (Model.OgInfo?.Article?.PublishedTime != null)
+{
+    <meta property="article:published_time" content="@Model.OgInfo.Article.PublishedTime?.ToString("o")" />
+}
+@if (Model.OgInfo?.Article?.ModifiedTime != null)
+{
+    <meta property="article:modified_time " content="@Model.OgInfo.Article.ModifiedTime?.ToString("o")" />
+}
+@if (Model.OgInfo?.Article?.ExpirationTime != null)
+{
+    <meta property="article:expiration_time " content="@Model.OgInfo.Article.ExpirationTime?.ToString("o")" />
+}
+@if (Model.OgInfo?.Article?.Tags != null) foreach(var tag in Model.OgInfo.Article.Tags)
+{ 
+    <meta property="article:tag" content="@tag" />
+}
+@if (Model.OgInfo?.Article?.Author != null)
+{ 
+    <meta property="article:author" content="@Model.OgInfo.Article.Author" />
+}
     <!-- SEO End -->

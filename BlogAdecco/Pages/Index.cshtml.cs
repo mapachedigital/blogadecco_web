@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BlogAdecco.Pages
@@ -7,7 +6,7 @@ namespace BlogAdecco.Pages
     {
         public void OnGet()
         {
-
+            // ViewData["SeoInfo"] = new SeoInfo { ... };
         }
     }
 }

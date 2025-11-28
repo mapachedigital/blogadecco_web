@@ -50,7 +50,7 @@ public class OgInfo
     public string? Title { get; set; }
 
     /// <summary>
-    /// The type of your object, e.g., "video.movie". Depending on the type you specify, other properties may also be required.
+    /// The type of your object, e.g., "video.movie", "article", "book", "website". Depending on the type you specify, other properties may also be required.
     /// <see href="https://ogp.me/#types"/>
     /// </summary>
     public string? Type { get; set; }
@@ -84,6 +84,11 @@ public class OgInfo
     /// A URL to a video file that complements this object.
     /// </summary>
     public string? Video { get; set; }
+
+    /// <summary>
+    /// When your object is of type article, you can use this tag to supply details about the article.
+    /// </summary>
+    public Article? Article { get; set; }
 }
 
 public class TwitterInfo
@@ -102,4 +107,37 @@ public class TwitterInfo
     /// @username for the content creator / author.
     /// </summary>
     public string? Creator { get; set; }
+}
+
+public class Article
+{
+    /// <summary>
+    /// When the article was first published.
+    /// </summary>
+    public DateTime? PublishedTime { get; set; }
+
+    /// <summary>
+    /// When the article was last changed.
+    /// </summary>
+    public DateTime? ModifiedTime { get; set; }
+
+    /// <summary>
+    /// When the article is out of date after.
+    /// </summary>
+    public DateTime? ExpirationTime { get; set; }
+
+    /// <summary>
+    /// URL to the writers of the article.
+    /// </summary>
+    public string Author { get; set; } = default!;
+
+    /// <summary>
+    /// A high-level section name. E.g. Technology
+    /// </summary>
+    public string? Section { get; set; } = default!;
+
+    /// <summary>
+    /// Tag words associated with this article.
+    /// </summary>
+    public List<string> Tags { get; set; } = [];
 }
