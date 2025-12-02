@@ -1,0 +1,51 @@
+﻿@model BlogAdecco.Pages.Shared.Components.SocialBox.SocialBoxModel
+
+<!-- Styles for the social box -->
+<style>
+    .social-box {
+        max-width: 240px;
+        margin: 0 auto 0;
+    }
+
+    .social-btn {
+        display: inline-block;
+        text-align: center;
+        border-radius: 50px;
+        padding: 10px;
+        color: #fff;
+        line-height: 1.825 !important;
+        width: 50px;
+        margin: 0 3px !important;
+        text-decoration: none;
+    }
+
+    .social-btn-twitter {
+        background: #03A9F4;
+    }
+
+    .social-btn-facebook {
+        background: #3F51B5;
+    }
+
+    .social-btn-whatsapp {
+        background: #4CAF50;
+    }
+
+    .social-btn-linkedin {
+        background: #1a7baa;
+    }
+</style>
+<div class="social-box">
+    <a class="social-btn social-btn-twitter" href="@Model.TwitterShareUrl" target="_blank" rel="nofollow">
+        <i class="fab fa-x-twitter"></i>
+    </a>
+    <a class="social-btn social-btn-facebook" href="@Model.FacebookShareUrl" target="_blank" rel="nofollow">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+    <a class="social-btn social-btn-whatsapp" href="@Model.WhatsappShareUrl" target="_blank" rel="nofollow">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <a class="social-btn social-btn-linkedin" href="@Model.LinkedInShareUrl" target="_blank" rel="nofollow">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+</div>

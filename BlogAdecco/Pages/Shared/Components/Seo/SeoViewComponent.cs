@@ -1,4 +1,9 @@
-﻿using MDWidgets.Utils;
+﻿// Copyright (c) 2021, Mapache Digital
+// Version: 1.0.0
+// Author: Samuel Kobelkowsky
+// Email: samuel@mapachedigital.com
+
+using MDWidgets.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogAdecco.Pages.Shared.Components.Seo;
@@ -19,7 +24,7 @@ public class SeoViewComponent(ISiteUtils _siteUtils) : ViewComponent
             },
         };
 
-        if (seoInfo.OgInfo?.Locale!=null) 
+        if (seoInfo.OgInfo?.Locale != null)
         {
             // Open Graph protocol requires locale to use underscore instead of hyphen
             seoInfo.OgInfo.Locale = seoInfo.OgInfo.Locale.Replace("-", "_");
