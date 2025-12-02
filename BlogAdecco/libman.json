@@ -46,6 +46,15 @@
         "font/fonts/bootstrap-icons.woff2",
         "font/fonts/bootstrap-icons.woff"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@7.0.1",
+      "destination": "wwwroot/lib/font-awesome/",
+      "files": [
+        "css/all.min.css",
+        "js/all.min.js"
+      ]
     }
   ]
 }
