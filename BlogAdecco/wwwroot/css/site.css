@@ -16,6 +16,12 @@
 
 html {
     font-size: 14px;
+    --backgrounds-gradient: linear-gradient(180deg, #da291c, #bf0d3e);
+    --adecco-bg: #da291c;
+    --white: #fff;
+    --cyan: #ccf2ff;
+    --black: #000306;
+    --roboto: 'Roboto', sans-serif;
     --small-font: 0.8rem;
 }
 
@@ -98,7 +104,7 @@ a {
     }
 
 .roboto {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
 }
 
 .houschka_headmedium {
@@ -131,4 +137,9 @@ a {
 
 .footer-logo-white {
     max-width: 90%;
+}
+
+.candidates a, .candidates a:link, .candidates a:visited {
+    text-decoration: none;
+    color: black;
 }

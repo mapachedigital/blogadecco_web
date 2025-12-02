@@ -1,0 +1,49 @@
+﻿.bgGradient {
+    background: var(--backgrounds-gradient)
+}
+
+.adecco-bg {
+    background: var(--adecco-bg);
+}
+
+.menu-top div.active {
+    background: var(--adecco-bg);
+    color: var(--white);
+    text-align: center;
+    font-size: var(--small-font);
+}
+
+    .menu-top div.active a {
+        color: var(--white) !important;
+    }
+
+    .menu-top div.active a,
+    .menu-top div a {
+        text-decoration: none;
+        font-family: var(--roboto);
+    }
+
+.menu-top div {
+    font-family: var(--roboto);
+    background: var(--white);
+    color: #000;
+    text-align: center;
+    font-size: var(--small-font);
+}
+
+.adecco-font {
+    font-family: var(--roboto)
+}
+
+.menu-nav .menu-item {
+    font-family: var(--roboto);
+    font-weight: 400;
+}
+
+.navbar {
+    background: #DB0B21;
+}
+
+.bgGradient > .container, .top-sections {
+    max-width: 1150px;
+}
