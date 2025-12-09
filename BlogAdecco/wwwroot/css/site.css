@@ -143,3 +143,35 @@ a {
     text-decoration: none;
     color: black;
 }
+
+.entry-title {
+    font-family: 'houschka_headdemibold';
+}
+
+.entry-content p {
+    font-size: 20px;
+    font-family: var(--roboto);
+    font-weight: 400;
+    color: #1c304b;
+}
+
+    .entry-content p a:link,
+    .entry-content p a:visited {
+        color: #fff;
+        background: red;
+        text-decoration: none;
+        padding: 0 6px;
+        margin: 0 2px;
+        display: inline-block;
+        border-radius: 8px;
+        font-family: 'houschka_headdemibold';
+    }
+
+    .entry-content p a:hover {
+        background: grey;
+    }
+
+.entry-content ol {
+    margin: 0 0 1rem 3em;
+    padding-left: 2rem;
+}
