@@ -41,9 +41,13 @@
 }
 
 .navbar {
-    background: #DB0B21;
+    background: var(--adecco-bg2);
 }
 
 .bgGradient > .container, .top-sections {
     max-width: 1150px;
+}
+
+.top-separator {
+    height: 75px;
 }

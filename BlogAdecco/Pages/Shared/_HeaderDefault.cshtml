@@ -1,34 +1,16 @@
-﻿<div class="sidebar-nav d-block d-md-none">
+﻿<div class="d-block d-md-none">
     <nav class="navbar navbar-dark fixed-top">
         <div class="container">
-
-            <!-- Menus List -->
-            <div class="offcanvas offcanvas-start shadow" tabindex="-1" id="offcanvasNavbar"
-                 aria-labelledby="offcanvasNavbarLabel">
-                <div class="offcanvas-body">
-                </div>
-            </div>
-
             <div class="btn-group">
-                <a href="#" class="text-decoration-none" aria-expanded="false">
-                    <a href="/">
-                        <img src="~/images/logo.png"
-                             class="mt-1 mt-md-5 mb-0" />
-                    </a>
+                <a asp-page="/Index">
+                    <img src="~/images/logo.png" class="mt-1 mt-md-5 mb-0" />
                 </a>
             </div>
-
-            <!-- Mobile Menu Toggle Button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
         </div>
     </nav>
 </div>
 
-<div class="container top-sections">
+<div class="container top-sections d-none d-md-block">
     <div class="row g-0 py-0 menu-top">
         <div class="col-auto mt-md-0 pt-md-0 candidates">
             <a href="https://www.adecco.com/es-mx/aspirantes" class="py-2 px-4 d-block mb-0 menu-item">
@@ -44,6 +26,8 @@
         </div>
     </div>
 </div>
+
+<div class="d-md-none top-separator"></div>
 
 <div class="bgGradient d-none d-md-block">
     <div class="container d-flex justify-content-between">
@@ -139,19 +123,6 @@
                     TRAINING &
                     CONSULTING
                 </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="text-bg-dark d-none">
-    <div class="container">
-        <div class="row justify-content-between">
-
-            <div class="col-12 col-lg-8 col-xl-9 py-3 list-secondary">
-            </div>
-
-            <div class="col-12 col-lg-4 col-xl-3 py-3 list-secondary">
             </div>
         </div>
     </div>

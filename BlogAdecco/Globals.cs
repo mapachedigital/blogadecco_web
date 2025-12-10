@@ -19,8 +19,11 @@ public class Globals
     public const string ConfigSuperAdminCompany = "SuperAdmin:Company";
     public const string ConfigSuperAdminPhoneNumber = "SuperAdmin:PhoneNumber";
     public const string ConfigSuperAdminPassword = "SuperAdmin:Password";
+    public const string ConfigGoogleApiKey = "Google:ApiKey";
 
     public const string GoogleTagManagerCode = "GTM-PWLRVCKL";
+    public const string YoutubePlaylistCandidates = "PLnQX-jgAF5pQS2GUFCsatSyZkSH7e8UM8";
+    public const string YoutubePlaylistCompanies =  "PLz58QJ68R9CSw5YUr1oAjD9dXDj8qbkRw";
 
     public const string StorageContainerNameAttachments = "attachments";
 }

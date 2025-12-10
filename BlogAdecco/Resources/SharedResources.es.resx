@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>Ocurrió un error al procesar su solicitud.</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Crear</value>
   </data>
@@ -126,14 +129,23 @@
   <data name="Description" xml:space="preserve">
     <value>Descripción</value>
   </data>
+  <data name="Development Mode" xml:space="preserve">
+    <value>Modo de desarollo</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Editar</value>
+  </data>
+  <data name="For local debugging, enable the &lt;strong&gt;Development&lt;/strong&gt; environment by setting the &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; environment variable to &lt;strong&gt;Development&lt;/strong&gt; and restarting the app." xml:space="preserve">
+    <value>Para depuración local, habilite el ambiente de &lt;strong&gt;Desarrollo&lt;/strong&gt; poniendo la variable de ambiente &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; a &lt;strong&gt;Development&lt;/strong&gt; y reiniciando la aplicación.</value>
   </data>
   <data name="Grupo Adecco uses cookies to provide you with a better experience." xml:space="preserve">
     <value>Grupo Adecco utiliza cookies para brindarte una mejor experiencia.</value>
   </data>
   <data name="I accept" xml:space="preserve">
     <value>Acepto</value>
+  </data>
+  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
+    <value>Puede resultar en mostrar a los usuarios finales información sensitiva de excepciones.</value>
   </data>
   <data name="Language:" xml:space="preserve">
     <value>Idioma:</value>
@@ -159,8 +171,17 @@
   <data name="Register" xml:space="preserve">
     <value>Registro</value>
   </data>
+  <data name="Request ID:" xml:space="preserve">
+    <value>ID de solicitud:</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
+  </data>
+  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
+    <value>Cambiar al ambiente de &lt;strong&gt;Desarrollo&lt;/strong&gt; muestra información detallada del error qué ha ocurrido.</value>
+  </data>
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
+    <value>El ambiente de desarrollo no debe habilitarse para aplicaciones productivas.</value>
   </data>
   <data name="The page you are looking for cannot be found." xml:space="preserve">
     <value>No se pudo encontrar esa página</value>

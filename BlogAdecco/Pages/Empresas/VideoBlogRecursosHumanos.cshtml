@@ -1,0 +1,46 @@
+﻿@page
+@model BlogAdecco.Pages.Empresas.VideoBlogRecursosHumanosModel
+@{
+    ViewData["Title"] = "Video blog para recursos humanos";
+    ViewData["Header"] = "VideosCompanies";
+}
+
+<div class="row video-gallery pt-5">
+    @if (Model.FailedToLoadVideos)
+    {
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                Lo sentimos, no se pudieron cargar los videos en este momento. Por favor, inténtalo de nuevo más tarde.
+            </div>
+        </div>
+    }
+    else if (!Model.Videos.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-info" role="alert">
+                No hay videos disponibles en este momento. Por favor, vuelve más tarde.
+            </div>
+        </div>
+    }
+    else foreach (var video in Model.Videos)
+        {
+            <div class="col-12 col-sm-6 col-md-4 mb-5 module come-in">
+                <a class="my-video-links d-block" data-autoplay="true" data-vbtype="video" data-maxwidth="800px" href="@video.Url">
+                    <img src="@video.ThumbnailUrl" width="@video.Width" height="@video.Height" />
+                </a>
+
+                <div class="d-block">
+                    <span rel="tag" class="rounded-pill badge text-bg-danger mt-3">Video</span>
+                    <h5 class="houschka_headmedium text-muted mt-2">@video.Title</h5>
+                </div>
+            </div>
+        }
+</div>
+
+@section Scripts {
+    <script>
+        new VenoBox({
+          selector: '.my-video-links',
+        });
+    </script>
+}

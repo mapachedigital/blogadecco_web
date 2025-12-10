@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
@@ -126,14 +129,23 @@
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="Development Mode" xml:space="preserve">
+    <value>Development Mode</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="For local debugging, enable the &lt;strong&gt;Development&lt;/strong&gt; environment by setting the &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; environment variable to &lt;strong&gt;Development&lt;/strong&gt; and restarting the app." xml:space="preserve">
+    <value>For local debugging, enable the &lt;strong&gt;Development&lt;/strong&gt; environment by setting the &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; environment variable to &lt;strong&gt;Development&lt;/strong&gt; and restarting the app.</value>
   </data>
   <data name="Grupo Adecco uses cookies to provide you with a better experience." xml:space="preserve">
     <value>Grupo Adecco uses cookies to provide you with a better experience.</value>
   </data>
   <data name="I accept" xml:space="preserve">
     <value>I accept</value>
+  </data>
+  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
+    <value>It can result in displaying sensitive information from exceptions to end users.</value>
   </data>
   <data name="Language:" xml:space="preserve">
     <value>Language:</value>
@@ -159,8 +171,17 @@
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="Request ID:" xml:space="preserve">
+    <value>Request ID:</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
+    <value>Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred.</value>
+  </data>
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
+    <value>The Development environment shouldn't be enabled for deployed applications.</value>
   </data>
   <data name="The page you are looking for cannot be found." xml:space="preserve">
     <value>The page you are looking for cannot be found.</value>

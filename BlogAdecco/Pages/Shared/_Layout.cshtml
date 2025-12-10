@@ -26,8 +26,10 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
     @await RenderSectionAsync("Fonts", required: false)
 
-    <!-- Font Awesome -->
+    <!-- Other CSS -->
     <link rel="stylesheet" href="~/lib/font-awesome/js/all.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/lib/venobox/venobox.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/lib/material-design-iconic-font/css/material-design-iconic-font.min.css" type="text/css" />
 
     <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/already-visible.css" />
@@ -46,9 +48,13 @@
         <partial name="~/Areas/Admin/Views/Shared/_AdminBarPartial.cshtml" />
     </header>
 
-    @if (ViewBag.Header == "Default")
+    @if (ViewBag.Header == "VideosCompanies")
     {
-        <partial name="_DefaultHeader" />
+    <partial name="_HeaderVideosCompanies" />
+    }
+    else
+    {
+    <partial name="_HeaderDefault" />
     }
 
     <div class="container main-site mt-3">
@@ -60,9 +66,11 @@
     <partial name="_FooterPartial" />
     <partial name="_CookieConsentPartial" />
 
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/font-awesome/js/all.min.js"></script>
+    <script src="~/lib/venobox/venobox.min.js"></script>
     <script src="~/js/already-visible.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
