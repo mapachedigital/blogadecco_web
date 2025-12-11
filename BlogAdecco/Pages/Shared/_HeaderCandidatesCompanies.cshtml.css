@@ -1,0 +1,7 @@
+.navbar, .offcanvas {
+    background: var(--adecco-bg2);
+}
+
+.offcanvas .badge {
+    font-family: var(--bs-body-font-family);
+}

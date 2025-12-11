@@ -27,7 +27,7 @@
     @await RenderSectionAsync("Fonts", required: false)
 
     <!-- Other CSS -->
-    <link rel="stylesheet" href="~/lib/font-awesome/js/all.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" type="text/css" />
     <link rel="stylesheet" href="~/lib/venobox/venobox.min.css" type="text/css" />
     <link rel="stylesheet" href="~/lib/material-design-iconic-font/css/material-design-iconic-font.min.css" type="text/css" />
 
@@ -48,13 +48,13 @@
         <partial name="~/Areas/Admin/Views/Shared/_AdminBarPartial.cshtml" />
     </header>
 
-    @if (ViewBag.Header == "VideosCompanies")
+    @if (ViewBag.Header?.Template == "CandidatesCompanies")
     {
-    <partial name="_HeaderVideosCompanies" />
+        <partial name="_HeaderCandidatesCompanies" />
     }
     else
     {
-    <partial name="_HeaderDefault" />
+        <partial name="_HeaderDefault" />
     }
 
     <div class="container main-site mt-3">
