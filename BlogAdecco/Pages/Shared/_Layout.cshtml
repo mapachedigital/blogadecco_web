@@ -48,14 +48,7 @@
         <partial name="~/Areas/Admin/Views/Shared/_AdminBarPartial.cshtml" />
     </header>
 
-    @if (ViewBag.Header?.Template == "CandidatesCompanies")
-    {
-        <partial name="_HeaderCandidatesCompanies" />
-    }
-    else
-    {
-        <partial name="_HeaderDefault" />
-    }
+    <partial name="_HeaderDefault" />
 
     <div class="container main-site mt-3">
         <main role="main" class="pb-3">
