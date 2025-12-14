@@ -6,6 +6,7 @@
 using BlogAdecco.Data;
 using BlogAdecco.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogAdecco.Utils;
@@ -21,10 +22,15 @@ public interface IBlogAdeccoUtils
     /// </summary>
     /// <param name="myRole">The reference role</param>
     List<string> GetSubordinatedRoles(string myRole);
+
+    /// <summary>
+    /// Get the URL of a category
+    /// </summary>
+    public Task<string?> GetCategoryUrlAsync(Category category, IUrlHelper urlHelper);
+    Task<string?> GetPostUrlAsync(Post post, IUrlHelper urlHelper);
 }
 
-public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager,
-        IUserUtils _userUtils, ApplicationDbContext _context) : IBlogAdeccoUtils
+public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, IUserUtils _userUtils, ApplicationDbContext _context) : IBlogAdeccoUtils
 {
     /// <summary>
     /// Obtain all the roles that are "inferior" to the current logged in user
@@ -58,5 +64,51 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager,
         // and so on...
         allRoles.Remove(Globals.RoleCompanyUser);
         return allRoles;
+    }
+
+    /// <summary>
+    /// Get the URL of a category
+    /// </summary>
+    public async Task<string?> GetCategoryUrlAsync(Category category, IUrlHelper urlHelper)
+    {
+        var stack = new Stack<string>();
+
+        stack.Push(category.Slug);
+
+        while (category.ParentId != null)
+        {
+            category = await _context.Category.FirstAsync(x => x.Id == category.ParentId);
+            stack.Push(category.Slug);
+        }
+
+        var values = new
+        {
+            Category = stack.Pop(),
+            SubCategory1 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory2 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory3 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory4 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory5 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory6 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory7 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory8 = stack.Count != 0 ? stack.Pop() : null,
+            SubCategory9 = stack.Count != 0 ? stack.Pop() : null,
+        };
+
+        if (stack.Count > 0) throw new InvalidOperationException("More than 9 levels of recurssion in categories");
+
+        var link = urlHelper.PageLink("/Categoria", values: values);
+        return link;
+    }
+
+    public async Task<string?> GetPostUrlAsync(Post post, IUrlHelper urlHelper)
+    {
+        var link = urlHelper?.PageLink("/Post", values: new
+        {
+            post.Created.Year,
+            post.Created.Month,
+            post.Slug,
+        });
+        return link;
     }
 }

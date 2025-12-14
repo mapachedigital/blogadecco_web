@@ -1,5 +1,5 @@
 ﻿// Copyright (c) 2025, Mapache Digital
-// Version: 1
+// Version: 1.0.0
 // Author: Samuel Kobelkowsky
 // Email: samuel@mapachedigital.com
 
@@ -26,4 +26,6 @@ public class Globals
     public const string YoutubePlaylistCompanies =  "PLz58QJ68R9CSw5YUr1oAjD9dXDj8qbkRw";
 
     public const string StorageContainerNameAttachments = "attachments";
+
+    public const int DefaultPageSize = 9;
 }

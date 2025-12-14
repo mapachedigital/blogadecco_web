@@ -45,7 +45,7 @@
 }
 
 .bgGradient > .container, .top-sections {
-    max-width: 1150px;
+    max-width: var(--max-width);
 }
 
 .top-separator {

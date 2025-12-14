@@ -16,6 +16,7 @@
 
 html {
     font-size: 16px;
+    --max-width: 1150px;
     --backgrounds-gradient: linear-gradient(180deg, #da291c, #bf0d3e);
     --adecco-bg: #da291c;
     --adecco-bg2: #db0b21;
@@ -125,18 +126,29 @@ a {
     font-family: 'houschka_headdemibold';
 }
 
-.small-font {
-    /*font-size: var(--small-font);*/
-    font-size: 0.85rem;
-}
-
 .uppercase {
     text-transform: uppercase;
+}
+
+.cyan-bg {
+    background: var(--cyan);
+}
+
+.black-bg {
+    background: var(--black) !important;
 }
 
 .tiny-font {
     font-size: 0.7rem;
     letter-spacing: 1px;
+}
+
+.small-font {
+    font-size: 0.85rem;
+}
+
+.small-font-2 {
+    font-size: 1rem;
 }
 
 .footer-logo-white {
@@ -281,4 +293,73 @@ a {
 
 .custom-margin1 {
     margin: 6px 10px;
+}
+
+.main-site {
+    max-width: var(--max-width);
+}
+
+    .main-site h1, .main-site h2 {
+        font-family: 'houschka_headdemibold';
+    }
+
+.letter-spacing-1 {
+    letter-spacing: 1px;
+}
+
+.posts-gallery .post-title {
+    overflow: hidden;
+    height: 420px;
+    box-shadow: 0 0 20px #e5e5e5;
+}
+
+.posts-gallery .image-wrapper {
+    height: 190px;
+    overflow: hidden;
+}
+
+    .posts-gallery .image-wrapper img {
+        object-fit: cover;
+        object-position: center;
+    }
+
+.posts-gallery .title-project {
+    height: 80px;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    color: #000;
+    font-family: "Roboto";
+    transition: ease-in 0.2s;
+}
+
+.posts-gallery .pagination li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 8px;
+}
+
+    .posts-gallery .pagination li span {
+        list-style: none;
+        display: inline-block;
+        margin: 0 8px;
+    }
+
+    .posts-gallery .pagination li .page-link {
+        width: 40px;
+        height: 40px;
+        color: #6B7280;
+        text-decoration: none;
+        border: none !important;
+        font-family: houschka_headdemibold;
+        text-align: center;
+    }
+
+.posts-gallery .pagination .active > .page-link {
+    color: black !important;
+    background-color: #F8F8F9 !important;
+}
+
+.posts-gallery .pagination .disabled > .page-link {
+    color: #B2B6BD !important;
+    background-color: transparent !important;
 }

@@ -1,0 +1,49 @@
+﻿@model BlogAdecco.Pages.Shared.Components.HeadBreadcrumb.HeadBreadcrumbViewModel
+@inject IBlogAdeccoUtils BlogAdeccoUtils
+@{
+    var active_class = "badge letter-spacing-1 uppercase roboto fw-normal bg-primary text-white text-decoration-none py-2 px-3 mb-2";
+    var inactive_class = "badge letter-spacing-1 uppercase roboto fw-normal bg-light text-dark  text-decoration-none py-2 px-3 mb-2";
+}
+<!-- <div class="insights-header mb-4"> -->
+<div class="row mt-5">
+    <div class="col-12 col-md-6">
+        <h1 class="mb-3">Blog Adecco</h1>
+        <p class="mb-0 roboto">
+            En este espacio encontrarás la información y artículos relevantes en temas de capital humano, así como estudios o investigaciones relacionadas a los Recursos Humanos.
+        </p>
+    </div>
+</div>
+
+<!-- Barra de búsqueda -->
+<form role="search" method="get">
+    <div class="row my-4">
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-0">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="search" class="form-control border-0 py-1 px-0" name="search" placeholder="Busca artículos por título o palabra clave" value="@Model.SearchTerm" aria-label="Search">
+                <input type="hidden" name="category" value="@Model.SearchCategory">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-dark px-4 search-button">BUSCAR RECURSOS</button>
+        </div>
+    </div>
+</form>
+
+<!-- Filtros de categorías -->
+<div class="category-filters mb-2">
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-page="/Index" class="@(Model.CurrentCategory == null ? active_class : inactive_class)">Todos</a>
+
+        @foreach (var category in Model.Categories)
+        {
+            <a href="@await BlogAdeccoUtils.GetCategoryUrlAsync(category, Url)" class="@(Model.CurrentCategory?.Id == category.Id ? active_class : inactive_class)">
+                @category.Name
+            </a>
+        }
+    </div>
+</div>
+
+<hr class="mb-5" />
