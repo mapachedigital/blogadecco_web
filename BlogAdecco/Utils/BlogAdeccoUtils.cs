@@ -26,7 +26,11 @@ public interface IBlogAdeccoUtils
     /// <summary>
     /// Get the URL of a category
     /// </summary>
-    public Task<string?> GetCategoryUrlAsync(Category category, IUrlHelper urlHelper);
+    Task<string?> GetCategoryUrlAsync(Category category, IUrlHelper urlHelper);
+
+    /// <summary>
+    /// Get the URL of a category
+    /// </summary>
     Task<string?> GetPostUrlAsync(Post post, IUrlHelper urlHelper);
 }
 
@@ -101,12 +105,16 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
         return link;
     }
 
+    /// <summary>
+    /// Get the URL of a Post
+    /// </summary>
     public async Task<string?> GetPostUrlAsync(Post post, IUrlHelper urlHelper)
     {
         var link = urlHelper?.PageLink("/Post", values: new
         {
             post.Created.Year,
             post.Created.Month,
+            post.Created.Day,
             post.Slug,
         });
         return link;

@@ -20,21 +20,19 @@ public class HeadBreadcrumbViewModel
 
 public class HeadBreadcrumbViewComponent(ApplicationDbContext _context) : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync()
+    public async Task<IViewComponentResult> InvokeAsync(Category? currentCategory = null)
     {
         var categories = await _context.Category
-            //.Where(x => x.Posts.Any())
+            .Where(x => x.Posts.Any())
             .OrderBy(x => x.Name)
             .ToListAsync();
 
-        var searchCategory = HttpContext.Request.Query["category"];
 
         var model = new HeadBreadcrumbViewModel
         {
             SearchTerm = HttpContext.Request.Query["search"],
-            SearchCategory = searchCategory,
             Categories = categories,
-            CurrentCategory = categories.FirstOrDefault(x => x.Slug == searchCategory)
+            CurrentCategory = currentCategory
         };
 
         return View(model);

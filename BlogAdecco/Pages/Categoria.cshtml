@@ -1,8 +1,117 @@
-﻿@page "{category}/{subcategory1?}/{subcategory2?}/{subcategory3?}"
+﻿@page "{category}/{subcategory1?}/{subcategory2?}/{subcategory3?}/{subcategory4?}/{subcategory5?}/{subcategory6?}/{subcategory7?}/{subcategory8?}/{subcategory9?}"
 @model BlogAdecco.Pages.CategoriesModel
+@using MDWidgets.Utils
+@inject IBlogAdeccoUtils BlogAdeccoUtils
 @{
+    ViewData["Title"] = "Home page";
+
+    // Determine if the first and last buttons are enabled or not
+    var prevDisabled = !Model.Pagination.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Pagination.HasNextPage ? "disabled" : "";
 }
 
-<vc:head-breadcrumb />
+<vc:head-breadcrumb current-category="@Model.RequestedCategory" />
 
-<h1>@Model.Category / @Model.SubCategory1 / @Model.SubCategory2 / @Model.SubCategory3</h1>
+<div class="row g-4 posts-gallery">
+    @if (Model.Posts.Count > 0)
+    {
+        foreach (var post in Model.Posts)
+        {
+            <div class="col-12 col-md-4 mb-4">
+                <a class="no-line text-decoration-none text-muted d-block rounded-3 post-title" href="@await BlogAdeccoUtils.GetPostUrlAsync(post, Url)" title="@post.Title">
+                    <div class="image-wrapper position-relative mb-3">
+                        @if (post.FeaturedImageId != null)
+                        {
+                            <img src="@Url.Action("Thumb", "Home", new { Id = post.FeaturedImageId, Area = "Attachments" })" alt="@post.Title" class="position-absolute top-0 start-0 w-100 h-100" />
+                        }
+                        else
+                        {
+                            <img src="~/images/image-404.png" class="card-img-top" alt="@post.Title" />
+                        }
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-end mb-1 pt-2 px-4 pb-3">
+                        <div class="flex-grow-1">
+                            <div class="row">
+                                <div class="col order-2 justify-content-center">
+                                    <div class="subheading mb-1">
+                                        @if (post.Categories.Count > 0)
+                                        {
+                                            <span class="badge cyan-bg tiny-font uppercase roboto fw-normal rounded-pill text-dark mb-3">@post.Categories[0].Name</span>
+                                        }
+                                        <p class="title-project mb-2">
+                                            @(post.Title.TrimWords(12))
+                                        </p>
+                                        <div class="d-flex justify-content-end">
+                                            <p class="hover-2 fs-6 font-end mt-4 mb-0 d-table houschka_headmedium" title="Leer artículo completo">Ver artículo</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <div class="w-100"></div>
+
+        <!-- Paginación -->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="pagination-container mt-5">
+                        <nav aria-label="Navegación de páginas">
+                            @if (Model.Pagination.TotalPages > 1)
+                            {
+                                <ul class="pagination justify-content-center">
+
+                                    <li class="page-item @prevDisabled">
+                                        <a href="@Model.Pagination.FirstPageUrl" class="page-link">@R["&lt;&lt;"]</a>
+                                    </li>
+
+                                    <li class="page-item @prevDisabled">
+                                        <a href="@Model.Pagination.PreviousPageUrl" class="page-link">@R["&lt;"]</a>
+                                    </li>
+
+                                    @foreach (var item in Model.Pagination.Pages)
+                                    {
+                                        var itemDisabled = item.Index == Model.Pagination.PageIndex ? "" : "";
+                                        var itemCurrent = item.Index == Model.Pagination.PageIndex ? "active" : "";
+
+                                        if (Model.CurrentPage == item.Index)
+                                        {
+                                            <li class="page-item active">
+                                                <span class="page-link rounded-circle d-flex justify-content-center align-items-center">
+                                                    @item.Index
+                                                </span>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item"><a class="page-link" href="@item.Url">@item.Index</a></li>
+                                        }
+                                    }
+
+                                    <li class="page-item @nextDisabled">
+                                        <a href="@Model.Pagination.NextPageUrl" class="page-link">@R["&gt;"]</a>
+                                    </li>
+
+                                    <li class="page-item @nextDisabled">
+                                        <a href="@Model.Pagination.LastPageUrl" class="page-link">@R["&gt;&gt;"]</a>
+                                    </li>
+                                </ul>
+                            }
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-12 text-center py-5">
+            <h3>No se encontraron publicaciones.</h3>
+            <p>Intenta con otra búsqueda o categoría.</p>
+        </div>
+    }
+</div>

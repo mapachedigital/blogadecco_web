@@ -105,15 +105,15 @@ a {
     }
 
 .roboto {
-    font-family: var(--roboto);
+    font-family: var(--roboto) !important;
 }
 
 .houschka_headmedium {
-    font-family: 'houschka_headmedium';
+    font-family: 'houschka_headmedium' !important;
 }
 
 .houschka_headdemibold {
-    font-family: 'houschka_headdemibold';
+    font-family: 'houschka_headdemibold' !important;
 }
 
 .btn-lined {
@@ -160,6 +160,10 @@ a {
     color: black;
 }
 
+.entry-header {
+    max-width: 700px;
+}
+
 .entry-title {
     font-family: 'houschka_headdemibold';
 }
@@ -187,9 +191,36 @@ a {
         background: grey;
     }
 
+.entry-content h2 {
+    font-size: 35px;
+    margin: 60px 0 20px;
+    color: #323232;
+}
+
+.entry-content h3 {
+    font-size: 30px;
+    margin: 60px 0 20px;
+    color: #323232;
+}
+
+.entry-content h4 {
+    font-size: 26px;
+    margin: 60px 0 20px;
+    color: #323232;
+}
+
+.entry-content ul {
+    margin: 0 0 0 20px;
+    padding: 0;
+}
+
 .entry-content ol {
     margin: 0 0 1rem 3em;
     padding-left: 2rem;
+}
+
+.entry-content .social-box a {
+    color: white;
 }
 
 .video-gallery img {
@@ -363,3 +394,39 @@ a {
     color: #B2B6BD !important;
     background-color: transparent !important;
 }
+
+.single-post a,
+.single-post a:visited {
+    font-family: 'houschka_headdemibold';
+    color: #000;
+}
+
+.single-post img {
+    height: auto;
+    max-width: 100%;
+}
+
+.single-post .entry-sidebar {
+    background: #F8F8F9;
+    border-radius: 9px;
+}
+
+
+    .single-post .entry-sidebar h3,
+    .single-post .entry-sidebar h4 {
+        font-family: 'houschka_headmedium';
+    }
+
+    .single-post .entry-sidebar .social-box a {
+        color: white !important;
+        background: black;
+        width: 25px;
+        height: 25px;
+        padding: 0;
+        font-size: 14px;
+    }
+
+    .single-post .entry-sidebar .badge {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }

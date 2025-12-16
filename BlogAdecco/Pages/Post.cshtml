@@ -1,0 +1,87 @@
+﻿@page "/{year:int}/{month:int}/{day:int}/{slug}"
+@model BlogAdecco.Pages.PostModel
+@inject IBlogAdeccoUtils BlogAdeccoUtils
+@{
+}
+<div class="row justify-content-center single-post">
+    <div class="col-12 module come-in">
+        <article>
+            @if (Model.Post.Tags.Count() > 0)
+            {
+                <p class="add-pill">
+                    @foreach (var tag in Model.Post.Tags)
+                    {
+                        <span rel="tag" class="rounded-pill badge text-bg-danger no-uderline houschka_headdemibold">@tag.Name</span>
+                    }
+                </p>
+            }
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent m-0 mb-2 px-0 py-2">
+                    <li class="breadcrumb-item">
+                        <a asp-page="/Index" class="text-decoration-none">Inicio</a>
+                    </li>
+                    @if (Model.Post.Categories.Count() > 0)
+                    {
+                        <li class="breadcrumb-item"><a class="text-decoration-none" href="@BlogAdeccoUtils.GetCategoryUrlAsync(Model.Post.Categories[0], Url)">…</a></li>
+                    }
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Post.Title</li>
+                </ol>
+            </nav>
+
+            @if (Model.Post.Categories.Count() > 0)
+            {
+                <p class="mb-4">
+                    <span class="badge bg-danger tiny-font text-white roboto uppercase rounded-pill px-3 py-2">@Model.Post.Categories[0].Name</span>
+                </p>
+            }
+
+            <header class="entry-header">
+                <h1 class="entry-title display-5">@Model.Post.Title</h1>
+                <div class="entry-meta">
+                    Publicado el <a href="@await BlogAdeccoUtils.GetPostUrlAsync(Model.Post, Url)">@Model.Post.Published?.ToString("D")</a>
+                </div>
+            </header>
+
+            <div class="w-100 my-5"></div>
+
+            <div class="row mt-5">
+                <div class="col-12 col-md-9">
+
+                    <div class="post-thumbnail mb-4">
+                        <img src="@Url.Action("Thumb", "Home", new { Id = Model.Post.FeaturedImageId, Area = "Attachments" })" width="2560" height="1440"
+                             class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="@Model.Post.Title" decoding="async" fetchpriority="high">
+                    </div>
+
+                    <div class="entry-content">
+                        @Html.DisplayFor(Model => Model.Post.Content)
+
+                        <vc:social-box />
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3 px-3">
+                    <div class="p-4 mb-4 entry-sidebar">
+                        <h4 class="mb-4">Compartir</h4>
+
+                        <vc:social-box />
+                    </div>
+
+                    <div class="p-4 mb-2 entry-sidebar">
+                        <h4 class="mb-4">Relacionados</h4>
+                        @if (Model.RelatedCategories.Count() > 0)
+                        {
+                            <div class="mb-4 d-flex flex-wrap gap-2">
+                                @foreach (var category in Model.RelatedCategories)
+                                {
+                                    <a href="@await BlogAdeccoUtils.GetCategoryUrlAsync(category, Url)" class="badge rounded-pill cyan-bg roboto tiny-font uppercase text-dark text-decoration-none px-3 py-2">@category.Name</a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </article>
+    </div>
+</div>

@@ -33,13 +33,21 @@ switch (sqlProvider)
     case "SqlServer":
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
-                builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
+                builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found."),
+                b =>
+                {
+                    b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                }));
         break;
     case "Sqlite":
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(
                 builder.Configuration.GetConnectionString("SqliteConnection") ?? throw new InvalidOperationException("Connection string 'SqliteConnection' not found."),
-                b => b.MigrationsAssembly("SqliteMigrations")));
+                b =>
+                {
+                    b.MigrationsAssembly("SqliteMigrations");
+                    b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                }));
         break;
     default:
         throw new InvalidOperationException($"Unsupported DatabaseProvider: {sqlProvider}");

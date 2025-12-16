@@ -34,7 +34,7 @@ public class Post
     /// The HTML content of the posting
     /// </summary>
     [SanitizeHtml(false)]
-    [DataType(DataType.MultilineText)]
+    [DataType(DataType.Html)]
     [Required(ErrorMessage = "The '{0}' field is required.")]
     [Display(Name = "Content")]
     public string Content { get; set; } = default!;
