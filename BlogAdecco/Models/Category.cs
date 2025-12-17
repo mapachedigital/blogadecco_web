@@ -12,7 +12,6 @@ namespace BlogAdecco.Models;
 /// <summary>
 /// Model for storing a category
 /// </summary>
-[Index(nameof(Name), IsUnique = true)]
 [Index(nameof(Slug), IsUnique = true)]
 public class Category
 {
@@ -31,6 +30,7 @@ public class Category
     /// The description of the category
     /// </summary>
     [SanitizeHtml]
+    [StringLength(300, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
     [Display(Name = "Description")]
     public string? Description { get; set; } = default!;
 

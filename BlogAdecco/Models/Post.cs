@@ -27,6 +27,7 @@ public class Post
     /// The title of the post
     /// </summary>
     [SanitizeHtml]
+    [StringLength(300, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
     [Display(Name = "Summary")]
     public string? Summary { get; set; } = default!;
 

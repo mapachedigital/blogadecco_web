@@ -102,6 +102,9 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
         if (stack.Count > 0) throw new InvalidOperationException("More than 9 levels of recurssion in categories");
 
         var link = urlHelper.PageLink("/Categoria", values: values);
+
+        if (!Uri.TryCreate(link, UriKind.Absolute, out var _url)) throw new InvalidOperationException("Generated URL is not absolute");
+
         return link;
     }
 
@@ -112,11 +115,14 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
     {
         var link = urlHelper?.PageLink("/Post", values: new
         {
-            post.Created.Year,
-            post.Created.Month,
-            post.Created.Day,
+            Year = post.Created.Year.ToString("0000"),
+            Month = post.Created.Month.ToString("00"),
+            Day = post.Created.Day.ToString("00"),
             post.Slug,
         });
+
+        if (!Uri.TryCreate(link, UriKind.Absolute, out var _url)) throw new InvalidOperationException("Generated URL is not absolute");
+
         return link;
     }
 }

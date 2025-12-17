@@ -3,8 +3,6 @@
 @using MDWidgets.Utils
 @inject IBlogAdeccoUtils BlogAdeccoUtils
 @{
-    ViewData["Title"] = "Home page";
-
     // Determine if the first and last buttons are enabled or not
     var prevDisabled = !Model.Pagination.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Pagination.HasNextPage ? "disabled" : "";

@@ -2,6 +2,7 @@
 @model BlogAdecco.Pages.PostModel
 @inject IBlogAdeccoUtils BlogAdeccoUtils
 @{
+    ViewData["Title"] = Model.Post.Title;
 }
 <div class="row justify-content-center single-post">
     <div class="col-12 module come-in">

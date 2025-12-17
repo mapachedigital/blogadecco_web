@@ -5,6 +5,8 @@
 
 using BlogAdecco.Data;
 using BlogAdecco.Models;
+using BlogAdecco.Pages.Shared.Components.Seo;
+using BlogAdecco.Utils;
 using MDWidgets.Pages.Shared.Components.Pagination;
 using MDWidgets.Utils;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -17,7 +19,7 @@ namespace BlogAdecco.Pages;
 /// <summary>
 /// Currently we have 9 levels of category recursion.  Must be enough for most needs.
 /// </summary>
-public class CategoriesModel(ApplicationDbContext _context) : PageModel
+public class CategoriesModel(ApplicationDbContext _context, IBlogAdeccoUtils _blogAdeccoUtils, ISiteUtils _siteUtils) : PageModel
 {
     [FromRoute]
     public string Category { get; set; } = default!;
@@ -122,6 +124,27 @@ public class CategoriesModel(ApplicationDbContext _context) : PageModel
             PreviousPageUrl = currentUrl.SetQueryString("pageNumber", pageNumber - 1 < 1 ? 1 : pageNumber - 1).SetQueryString("pageSize", pageSize).SetQueryString("search", search),
             LastPageUrl = currentUrl.SetQueryString("pageNumber", totalPages).SetQueryString("pageSize", pageSize).SetQueryString("search", search),
         };
+
+        var canonicalUrl = await _blogAdeccoUtils.GetCategoryUrlAsync(requestedCategory, Url);
+        ViewData["SeoInfo"] = new SeoInfo
+        {
+            CanonicalUrl = canonicalUrl,
+            Description = requestedCategory.Description,
+            OgInfo = new OgInfo
+            {
+                Url = canonicalUrl,
+                Description = requestedCategory.Description,
+                Title = requestedCategory.Name,
+                Locale = _siteUtils.GetDefaultLanguage(),
+                SiteName = _siteUtils.GetSiteName(),
+            },
+            TwitterInfo = new TwitterInfo
+            {
+                Site = "@adeccomexico",
+            }
+        };
+
+        ViewData["Title"] = requestedCategory.Name;
 
         return Page();
     }

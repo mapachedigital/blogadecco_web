@@ -7,7 +7,6 @@ namespace BlogAdecco.Models;
 /// <summary>
 /// Model for storing a tag
 /// </summary>
-[Index(nameof(Name), IsUnique = true)]
 [Index(nameof(Slug), IsUnique = true)]
 public class Tag
 {
