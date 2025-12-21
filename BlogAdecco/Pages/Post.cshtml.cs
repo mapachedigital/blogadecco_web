@@ -43,9 +43,8 @@ public class PostModel(ApplicationDbContext _context, IBlogAdeccoUtils _blogAdec
 
         if (post == null) return NotFound();
 
-        var postMainCategoryId = post.Categories.FirstOrDefault()?.Id;
         var relatedCategories = await _context.Category
-            .Where(c => c.Id != postMainCategoryId && c.Posts.Any())
+            .Where(c => c.Posts.Any())
             .OrderByDescending(c => c.Posts.Count())
             .ThenBy(c => c.Name)
             .Take(5)

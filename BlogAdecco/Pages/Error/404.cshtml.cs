@@ -1,28 +1,30 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BlogAdecco.Pages.Error
+namespace BlogAdecco.Pages.Error;
+
+/// <summary>
+/// Page shown when a NotFound result is sent
+/// </summary>
+public class _404Model : PageModel
 {
-    public class _404Model : PageModel
+    public string? OriginalPathAndQuery { get; set; }
+
+    public void OnGet()
     {
-        public int OriginalStatusCode { get; set; }
+        //  handles non-success HTTP status codes (400-599)
+        //  by re-executing the request pipeline with a different path,
+        //  allowing for custom error pages while preserving the original URL
+        //  and HTTP status code in the browser.
+        var statusCodeReExecuteFeature =
+            HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
 
-        public string? OriginalPathAndQuery { get; set; }
-
-        public void OnGet(int statusCode)
+        if (statusCodeReExecuteFeature is not null)
         {
-            OriginalStatusCode = statusCode;
+            OriginalPathAndQuery = $"{statusCodeReExecuteFeature.OriginalPathBase}"
+                                    + $"{statusCodeReExecuteFeature.OriginalPath}"
+                                    + $"{statusCodeReExecuteFeature.OriginalQueryString}";
 
-            var statusCodeReExecuteFeature =
-                HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
-
-            if (statusCodeReExecuteFeature is not null)
-            {
-                OriginalPathAndQuery = $"{statusCodeReExecuteFeature.OriginalPathBase}"
-                                        + $"{statusCodeReExecuteFeature.OriginalPath}"
-                                        + $"{statusCodeReExecuteFeature.OriginalQueryString}";
-
-            }
         }
     }
 }

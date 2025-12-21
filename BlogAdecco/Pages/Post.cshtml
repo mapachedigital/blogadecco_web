@@ -10,7 +10,7 @@
             @if (Model.Post.Tags.Count() > 0)
             {
                 <p class="add-pill">
-                    @foreach (var tag in Model.Post.Tags)
+                    @foreach (var tag in Model.Post.Tags.OrderBy(x => x.Name))
                     {
                         <span rel="tag" class="rounded-pill badge text-bg-danger no-uderline houschka_headdemibold">@tag.Name</span>
                     }
@@ -24,7 +24,7 @@
                     </li>
                     @if (Model.Post.Categories.Count() > 0)
                     {
-                        <li class="breadcrumb-item"><a class="text-decoration-none" href="@BlogAdeccoUtils.GetCategoryUrlAsync(Model.Post.Categories[0], Url)">…</a></li>
+                        <li class="breadcrumb-item"><a class="text-decoration-none" href="@await BlogAdeccoUtils.GetCategoryUrlAsync(Model.Post.Categories[0], Url)">…</a></li>
                     }
                     <li class="breadcrumb-item active" aria-current="page">@Model.Post.Title</li>
                 </ol>

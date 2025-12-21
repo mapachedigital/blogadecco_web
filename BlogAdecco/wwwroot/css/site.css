@@ -330,7 +330,7 @@ a {
     max-width: var(--max-width);
 }
 
-    .main-site h1, .main-site h2 {
+    .main-site h1, .main-site h2, .main-site h3, .main-site h4 {
         font-family: 'houschka_headdemibold';
     }
 

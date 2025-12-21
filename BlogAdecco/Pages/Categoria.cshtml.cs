@@ -55,11 +55,11 @@ public class CategoriesModel(ApplicationDbContext _context, IBlogAdeccoUtils _bl
     public int CurrentPage { get; set; }
     public Category? RequestedCategory { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(int? pageNumber = 1, int? pageSize = Globals.DefaultPageSize, string? search = null)
+    public async Task<IActionResult> OnGetAsync(int? pageNumber = 1, int? pageSize = 15, string? search = null)
     {
         // ViewData["SeoInfo"] = new SeoInfo { ... };
 
-        pageSize = pageSize != null && pageSize >= 3 && pageSize <= 60 ? pageSize : Globals.DefaultPageSize;
+        pageSize = pageSize != null && pageSize >= 3 && pageSize <= 60 ? pageSize : 15;
         pageNumber = pageNumber != null && pageNumber >= 1 ? pageNumber : 1;
 
         var stack = new Stack<string>();
@@ -90,7 +90,7 @@ public class CategoriesModel(ApplicationDbContext _context, IBlogAdeccoUtils _bl
         var posts = _context.Post
             .Include(x => x.FeaturedImage)
             .Include(x => x.Categories)
-            .OrderByDescending(x => x.Fixed).ThenByDescending(x => x.Published)
+            .OrderByDescending(x => x.Fixed).ThenByDescending(x => x.Created)
             .Where(x => x.Status == PostStatus.Published && x.Categories.Contains(requestedCategory));
 
         if (search != null)

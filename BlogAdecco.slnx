@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="BlogAdecco/BlogAdecco.csproj" />
+  <Project Path="ImportWordpress/ImportWordpress.csproj" Id="cb8003e4-464b-431c-aace-b6c265973bdb" />
   <Project Path="MDWidgets/MDMessaging/MDMessaging.csproj" />
   <Project Path="MDWidgets/MDWidgets/MDWidgets.csproj" />
   <Project Path="SqliteMigrations/SqliteMigrations.csproj" />

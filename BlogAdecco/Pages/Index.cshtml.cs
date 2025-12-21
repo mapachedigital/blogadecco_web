@@ -6,7 +6,6 @@
 using BlogAdecco.Data;
 using BlogAdecco.Models;
 using BlogAdecco.Pages.Shared.Components.Seo;
-using BlogAdecco.Utils;
 using MDWidgets.Pages.Shared.Components.Pagination;
 using MDWidgets.Utils;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -16,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogAdecco.Pages;
 
-public class IndexModel(ApplicationDbContext _context, IBlogAdeccoUtils _blogAdeccoUtils, ISiteUtils _siteUtils) : PageModel
+public class IndexModel(ApplicationDbContext _context, ISiteUtils _siteUtils) : PageModel
 {
     public List<Post> Posts { get; set; } = [];
     public PaginationViewModel Pagination { get; set; } = default!;

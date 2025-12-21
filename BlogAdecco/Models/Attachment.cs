@@ -4,6 +4,8 @@
 // Email: samuel@mapachedigital.com
 
 using MDWidgets.Utils;
+using MDWidgets.Utils.ModelAttributes;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlogAdecco.Models;
@@ -11,16 +13,9 @@ namespace BlogAdecco.Models;
 /// <summary>
 /// Model for storing an uploaded photo or document
 /// </summary>
+[Index(nameof(Guid), IsUnique = true)]
 public class Attachment
 {
-    public Attachment()
-    {
-        File = string.Empty;
-        Container = string.Empty;
-        OriginalFilename = string.Empty;
-        MimeType = string.Empty;
-    }
-
     public int Id { get; set; }
 
     /// <summary>
@@ -29,7 +24,24 @@ public class Attachment
     [Required(ErrorMessage = "The '{0}' field is required.")]
     [Display(Name = "Filename")]
     [StringLength(256, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
-    public string File { get; set; }
+    public string File { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The slug, or SEO friendly slug for the post
+    /// </summary>
+    [RegularExpression(@"^\/uploads\/\d{4}\/\d{2}\/[\w.-]*$", ErrorMessage = "Only letters, number and dashes allowed.")]
+    [StringLength(200, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    [Required(ErrorMessage = "The '{0}' field is required.")]
+    [Display(Name = "Guid")]
+    public string Guid { get; set; } = default!;
+
+    /// <summary>
+    /// The description of the category
+    /// </summary>
+    [SanitizeHtml]
+    [StringLength(300, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    [Display(Name = "Description")]
+    public string? Description { get; set; } = default!;
 
     /// <summary>
     /// The container or directory where the blob or file is stored
@@ -38,7 +50,7 @@ public class Attachment
     [Display(Name = "Container")]
     [RegularExpression(@"^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$", ErrorMessage = "Invalid characters")]
     [StringLength(63, MinimumLength = 3, ErrorMessage = "The '{0}' field must be at least {2} and at max {1} characters long.")]
-    public string Container { get; set; }
+    public string Container { get; set; } = string.Empty;
 
     /// <summary>
     /// The path of the file or blob name as stored in the server
@@ -68,7 +80,7 @@ public class Attachment
     [Required(ErrorMessage = "The '{0}' field is required.")]
     [Display(Name = "Original Name")]
     [StringLength(256, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
-    public string OriginalFilename { get; set; }
+    public string OriginalFilename { get; set; } = string.Empty;
 
     /// <summary>
     /// The content-type of the file
@@ -76,7 +88,7 @@ public class Attachment
     [Required(ErrorMessage = "The '{0}' field is required.")]
     [Display(Name = "MIME Type")]
     [StringLength(125, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
-    public string MimeType { get; set; }
+    public string MimeType { get; set; } = string.Empty;
 
     /// <summary>
     /// The time the file was uploaded
