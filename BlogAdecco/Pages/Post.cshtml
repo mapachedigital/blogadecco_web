@@ -49,10 +49,13 @@
             <div class="row mt-5">
                 <div class="col-12 col-md-9">
 
-                    <div class="post-thumbnail mb-4">
-                        <img src="@Url.Action("Thumb", "Home", new { Id = Model.Post.FeaturedImageId, Area = "Attachments" })" width="2560" height="1440"
-                             class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="@Model.Post.Title" decoding="async" fetchpriority="high">
-                    </div>
+                    @if (Model.Post.FeaturedImage != null)
+                    {
+                        <div class="post-thumbnail mb-4">
+                            <img src="@await BlogAdeccoUtils.GetAttachmentUrlAsync(Model.Post.FeaturedImage, Url)" width="2560" height="1440"
+                                 class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="@Model.Post.Title" decoding="async" fetchpriority="high">
+                        </div>
+                    }
 
                     <div class="entry-content">
                         @Html.DisplayFor(Model => Model.Post.Content)

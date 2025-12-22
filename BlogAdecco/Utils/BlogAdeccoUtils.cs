@@ -8,6 +8,7 @@ using BlogAdecco.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace BlogAdecco.Utils;
 
@@ -32,6 +33,11 @@ public interface IBlogAdeccoUtils
     /// Get the URL of a category
     /// </summary>
     Task<string?> GetPostUrlAsync(Post post, IUrlHelper urlHelper);
+
+    /// <summary>
+    /// Get the URL of an attachment
+    /// </summary>
+    Task<string?> GetAttachmentUrlAsync(Attachment attachment, IUrlHelper urlHelper);
 }
 
 public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, IUserUtils _userUtils, ApplicationDbContext _context) : IBlogAdeccoUtils
@@ -103,7 +109,7 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
 
         var link = urlHelper.PageLink("/Categoria", values: values);
 
-        if (!Uri.TryCreate(link, UriKind.Absolute, out var _url)) throw new InvalidOperationException("Generated URL is not absolute");
+        if (!Uri.TryCreate(link, UriKind.Absolute, out _)) throw new InvalidOperationException("Generated URL is not absolute");
 
         return link;
     }
@@ -121,8 +127,35 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
             post.Slug,
         });
 
-        if (!Uri.TryCreate(link, UriKind.Absolute, out var _url)) throw new InvalidOperationException("Generated URL is not absolute");
+        if (!Uri.TryCreate(link, UriKind.Absolute, out _)) throw new InvalidOperationException("Generated URL is not absolute");
 
         return link;
     }
+
+    /// <summary>
+    /// Get the URL of an attachment
+    /// </summary>
+    public async Task<string?> GetAttachmentUrlAsync(Attachment attachment, IUrlHelper urlHelper)
+    {
+        var regex = GuidUrlMatch();
+        var match = regex.Match(attachment.Guid);
+        if (!match.Success) return null;
+
+        var link = urlHelper.PageLink("/Uploads", values: new
+        {
+            Year = match.Groups[1].Value,
+            Month = match.Groups[2].Value,
+            Path = match.Groups[3].Value,
+        });
+
+        if (!Uri.TryCreate(link, UriKind.Absolute, out _)) throw new InvalidOperationException("Generated URL is not absolute");
+
+        return link;
+    }
+
+    /// <summary>
+    /// Regex to separate the different parts of an attachment Guid /uploads/year/month/file_path
+    /// </summary>
+    [GeneratedRegex(@"\/uploads\/([\d]{4})\/([\d]{2})\/([\w\-.]+)$")]
+    private static partial Regex GuidUrlMatch();
 }
