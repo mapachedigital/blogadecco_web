@@ -8,21 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<None Remove="add-migration-sqlite.bat" />
-	<None Remove="add-migration-sqlite.sh" />
-	<None Remove="blogadecco.db" />
-	<None Remove="blogadecco.db-shm" />
-	<None Remove="blogadecco.db-wal" />
-	<None Remove="mdmessaging.db" />
-	<None Remove="mdmessaging.db-shm" />
-	<None Remove="mdmessaging.db-wal" />
-	<None Remove="remove-migration-sqlite.bat" />
-	<None Remove="remove-migration-sqlite.sh" />
-	<None Remove="update-database-sqlite.bat" />
-	<None Remove="update-database-sqlite.sh" />
-  </ItemGroup>
-
-  <ItemGroup>
 	<PackageReference Include="Azure.Storage.Blobs" Version="12.26.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
