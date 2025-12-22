@@ -5,8 +5,8 @@
 
 using BlogAdecco.Data;
 using BlogAdecco.Models;
-using BlogAdecco.Pages.Shared.Components.Seo;
 using MDWidgets.Pages.Shared.Components.Pagination;
+using MDWidgets.Pages.Shared.Components.Seo;
 using MDWidgets.Utils;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;

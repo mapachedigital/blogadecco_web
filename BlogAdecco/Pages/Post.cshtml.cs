@@ -5,8 +5,8 @@
 
 using BlogAdecco.Data;
 using BlogAdecco.Models;
-using BlogAdecco.Pages.Shared.Components.Seo;
 using BlogAdecco.Utils;
+using MDWidgets.Pages.Shared.Components.Seo;
 using MDWidgets.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
