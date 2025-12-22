@@ -22,10 +22,9 @@ public class Globals
     public const string ConfigGoogleApiKey = "Google:ApiKey";
 
     public const string GoogleTagManagerCode = "GTM-PWLRVCKL";
-    public const string YoutubePlaylistCandidates = "PLnQX-jgAF5pQS2GUFCsatSyZkSH7e8UM8";
-    public const string YoutubePlaylistCompanies =  "PLz58QJ68R9CSw5YUr1oAjD9dXDj8qbkRw";
 
     public const string StorageContainerNameAttachments = "attachments";
 
     public const int DefaultPageSize = 9;
+    public const string GuidRegex = @"^\/uploads\/([\d]{4})\/([\d]{2})\/([\w\-.]+)$";
 }

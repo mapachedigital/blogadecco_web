@@ -156,6 +156,6 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
     /// <summary>
     /// Regex to separate the different parts of an attachment Guid /uploads/year/month/file_path
     /// </summary>
-    [GeneratedRegex(@"\/uploads\/([\d]{4})\/([\d]{2})\/([\w\-.]+)$")]
+    [GeneratedRegex(Globals.GuidRegex)]
     private static partial Regex GuidUrlMatch();
 }

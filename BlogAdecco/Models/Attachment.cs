@@ -29,7 +29,7 @@ public class Attachment
     /// <summary>
     /// The slug, or SEO friendly slug for the post
     /// </summary>
-    [RegularExpression(@"^\/uploads\/\d{4}\/\d{2}\/[\w.-]*$", ErrorMessage = "Only letters, number and dashes allowed.")]
+    [RegularExpression(Globals.GuidRegex, ErrorMessage = "Only letters, number and dashes allowed.")]
     [StringLength(200, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
     [Required(ErrorMessage = "The '{0}' field is required.")]
     [Display(Name = "Guid")]
