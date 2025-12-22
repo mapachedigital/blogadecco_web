@@ -5,22 +5,23 @@
 # Author: Samuel Kobelkowsky
 # Email: samuel@mapachedigital.com
 #
-# Remove a migration from a .NET proyect using SQLite
+# update the database of a .NET proyect using SQLite
 
 PATH=/bin:/usr/bin:/c/Program\ Files/dotnet:/opt/homebrew/bin:/usr/local/share/dotnet
 
 # Configure the following variables:
-SOLUTION="../BlogAdecco.slnx"
-SQLPROJECT="../SqliteMigrations"
+SOLUTION="BlogAdecco.slnx"
+SQLPROJECT="SqliteMigrations"
+MAINPROJECT="BlogAdecco"
 DATABASEPROVIDER="Sqlite"
-UPDATE="no"
 CONTEXT="ApplicationDbContext"
 
-usage() { echo -e "\nUsage $0."; }
+usage() { echo -e "\nUsage $0 migration-name."; }
 
 while getopts ":h:d" opt; do
 	case $opt in
 		h) usage; exit 0;;
+		m) MIGRATIONNAME=$OPTARG;;
 		\?) usage; echo -e "\nError: invalid option: ${OPTARG}." >&2; exit 1;;
 	esac	
 done
@@ -28,5 +29,8 @@ done
 shift $((OPTIND-1))
 MIGRATIONNAME="$1"
 
-dotnet ef migrations remove --project $SQLPROJECT --context $CONTEXT -- --DatabaseProvider $DATABASEPROVIDER
+dotnet tool install --global dotnet-ef && \
+dotnet tool install dotnet-ef && \
+dotnet build $SOLUTION && \
+dotnet ef database update $MIGRATIONNAME --startup-project $MAINPROJECT --project $SQLPROJECT --context $CONTEXT -- --DatabaseProvider $DATABASEPROVIDER && \
 dotnet build $SOLUTION

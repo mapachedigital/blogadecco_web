@@ -5,13 +5,14 @@
 # Author: Samuel Kobelkowsky
 # Email: samuel@mapachedigital.com
 #
-# update the database of a .NET proyect using SQLite
+# Add a migration to a .NET proyect using SQLite
 
 PATH=/bin:/usr/bin:/c/Program\ Files/dotnet:/opt/homebrew/bin:/usr/local/share/dotnet
 
 # Configure the following variables:
-SOLUTION="../BlogAdecco.slnx"
-SQLPROJECT="../SqliteMigrations"
+SOLUTION="BlogAdecco.slnx"
+SQLPROJECT="SqliteMigrations"
+MAINPROJECT="BlogAdecco"
 DATABASEPROVIDER="Sqlite"
 CONTEXT="ApplicationDbContext"
 
@@ -28,5 +29,12 @@ done
 shift $((OPTIND-1))
 MIGRATIONNAME="$1"
 
-dotnet ef database update $MIGRATIONNAME --project $SQLPROJECT --context $CONTEXT -- --DatabaseProvider $DATABASEPROVIDER
+if [ -z "$MIGRATIONNAME" ]; then
+	usage; echo -e "\nError: migration name is required." >&2; exit 1
+fi
+
+dotnet tool install --global dotnet-ef && \
+dotnet tool install dotnet-ef && \
+dotnet build $SOLUTION && \
+dotnet ef migrations add $MIGRATIONNAME --project $SQLPROJECT --startup-project $MAINPROJECT --context $CONTEXT -- --DatabaseProvider $DATABASEPROVIDER && \
 dotnet build $SOLUTION

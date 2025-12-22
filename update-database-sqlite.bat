@@ -10,4 +10,4 @@ REM update the database of a .NET proyect using SQLite
 REM This batch file requires the MSYS2 (or any linux subsystem) system installed with the rsync command
 REM Download installer from https://www.msys2.org/
 
-c:\msys64\usr\bin\env MSYSTEM=MSYS /usr/bin/bash update-database.sh %*
+c:\msys64\usr\bin\env MSYSTEM=MSYS /usr/bin/bash update-database-sqlite.sh %*
