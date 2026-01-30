@@ -1,5 +1,5 @@
 ﻿// Copyright (c) 2021, Mapache Digital
-// Version: 1.4.1
+// Version: 1.4.2
 // Author: Samuel Kobelkowsky
 // Email: samuel@mapachedigital.com
 
@@ -69,6 +69,33 @@ public class ApplicationUser : IdentityUser
     [Display(Name = "Approved")]
     public bool Approved { get; set; }
 
+    [Display(Name = "Display Name")]
+    [PersonalData]
+    [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    public string? DisplayName { get; set; } = default!;
+
+    [Display(Name = "Position")]
+    [PersonalData]
+    [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    public string? Position { get; set; } = default!;
+
+    [Display(Name = "Bio")]
+    [PersonalData]
+    [StringLength(500, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    public string? Bio { get; set; } = default!;
+
+    [Display(Name = "Twitter")]
+    [PersonalData]
+    [DataType(DataType.Url)]
+    [StringLength(280, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    public string? Twitter { get; set; } = default!;
+
+    [Display(Name = "Linkedin")]
+    [PersonalData]
+    [DataType(DataType.Url)]
+    [StringLength(280, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    public string? Linkedin { get; set; } = default!;
+
     /// <summary>
     /// Calculated value of the full name of the user.
     /// </summary>
@@ -77,7 +104,7 @@ public class ApplicationUser : IdentityUser
     {
         get
         {
-            return (Firstname + " " + Lastname).Trim();
+            return DisplayName ?? (Firstname + " " + Lastname).Trim();
         }
     }
 }

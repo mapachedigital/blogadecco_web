@@ -1,14 +1,16 @@
 ﻿// Copyright (c) 2021, Mapache Digital
-// Version: 1.0.0
+// Version: 1.1.3
 // Author: Samuel Kobelkowsky
 // Email: samuel@mapachedigital.com
 
+using BlogAdecco;
 using BlogAdecco.Data;
 using BlogAdecco.Models;
 using BlogAdecco.Utils;
 using Ganss.Xss;
 using ImportWordpress.Data;
 using MDWidgets.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
@@ -49,7 +51,7 @@ public partial class ImportWordpress
     /// <summary>
     /// The database context for the existing wordpress (MySql)
     /// </summary>
-    private readonly BlogadeccoContext _wpContext;
+    private readonly WordpressContext _wpContext;
 
     /// <summary>
     /// The configuration manager for this app
@@ -66,15 +68,29 @@ public partial class ImportWordpress
     /// </summary>
     private readonly List<string> _sitesToImport = [];
 
+    private readonly IUserStore<ApplicationUser> _userStore;
+    private readonly IUserEmailStore<ApplicationUser> _emailStore;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly Dictionary<ulong, string> userList = [];
+
     /// <summary>
     /// Class constructor
     /// </summary>
-    public ImportWordpress(ApplicationDbContext blogContext, BlogadeccoContext wpContext, IConfiguration configuration, IUserUtils userUtils, IConfigUtils configUtils)
+    public ImportWordpress(ApplicationDbContext blogContext,
+        WordpressContext wpContext,
+        IConfiguration configuration,
+        IUserUtils userUtils,
+        UserManager<ApplicationUser> userManager,
+        IConfigUtils configUtils,
+        IUserStore<ApplicationUser> userStore)
     {
         _blogContext = blogContext;
         _wpContext = wpContext;
         _configuration = configuration;
         _userUtils = userUtils;
+        _userManager = userManager;
+        _userStore = userStore;
+        _emailStore = (IUserEmailStore<ApplicationUser>)_userStore;
 
         // Check the configuration
         configUtils.CheckConfig();
@@ -324,6 +340,7 @@ public partial class ImportWordpress
 
             // If the file was scaled by wordpress, use that one as our new "original"
             var finalFileRelativePath = isScaled ? originalFileRelativePath.Replace("-scaled.", ".") : originalFileRelativePath;
+            finalFileRelativePath = FixGuid(finalFileRelativePath);
 
             // Get the description of the file used as "alt" in the image tags
             // Note, more info (sizes, camera info, keywords etc) is available in the PostMeta with key _wp_attachment_metadata, stored as a PHP serialized object
@@ -332,8 +349,8 @@ public partial class ImportWordpress
             // Currently we're only storing locally the imported files
             var attachment = new Attachment
             {
-                Container = BlogAdecco.Globals.StorageContainerNameAttachments,
-                ThumbContainer = BlogAdecco.Globals.StorageContainerNameAttachments,
+                Container = Globals.StorageContainerNameAttachments,
+                ThumbContainer = Globals.StorageContainerNameAttachments,
 
                 Created = wpPost.PostDate,
                 CreatedById = adminId,
@@ -342,13 +359,18 @@ public partial class ImportWordpress
                 Description = string.IsNullOrWhiteSpace(alt) ? null : alt.Trim(),
 
                 OriginalFilename = Path.GetFileName(finalFileRelativePath),
-                Guid = "/uploads/" + (isScaled ? metaValue.Replace("-scaled.", ".") : metaValue),
+                Guid = "/uploads/" + FixGuid(isScaled ? metaValue.Replace("-scaled.", ".") : metaValue),
                 File = finalFileRelativePath,
                 ThumbFile = finalFileRelativePath,
             };
 
             var originalFileFullPath = Path.Combine(oldUploadsPath, originalFileRelativePath);
-            if (!File.Exists(originalFileFullPath)) throw new IOException($"File not found {originalFileFullPath}.");
+            if (!File.Exists(originalFileFullPath))
+            {
+                Console.WriteLine($"File not found {originalFileFullPath}.");
+                continue;
+                //throw new IOException($"File not found {originalFileFullPath}.");
+            }
 
             var newFilePath = Path.Combine(destinationUploadsPath, finalFileRelativePath);
             var newFileDirectory = Path.GetDirectoryName(newFilePath) ?? throw new IOException($"Cannot determine directory name of path {newFilePath}");
@@ -367,11 +389,18 @@ public partial class ImportWordpress
     private async Task ImportPostsAsync()
     {
         // Only import the published posts
-        var wpPosts = await _wpContext.WpPosts
+        var wpQuery = _wpContext.WpPosts
             .Include(p => p.PostMeta)
             .Include(p => p.TermRelationships).ThenInclude(tr => tr.TermTaxonomy).ThenInclude(t => t!.Term)
-            .Where(p => p.PostType == "post" && p.PostStatus == "publish" && !string.IsNullOrEmpty(p.PostContent))
-            .ToListAsync();
+            .Where(p => p.PostType == "post" && p.PostStatus == "publish");
+
+        if (_configuration.GetValue("WordpressImport:SkipEmptyPosts", true))
+        {
+            wpQuery = wpQuery.Where(p => !string.IsNullOrEmpty(p.PostContent));
+        }
+
+        var wpPosts = await wpQuery.ToListAsync();
+        var metaKeysToImport = _configuration.GetSection("WordpressImport:PostMetas").Get<List<string>>();
 
         foreach (var wpPost in wpPosts)
         {
@@ -381,6 +410,11 @@ public partial class ImportWordpress
             wpPost.PostName = RemoveStrangeCharacters(wpPost.PostName);
             wpPost.PostExcerpt = RemoveStrangeCharacters(wpPost.PostExcerpt);
 
+            if (string.IsNullOrWhiteSpace(wpPost.PostContent))
+            {
+                wpPost.PostContent = "";
+            }
+
             var post = new Post
             {
                 Title = wpPost.PostTitle,
@@ -389,13 +423,26 @@ public partial class ImportWordpress
                 Slug = wpPost.PostName,
                 Created = wpPost.PostDate,
                 Published = wpPost.PostModified,
-                CreatedById = adminId,
-                ModifiedById = adminId,
+                CreatedById = await GetOrCreateUserAsync(wpPost.PostAuthor),
                 Modified = wpPost.PostModified,
                 Status = PostStatus.Published,
                 Tags = [],
                 Categories = [],
+                Metadata = [],
             };
+
+            if (metaKeysToImport != null)
+            {
+                foreach (var metadata in wpPost.PostMeta)
+                {
+                    if (metadata.MetaKey == null) continue;
+                    if (metaKeysToImport.Contains(metadata.MetaKey))
+                    {
+                        if (!post.Metadata.Any(x => x.Key == metadata.MetaKey && x.Value == metadata.MetaValue))
+                            post.Metadata.Add(new() { Key = metadata.MetaKey, Value = metadata.MetaValue });
+                    }
+                }
+            }
 
             // Get the thumbnail from the postmeta info of the post
             var metaImage = wpPost.PostMeta.FirstOrDefault(x => x.MetaKey == "_thumbnail_id");
@@ -440,6 +487,10 @@ public partial class ImportWordpress
                 if (termTaxonmy.Taxonomy == "category")
                 {
                     var category = await _blogContext.Category.FirstAsync(x => x.Slug == termTaxonmy.Term.Slug);
+                    if (category.Name == _configuration["WordpressImport:FixedCategory"] && _configuration["WordpressImport:FixedCategory"] != null)
+                    {
+                        post.Fixed = true;
+                    }
 
                     TryValidate(category);
                     post.Categories.Add(category);
@@ -459,6 +510,60 @@ public partial class ImportWordpress
         await _blogContext.SaveChangesAsync();
     }
 
+    private async Task<string> GetOrCreateUserAsync(ulong id)
+    {
+        if (userList.TryGetValue(id, out string? value))
+            return value;
+
+        var wpUser = await _wpContext.WpUsers
+              .Include(p => p.UserMeta)
+              .FirstAsync(p => p.Id == id);
+
+        if (string.IsNullOrWhiteSpace(wpUser.UserEmail))
+        {
+            Console.WriteLine($"User {wpUser.DisplayName} (Id: {wpUser.Id}) has no email.");
+            throw new InvalidOperationException("User without email");
+        }
+
+        var blogUser = await _blogContext.ApplicationUser.FirstOrDefaultAsync(x => x.UserName == wpUser.UserEmail);
+        if (blogUser != null)
+        {
+            userList.Add(id, blogUser.Id);
+            return blogUser.Id;
+        }
+
+        var user = new ApplicationUser
+        {
+            Firstname = wpUser.GetMeta("first_name") ?? throw new InvalidOperationException("first_name meta not found in user"),
+            Lastname = wpUser.GetMeta("last_name") ?? throw new InvalidOperationException("last_name meta not found in user"),
+            Approved = true,
+            EmailConfirmed = true,
+            Position = wpUser.GetMeta("position"),
+            Bio = wpUser.GetMeta("description"),
+            Twitter = wpUser.GetMeta("twitter_url"),
+            Linkedin = wpUser.GetMeta("linkedin_url"),
+            DisplayName = wpUser.DisplayName,
+            // Company
+            // PhoneNumber
+        };
+
+        await _userStore.SetUserNameAsync(user, wpUser.UserEmail, CancellationToken.None);
+        await _emailStore.SetEmailAsync(user, wpUser.UserEmail, CancellationToken.None);
+
+        var result = await _userManager.CreateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException("Couldn't create new user");
+        }
+
+        await _userManager.AddToRoleAsync(user, Globals.RoleSupervisor);
+
+        userList.Add(id, user.Id);
+        return user.Id;
+    }
+
+
     /// <summary>
     /// Return the Guid (unique URI) for an attachment edited to meet our needs, for example with the first part of the URL
     /// </summary>
@@ -469,6 +574,10 @@ public partial class ImportWordpress
             value = value.Replace($"https://{site}/wp-content", "");
             value = value.Replace($"http://{site}/wp-content", "");
         }
+
+        // Remove unwanted characters
+        value = value.Replace("–", "-"); // Dash converts to hyphen
+        value = value.Replace("@", "-"); // @ converts to hyphen
 
         return value;
     }

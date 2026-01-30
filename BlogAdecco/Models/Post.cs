@@ -6,6 +6,7 @@
 using MDWidgets.Utils.ModelAttributes;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BlogAdecco.Models;
 
@@ -36,7 +37,7 @@ public class Post
     /// </summary>
     [SanitizeHtml(false)]
     [DataType(DataType.Html)]
-    [Required(ErrorMessage = "The '{0}' field is required.")]
+    [Required(AllowEmptyStrings = true, ErrorMessage = "The '{0}' field is required.")]
     [Display(Name = "Content")]
     public string Content { get; set; } = default!;
 
@@ -131,6 +132,37 @@ public class Post
     /// </summary>
     [Display(Name = "Fixed")]
     public bool Fixed { get; set; } = false;
+
+    /// <summary>
+    /// Array that contains unstructured metadata in the form of string key-value pairs. 
+    /// Stored internally as a JSON array
+    /// </summary>
+    [Display(Name = "Metadata")]
+    public List<Metadata> Metadata { get; set; } = [];
+
+    /// <summary>
+    /// Obtain all the metadata for a given key
+    /// </summary>
+    public List<string?> GetMeta(string key)
+    {
+        return [.. Metadata.Where(x => x.Key == key).Select(x => x.Value)];
+    }
+
+    /// <summary>
+    /// Obtain the first metadata for a given key, if any
+    /// </summary>
+    public string? GetFirstMeta(string key)
+    {
+        return Metadata.FirstOrDefault(x => x.Key == key)?.Value;
+    }
+
+    /// <summary>
+    /// Determine if the post has metadata for a given key
+    /// </summary>
+    public bool HasMeta(string key)
+    {
+        return Metadata.Any(x => x.Key == key);
+    }
 }
 
 public enum PostStatus
@@ -143,4 +175,16 @@ public enum PostStatus
 
     [Display(Name = "Deleted")]
     Deleted,
+}
+
+/// <summary>
+/// Structure for storing post metadata in the form of key - value pairs.
+/// </summary>
+public class Metadata
+{
+    [JsonPropertyName("key")]
+    public string Key { get; set; } = default!;
+
+    [JsonPropertyName("value")]
+    public string? Value { get; set; } = default!;
 }

@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogAdecco.Pages;
 
-public class PostModel(ApplicationDbContext _context, IBlogAdeccoUtils _blogAdeccoUtils, ISiteUtils _siteUtils) : PageModel
+public class PostModel(ApplicationDbContext _context, IBlogAdeccoUtils _blogAdeccoUtils, ISiteUtils _siteUtils, IShortcodeUtils _shortcodeUtils) : PageModel
 {
     [FromRoute]
     public int Year { get; set; }
@@ -49,6 +49,10 @@ public class PostModel(ApplicationDbContext _context, IBlogAdeccoUtils _blogAdec
             .ThenBy(c => c.Name)
             .Take(5)
             .ToListAsync();
+
+        post.Content = post.Content.WpAutop();
+        post.Content = post.Content.ShortCodeUnAutop();
+        post.Content = await _shortcodeUtils.ProcessAsync(post.Content);
 
         Post = post;
         RelatedCategories = relatedCategories;

@@ -25,7 +25,7 @@ builder.Configuration.AddUserSecrets<Program>();
 
 // This is the database context for the project we're importing from.  The connection string is defined in the secrets.json or appsettings.json of the main (the referenced) project
 // under the section "ConnectionStrings".
-builder.Services.AddDbContext<BlogadeccoContext>(options => options.UseMySQL(
+builder.Services.AddDbContext<WordpressContext>(options => options.UseMySQL(
     builder.Configuration.GetConnectionString("WordpressConnection") ?? throw new InvalidOperationException("Connection string 'WordpressConnection' not found."),
     b =>
     {
@@ -61,11 +61,20 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
 var configUtils = services.GetRequiredService<IConfigUtils>();
-var wpContext = services.GetRequiredService<BlogadeccoContext>();
+var wpContext = services.GetRequiredService<WordpressContext>();
 var dbContext = services.GetRequiredService<ApplicationDbContext>();
 var userUtils = services.GetRequiredService<IUserUtils>();
 var configuration = services.GetRequiredService<IConfiguration>();
+var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+var userStore = services.GetRequiredService<IUserStore<ApplicationUser>>();
 
 // Do the actual import
-var wordpress = new ImportWordpress.ImportWordpress(dbContext, wpContext, configuration, userUtils, configUtils);
+var wordpress = new ImportWordpress.ImportWordpress(
+    blogContext: dbContext,
+    wpContext: wpContext,
+    configuration: configuration,
+    userUtils: userUtils,
+    userManager: userManager,
+    userStore: userStore,
+    configUtils: configUtils);
 await wordpress.ImportAsync();

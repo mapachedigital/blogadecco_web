@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImportWordpress.Data;
 
-public partial class BlogadeccoContext(DbContextOptions<BlogadeccoContext> options) : DbContext(options)
+public partial class WordpressContext(DbContextOptions<WordpressContext> options) : DbContext(options)
 {
     public virtual DbSet<WpComment> WpComments { get; set; }
 

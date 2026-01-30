@@ -1,5 +1,5 @@
 ﻿// Copyright (c) 2021, Mapache Digital
-// Version: 1.0.0
+// Version: 1.1.0
 // Author: Samuel Kobelkowsky
 // Email: samuel@mapachedigital.com
 
@@ -26,4 +26,12 @@ public partial class WpUser
     public int UserStatus { get; set; }
 
     public string DisplayName { get; set; } = null!;
+
+    public List<WpUsermetum> UserMeta { get; } = [];
+
+    public string? GetMeta(string key)
+    {
+        var meta = UserMeta.FirstOrDefault(um => um.MetaKey == key);
+        return meta?.MetaValue;
+    }
 }

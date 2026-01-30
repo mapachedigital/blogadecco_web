@@ -107,6 +107,9 @@ builder.Services.AddSingleton<IStorageUtils, StorageUtils>();
 // Service for this site utilities
 builder.Services.AddScoped<IBlogAdeccoUtils, BlogAdeccoUtils>();
 
+// Service for processing shortcodes
+builder.Services.AddSingleton<IShortcodeUtils, ShortcodeUtils>();
+
 // Service for obtaining configuration settings
 builder.Services.AddSingleton<IConfigUtils, ConfigUtils>();
 
@@ -247,6 +250,9 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "Cannot start app");
         throw;
     }
+
+    // Register the doppler form shortcodes for this blog
+    // shortcodeUtils.Register("doppler-form", args => viewComponentRenderService.RenderToStringAsync("DopplerForm", new { id = int.Parse(args["id"]) }));
 }
 
 app.Run();
