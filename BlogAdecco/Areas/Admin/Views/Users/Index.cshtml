@@ -1,0 +1,153 @@
+﻿@using BlogAdecco.Areas.Admin.Models.ApplicationUserViewModels
+@model PaginatedList<ApplicationUserListViewModel>
+
+@{
+    ViewData["Title"] = R["Index"];
+}
+
+<div class="heading my-4">
+    <!-- Title Section -->
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-end mb-4 gap-3">
+        <div class="w-100 w-lg-auto">
+            <h1 class="anton mb-2">@R["Users"]</h1>
+            <p class="text-muted mb-0">@R["You can add users to the system."]</p>
+        </div>
+        <div class="d-flex gap-2 w-100 w-lg-auto justify-content-lg-end">
+            <a asp-action="Create" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-plus-circle"></i>
+                <span>@R["Create New"]</span>
+            </a>
+            <a asp-action="Export" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-download"></i>
+                <span>@R["Export"]</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="mb-4">
+        <partial name="_IndexFilterPartial" model="Model" />
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <!-- Table Header -->
+    <div class="card-header bg-primary text-white py-3">
+        <div class="row align-items-center fw-bold">
+            <div class="col-12 col-lg-2">
+                <a class="text-white text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @R["Name"] <i class="bi bi-arrow-down-up small"></i>
+                </a>
+            </div>
+            <div class="d-none d-lg-block col-lg-2">
+                <a class="text-white text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CompanySortParm"]" asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @R["Company"] <i class="bi bi-arrow-down-up small"></i>
+                </a>
+            </div>
+            <div class="d-none d-lg-block col-lg-3">
+                <a class="text-white text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParm"]" asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @R["Email"] <i class="bi bi-arrow-down-up small"></i>
+                </a>
+            </div>
+            <div class="d-none d-lg-block col-lg-1 text-center">
+                <a class="text-white text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["EnabledSortParm"]" asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @R["Status"] <i class="bi bi-arrow-down-up small"></i>
+                </a>
+            </div>
+            <div class="d-none d-lg-block col-lg-auto text-center">
+                <a class="text-white text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["ApprovedSortParm"]" asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @R["Approved"] <i class="bi bi-arrow-down-up small"></i>
+                </a>
+            </div>
+            <div class="d-none d-lg-block col-lg-auto">
+                @R["Role"]
+            </div>
+            <div class="d-none d-lg-block col-lg-auto ms-auto text-end">
+                @R["Actions"]
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Body -->
+    <div class="card-body custom-card-body p-0">
+        @foreach (var item in Model)
+        {
+            <div class="row align-items-center py-3 px-3 border-bottom gx-2 flex-lg-nowrap">
+                <div class="col-12 col-lg-2 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Name"]</span>
+                    <a class="text-decoration-none fw-medium" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </a>
+                </div>
+                <div class="col-12 col-lg-2 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Company"]</span>
+                    <div>@Html.DisplayFor(modelItem => item.Company)</div>
+                </div>
+                <div class="col-12 col-lg-3 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Email"]</span>
+                    <div class="text-muted small">@Html.DisplayFor(modelItem => item.Email)</div>
+                </div>
+                <div class="col-4 col-lg-1 mb-2 mb-lg-0 text-lg-center">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Status"]</span>
+                    @if (item.Enabled)
+                    {
+                        <span class="badge bg-success-subtle text-success border border-success">@R["Active"]</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger-subtle text-danger border border-danger">@R["Inactive"]</span>
+                    }
+                </div>
+                <div class="col-4 col-lg-1 mb-2 mb-lg-0 text-lg-center">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Approved"]</span>
+                    @if (item.Approved)
+                    {
+                        <span class="badge bg-success-subtle text-success border border-success">✓</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning-subtle text-warning border border-warning">@R["Pending"]</span>
+                    }
+                </div>
+                <div class="col-4 col-lg-auto mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Role"]</span>
+                    <span class="badge bg-primary-subtle text-primary">@Html.DisplayFor(modelItem => item.Role)</span>
+                </div>
+                <div class="col-12 col-lg-auto ms-lg-auto text-lg-end mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Actions"]</span>
+                    <div class="d-flex gap-2 justify-content-lg-end">
+                        @if (item.CanBeEdited)
+                        {
+                            <a class="btn btn-outline-primary d-flex align-items-center justify-content-center flex-fill btn-short" title="@R["Edit"]" asp-action="Edit" asp-route-id="@item.Id">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn btn-outline-info d-flex align-items-center justify-content-center flex-fill btn-short" title="@R["Details"]" asp-action="Details" asp-route-id="@item.Id">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a class="btn btn-outline-danger d-flex align-items-center justify-content-center flex-fill btn-short" title="@R["Delete"]" asp-action="Delete" asp-route-id="@item.Id">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center flex-fill btn-short" disabled>
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <a class="btn btn-outline-info d-flex align-items-center justify-content-center flex-fill btn-short" title="@R["Details"]" asp-action="Details" asp-route-id="@item.Id">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center flex-fill btn-short" disabled>
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@* Add a pagination view component*@
+<div class="mt-3">
+    <vc:pagination page-index="@Model.PageIndex" total-pages="@Model.TotalPages" total-items="@Model.TotalItems" page-items="@Model.Count" page-size="@Model.PageSize" />
+</div>

@@ -6,3 +6,49 @@
  * Author: Samuel Kobelkowsky
  * Email: samuel@mapachedigital.com
 */
+
+html {
+    --adminbar-height: 52px;
+    margin-top: var(--adminbar-height) !important;
+}
+
+#adminbar {
+    --bs-nav-link-font-size: 12.6px;
+    --bs-navbar-brand-font-size: 15.4px;
+    --bs-navbar-padding-y: 8px;
+    --bs-navbar-brand-padding-y: 4.375px;
+    --bs-navbar-brand-margin-end: 14px;
+    --bs-navbar-nav-link-padding-x: 7px;
+    --bs-navbar-toggler-padding-y: 3.5px;
+    --bs-navbar-toggler-padding-x: 10.5px;
+    --bs-navbar-toggler-font-size: 17.5px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    font-size: 12px;
+    height: var(--adminbar-height);
+    background-color: #d0e7dd;
+}
+
+    #adminbar .container {
+        padding: 0 12px;
+    }
+
+    #adminbar .dropdown-menu {
+        --bs-dropdown-font-size: 12.6px;
+    }
+
+    #adminbar .nav-link {
+        padding: 7px;
+    }
+
+    #adminbar .navbar-brand {
+        padding: 5px 0;
+    }
+
+        #adminbar .navbar-brand a {
+            color: var(--bs-navbar-brand-color);
+            text-decoration: none;
+        }

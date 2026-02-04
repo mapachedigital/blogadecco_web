@@ -1,0 +1,125 @@
+
+html {
+    font-size: 12px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+.small {
+    font-size: 1rem !important;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: calc(100% - var(--adminbar-height));
+}
+
+body {
+    margin-bottom: var(--adminbar-height);
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+@media screen and (min-width: 980px) {
+    .container {
+        max-width: 1180px !important;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 992px) {
+    .container {
+        max-width: 90% !important;
+    }
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.control-label {
+    margin-bottom: 0.5rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+.featured-image-small {
+    display: block;
+    max-width: 300px;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.select2-container .select2-selection--multiple, .select2-container .select2-selection--single {
+    border: var(--bs-border-width) solid var(--bs-border-color) !important;
+    border-radius: var(--bs-border-radius) !important;
+}
+
+.select2-container--focus .select2-selection--multiple, .select2-container--focus .select2-selection--single {
+    outline: 0 !important;
+    box-shadow: white 0px 0px 0px 0.1rem, rgb(37, 140, 251) 0px 0px 0px 0.25rem !important;
+}
+
+.select2-search__field::placeholder {
+    color: var(--bs-secondary-color);
+}
+
+.help-text {
+    cursor: help;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+}
+
+.btn-short {
+    height: 25px;
+}
+
+.logo-horizontal {
+    width: 239px;
+}
+
+.bg-custom-header {
+    background-color: #f2f2f2;
+}
+
+.custom-card-body .row:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+.custom-card-body .form-check-input:disabled ~ .form-check-label,
+.custom-card-body .form-check-input[disabled] ~ .form-check-label {
+    opacity: unset;
+}
+
+.pagination {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+@media (max-width: 767px) {
+    .pagination .page-item {
+        margin: 0;
+    }
+
+    .pagination .page-link {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+}

@@ -1,21 +1,20 @@
 ﻿// Copyright (c) 2021, Mapache Digital
-// Version: 1.4
+// Version: 1.1
 // Author: Samuel Kobelkowsky
 // Email: samuel@mapachedigital.com
 
+using BlogAdecco.Models;
 using MDWidgets.Utils.ModelAttributes;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlogAdecco.Models;
+namespace BlogAdecco.Areas.Admin.Models.CategoryViewModels;
 
-/// <summary>
-/// Model for storing a category
-/// </summary>
-[Index(nameof(Slug), IsUnique = true)]
-public class Category
+public class CategoryDeleteViewModel
 {
     public int Id { get; set; }
+
+    [Display(Name = "Reassign existing entries to the following category:")]
+    public int? NewId { get; set; }
 
     /// <summary>
     /// The name of the category

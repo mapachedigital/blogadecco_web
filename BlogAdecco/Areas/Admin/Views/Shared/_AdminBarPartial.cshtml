@@ -6,7 +6,6 @@
  * Author: Samuel Kobelkowsky
  * Email: samuel@mapachedigital.com
  *@
-
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -18,23 +17,79 @@
     @* In HTML it's ok to include CSS inside the body, not only in the head of the html file *@
     <link rel="stylesheet" href="~/css/adminbar.css" asp-append-version="true" />
 
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+    @* Define a light navigation bar *@
+    <nav id="adminbar" class="navbar navbar-expand-lg shadow-sm" style="color: var(--bs-body-color);">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">@SiteUtils.GetSiteName()</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <img src="~/images/adecco-group-horizontal.svg" alt="Grupo Adecco" height="30" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminbarContent"
+                    aria-controls="adminbarContent" aria-expanded="false" aria-label="@R["Administration menu"]">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+            <div class="collapse navbar-collapse" id="adminbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @*
+                    <!-- Example of a menu link -->
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        <a class="nav-link" href="#">Home</a>
+                    </li> *@
+                    @if (await UserUtils.IsAdminAsync(false))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Index">@R["Users"]</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Categories" asp-action="Index">@R["Categories"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Tags" asp-action="Index">@R["Tags"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Posts" asp-action="Index">@R["Posts"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Attachments" asp-action="Index">@R["Attachments"]</a>
+                    </li>
+                    @*
+                    <!-- Example of a dropdown menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    *@
+
+                    @* 
+                    <!--  Example of a disabled menu item -->
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li> *@
+                </ul>
+                @*
+                <!-- Example of a search form -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="@R["Search"]" />
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </form>*@
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@R["Hello {0}!", User.Identity?.Name ?? "Error"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index")">
+                            <button type="submit" class="nav-link btn btn-link">@R["Logout"]</button>
+                        </form>
                     </li>
                 </ul>
-                <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>

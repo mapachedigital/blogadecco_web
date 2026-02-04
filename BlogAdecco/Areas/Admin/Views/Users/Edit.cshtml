@@ -1,0 +1,192 @@
+﻿@using BlogAdecco.Areas.Admin.Models.ApplicationUserViewModels
+@model ApplicationUserEditViewModel
+
+@{
+    ViewData["Title"] = R["Edit"];
+}
+
+<div class="heading my-4">
+    <!-- Title Section -->
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-end mb-6 gap-3">
+        <div class="w-100 w-lg-auto">
+            <h1 class="anton mb-2">@R["Edit User"]</h1>
+            <p class="text-muted mb-0">@R["Edit the data of the selected user."]</p>
+        </div>
+        <div class="d-flex gap-2 w-100 w-lg-auto justify-content-lg-end">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-arrow-left"></i>
+                <span>@R["Back to List"]</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Personal Information Card -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-custom-header text-dark py-3">
+            <h5 class="mb-0">
+                <i class="bi bi-person-circle me-2"></i>
+                @R["Personal Information"]
+            </h5>
+        </div>
+        <div class="card-body custom-card-body p-4">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Firstname" class="form-label fw-semibold"></label>
+                    <input asp-for="Firstname" class="form-control" autocomplete="given-name" />
+                    <span asp-validation-for="Firstname" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Lastname" class="form-label fw-semibold"></label>
+                    <input asp-for="Lastname" class="form-control" autocomplete="family-name" />
+                    <span asp-validation-for="Lastname" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Email" class="form-label fw-semibold"></label>
+                    <input asp-for="Email" class="form-control" autocomplete="email" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Information Card -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-custom-header text-dark py-3">
+            <h5 class="mb-0">
+                <i class="bi bi-building me-2"></i>
+                @R["Company Information"]
+            </h5>
+        </div>
+        <div class="card-body custom-card-body p-4">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Company" class="form-label fw-semibold"></label>
+                    <input asp-for="Company" class="form-control" autocomplete="organization" />
+                    <span asp-validation-for="Company" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Position" class="form-label fw-semibold"></label>
+                    <input asp-for="Position" class="form-control" placeholder="@R["Position"]" />
+                    <span asp-validation-for="Position" class="text-danger small"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Information Card -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-custom-header text-dark py-3">
+            <h5 class="mb-0">
+                <i class="bi bi-telephone me-2"></i>
+                @R["Contact Information"]
+            </h5>
+        </div>
+        <div class="card-body custom-card-body p-4">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <label asp-for="MobilePhone" class="form-label fw-semibold"></label>
+                    <input asp-for="MobilePhone" class="form-control" placeholder="@R["+52 55 12345678"]" />
+                    <span asp-validation-for="MobilePhone" class="text-danger small"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security & Access Card -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-custom-header text-dark py-3">
+            <h5 class="mb-0">
+                <i class="bi bi-shield-lock me-2"></i>
+                @R["Security"]
+            </h5>
+        </div>
+        <div class="card-body custom-card-body p-4">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Role" class="form-label fw-semibold"></label>
+                    <select asp-for="Role" asp-items="ViewBag.Roles" class="form-select"></select>
+                    <span asp-validation-for="Role" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Password" class="form-label fw-semibold"></label>
+                    <input asp-for="Password" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="ConfirmPassword" class="form-label fw-semibold"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Permissions & Status Card -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-custom-header text-dark py-3">
+            <h5 class="mb-0">
+                <i class="bi bi-check-circle me-2"></i>
+                @R["Permissions"]
+            </h5>
+        </div>
+        <div class="card-body custom-card-body p-4">
+            <div class="row">
+                <div class="col-12 col-md-3 mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="AcceptTermsOfService" />
+                        <label class="form-check-label" asp-for="AcceptTermsOfService"></label>
+                    </div>
+                    <span asp-validation-for="AcceptTermsOfService" class="text-danger small d-block"></span>
+                </div>
+                <div class="col-12 col-md-3 mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="Enabled" />
+                        <label class="form-check-label" asp-for="Enabled"></label>
+                    </div>
+                    <span asp-validation-for="Enabled" class="text-danger small d-block"></span>
+                </div>
+                <div class="col-12 col-md-3 mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="Approved" />
+                        <label class="form-check-label" asp-for="Approved"></label>
+                    </div>
+                    <span asp-validation-for="Approved" class="text-danger small d-block"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
+            <i class="bi bi-check-circle me-2"></i>
+            @R["Save"]
+        </button>
+    </div>
+
+    <div class="form-loading spinner-border spinner-border-sm d-none position-fixed top-50 start-50">
+        <span class="visually-hidden">@R["Loading..."]</span>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        jQuery.validator.setDefaults({
+            submitHandler: showLoaderHideSubmit
+        });
+
+        jQuery(document).ready(function () {
+            jQuery('#AcceptUsageOfLogo').rules("add", "required");
+            jQuery('#AcceptTermsOfService').rules("add", "required");
+        });
+    </script>
+}

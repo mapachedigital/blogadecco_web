@@ -4,61 +4,45 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - @SiteUtils.GetSiteName()</title>
+    <title>@ViewData["Title"] - @R["Blog Adecco"]</title>
 
     <script type="importmap"></script>
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','@Globals.GoogleTagManagerCode');</script>
-    <!-- End Google Tag Manager -->
-
     <link rel="shortcut icon" href="~/images/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" sizes="48x28" href="~/images/favicon/apple-touch-icon.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="~/images/favicon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="~/images/favicon/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="~/images/favicon/android-chrome-256x256.png" sizes="256x256" />
+    <link rel="icon" type="image/png" href="~/images/favicon/android-chrome-192x192.png" sizes="192x192" />
+    <link rel="icon" type="image/png" href="~/images/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="~/images/favicon/favicon-16x16.png" sizes="16x16" />
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-
-    <!-- Fonts CSS -->
-    <link rel='dns-prefetch' href='//fonts.googleapis.com' />
-    <link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
-    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-    @await RenderSectionAsync("Fonts", required: false)
-
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BlogAdecco.styles.css" asp-append-version="true" />
-
-    <!-- SEO -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta property="og:locale" content="es_MX" />
-    <meta property="og:site_name" content="Blog Adecco" />
-    <meta property="og:title" content="@ViewData["Title"] - Grupo Adecco" />
-    <meta property="twitter:title" content="@ViewData["Title"] - Grupo Adecco" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
 </head>
 <body>
-    <noscript>
-        <!-- Google Tag Manager (noscript) -->
-        <iframe src="https://www.googletagmanager.com/ns.html?id=@(Globals.GoogleTagManagerCode)" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-
     <header>
         <partial name="~/Areas/Admin/Views/Shared/_AdminBarPartial.cshtml" />
     </header>
-
-    <div class="container main-site mt-3">
-        <main role="main" class="pb-3">
+    <div class="container">
+        <main role="main" class="py-4">
             @RenderBody()
         </main>
     </div>
 
-    <partial name="_FooterPartial" />
-    <partial name="_CookieConsentPartial" />
-
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy;@System.DateTime.Now.Year - @R["Adecco Group"] - <a asp-page="/AvisoDePrivacidad">@R["Privacy Notice"]</a>
+        </div>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/lib/select2/js/i18n/es.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

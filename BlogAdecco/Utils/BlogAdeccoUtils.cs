@@ -5,6 +5,7 @@
 
 using BlogAdecco.Data;
 using BlogAdecco.Models;
+using MDWidgets.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,11 @@ public interface IBlogAdeccoUtils
     /// Get the URL of an attachment
     /// </summary>
     Task<string?> GetAttachmentUrlAsync(Attachment attachment, IUrlHelper urlHelper);
+
+    /// <summary>
+    /// Create a SEO friendly slug for a category based on a string
+    /// </summary>
+    string GetCategorySlug(string title, int? id = null);
 }
 
 public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, IUserUtils _userUtils, ApplicationDbContext _context) : IBlogAdeccoUtils
@@ -158,4 +164,30 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
     /// </summary>
     [GeneratedRegex(Globals.GuidRegex)]
     private static partial Regex GuidUrlMatch();
+
+    /// <summary>
+    /// Create a SEO friendly slug for a category based on a string
+    /// </summary>
+    public string GetCategorySlug(string name, int? id = null)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new InvalidOperationException("Invalid name.");
+        }
+
+        var trialSlug= name.ToSlug();
+
+        if (!_context.Category.Any(x => x.Slug == trialSlug && x.Id != id)) return trialSlug;
+
+        // We cannot have repeated slugs
+        var retrial = 0;
+        var newSlug = string.Empty;
+        do
+        {
+            retrial++;
+            newSlug = $"{trialSlug}-{retrial}";
+        } while (_context.Category.Any(x => x.Slug == newSlug));
+
+        return newSlug;
+    }
 }

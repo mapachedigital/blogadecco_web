@@ -1,0 +1,145 @@
+@using BlogAdecco.Areas.Admin.Models.ApplicationUserViewModels
+@model ApplicationUserDetailsViewModel
+
+@{
+    ViewData["Title"] = R["Details"];
+}
+
+<div class="heading my-4">
+    <!-- Title Section -->
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-end mb-6 gap-3">
+        <div class="w-100 w-lg-auto">
+            <h1 class="anton mb-2">@R["Details"] - @R["User"]</h1>
+            <p class="text-muted mb-0">@R["View user details"]</p>
+        </div>
+        <div class="d-flex gap-2 w-100 w-lg-auto justify-content-lg-end">
+            @if (ViewBag.CanEdit)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>@R["Edit"]</span>
+                </a>
+            }
+            <a asp-action="Index" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-arrow-left"></i>
+                <span>@R["Back to List"]</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Personal Information Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-custom-header text-dark py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-person-circle me-2"></i>
+            @R["Personal Information"]
+        </h5>
+    </div>
+    <div class="card-body custom-card-body p-4">
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.Firstname)</label>
+                <input type="text" class="form-control" value="@Model.Firstname" disabled />
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.Lastname)</label>
+                <input type="text" class="form-control" value="@Model.Lastname" disabled />
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.Email)</label>
+                <input type="text" class="form-control" value="@Model.Email" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Company Information Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-custom-header text-dark py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-building me-2"></i>
+            @R["Company Information"]
+        </h5>
+    </div>
+    <div class="card-body custom-card-body p-4">
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.Company)</label>
+                <input type="text" class="form-control" value="@Model.Company" disabled />
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.Position)</label>
+                <input type="text" class="form-control" value="@Model.Position" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Information Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-custom-header text-dark py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-telephone me-2"></i>
+            @R["Contact Information"]
+        </h5>
+    </div>
+    <div class="card-body custom-card-body p-4">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.MobilePhone)</label>
+                <input type="text" class="form-control" value="@Model.MobilePhone" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Security & Access Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-custom-header text-dark py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-shield-lock me-2"></i>
+            @R["Security"]
+        </h5>
+    </div>
+    <div class="card-body custom-card-body p-4">
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.Role)</label>
+                <input type="text" class="form-control" value="@Model.Role" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Permissions & Status Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-custom-header text-dark py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-check-circle me-2"></i>
+            @R["Permissions & Status"]
+        </h5>
+    </div>
+    <div class="card-body custom-card-body p-4">
+        <div class="row">
+            <div class="col-12 col-md-3 mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked="@Model.AcceptTermsOfService" disabled />
+                    <label class="form-check-label">@Html.DisplayNameFor(model => model.AcceptTermsOfService)</label>
+                </div>
+            </div>
+            <div class="col-12 col-md-3 mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked="@Model.Enabled" disabled />
+                    <label class="form-check-label">@Html.DisplayNameFor(model => model.Enabled)</label>
+                </div>
+            </div>
+            <div class="col-12 col-md-3 mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked="@Model.Approved" disabled />
+                    <label class="form-check-label">@Html.DisplayNameFor(model => model.Approved)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

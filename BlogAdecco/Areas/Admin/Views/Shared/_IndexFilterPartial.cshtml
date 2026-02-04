@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResources> R
+
+<form asp-action="Index" method="get">
+    <div class="row g-2 align-items-center">
+        <!-- Search Input -->
+        <div class="col">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input class="form-control form-control-lg border-start-0 ps-0"
+                       type="text"
+                       name="searchString"
+                       value="@ViewData["CurrentFilter"]"
+                       placeholder="@R["Search"]..." />
+            </div>
+        </div>
+
+        <!-- Hidden Fields -->
+        <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
+        <input type="hidden" name="resetCookie" value="true" />
+
+        <!-- Action Buttons -->
+        <div class="col-auto">
+            <div class="d-flex gap-2">
+                @if (!string.IsNullOrEmpty(ViewData["CurrentFilter"]?.ToString()))
+                {
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-x-circle me-1"></i>
+                        @R["Back to Full List"]
+                    </a>
+                }
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-search me-1"></i>
+                    @R["Search"]
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

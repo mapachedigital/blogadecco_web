@@ -1,0 +1,94 @@
+﻿@using BlogAdecco.Areas.Admin.Models.ApplicationUserViewModels
+@model ApplicationUserDeleteViewModel
+
+@{
+    ViewData["Title"] = R["Delete"];
+}
+
+<form asp-action="Delete">
+    <div class="heading my-4">
+        <!-- Title Section -->
+        <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-end mb-6 gap-3">
+            <div class="w-100 w-lg-auto">
+                <h1 class="anton mb-2 text-danger">@R["Delete User"]</h1>
+                <p class="text-muted mb-0">@R["Are you sure you want to delete this?"]</p>
+            </div>
+            <div class="d-flex gap-2 align-items-end w-100 w-lg-auto justify-content-lg-end">
+                @if ((bool)ViewBag.IsUsed)
+                {
+                    <div>
+                        <label asp-for="NewId" class="form-label"></label>
+                        <select asp-for="NewId" class="form-control form-select form-select-lg" asp-items="ViewBag.NewId"><option value="">@R["Select an option..."]</option></select>
+                        <span asp-validation-for="NewId" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden" asp-for="NewId" />
+                }
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Firstname" />
+                <input type="hidden" asp-for="Lastname" />
+                <input type="hidden" asp-for="Company" />
+                <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="MobilePhone" />
+                <input type="hidden" asp-for="Position" />
+                <input type="hidden" asp-for="AcceptTermsOfService" />
+                <input type="hidden" asp-for="Enabled" />
+                <input type="hidden" asp-for="Approved" />
+                <input type="hidden" asp-for="Role" />
+
+                <button type="submit" class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                    <i class="bi bi-trash3"></i>
+                    <span>@R["Delete"]</span>
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>@R["Back to List"]</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row bg-body-tertiary pt-4 pb-0 pb-md-4 mb-4">
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Firstname)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Firstname)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Lastname)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Lastname)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Company)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Company)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Email)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Email)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.MobilePhone)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.MobilePhone)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Position)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Position)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Role)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Role)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.AcceptTermsOfService)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.AcceptTermsOfService)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Enabled)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Enabled)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.Approved)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Approved)</span>
+    </div>
+</div>
