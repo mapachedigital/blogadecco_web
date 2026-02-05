@@ -22,7 +22,7 @@ public class Tag
     public string Name { get; set; } = default!;
 
     /// <summary>
-    /// The slug defining the unique URL of the category
+    /// The slug defining the unique URL of the tag
     /// </summary>
     [StringLength(200, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
     [Required(ErrorMessage = "The '{0}' field is required.")]
@@ -52,4 +52,10 @@ public class Tag
     /// </summary>
     [Display(Name = "Posts")]
     public List<Post> Posts { get; set; } = [];
+
+    /// <summary>
+    /// The tags that have this as a parent
+    /// </summary>
+    [Display(Name = "Children")]
+    public List<Tag> Children { get; set; } = [];
 }

@@ -126,6 +126,9 @@
   <data name="Add a new category to the system." xml:space="preserve">
     <value>Add a new category to the system.</value>
   </data>
+  <data name="Add a new tag to the system." xml:space="preserve">
+    <value>Add a new tag to the system.</value>
+  </data>
   <data name="Additional Information" xml:space="preserve">
     <value>Additional Information</value>
   </data>
@@ -177,6 +180,9 @@
   <data name="Create New" xml:space="preserve">
     <value>Create New</value>
   </data>
+  <data name="Create Tag" xml:space="preserve">
+    <value>Create Tag</value>
+  </data>
   <data name="Create User" xml:space="preserve">
     <value>Create User</value>
   </data>
@@ -185,6 +191,9 @@
   </data>
   <data name="Delete Category" xml:space="preserve">
     <value>Delete Category</value>
+  </data>
+  <data name="Delete Tag" xml:space="preserve">
+    <value>Delete Tag</value>
   </data>
   <data name="Delete User" xml:space="preserve">
     <value>Delete User</value>
@@ -248,6 +257,9 @@
   </data>
   <data name="Manage your categories" xml:space="preserve">
     <value>Manage your categories</value>
+  </data>
+  <data name="Manage your tags" xml:space="preserve">
+    <value>Manage your tags</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -335,6 +347,9 @@
   </data>
   <data name="View category details" xml:space="preserve">
     <value>View category details</value>
+  </data>
+  <data name="View tag details" xml:space="preserve">
+    <value>View tag details</value>
   </data>
   <data name="View user details" xml:space="preserve">
     <value>View user details</value>
