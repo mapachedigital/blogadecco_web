@@ -147,6 +147,9 @@
   <data name="Attachments" xml:space="preserve">
     <value>Attachments</value>
   </data>
+  <data name="Audit Information" xml:space="preserve">
+    <value>Audit Information</value>
+  </data>
   <data name="Back to Full List" xml:space="preserve">
     <value>Back to Full List</value>
   </data>
@@ -192,6 +195,9 @@
   <data name="Delete Category" xml:space="preserve">
     <value>Delete Category</value>
   </data>
+  <data name="Delete Media" xml:space="preserve">
+    <value>Delete Media</value>
+  </data>
   <data name="Delete Tag" xml:space="preserve">
     <value>Delete Tag</value>
   </data>
@@ -213,6 +219,12 @@
   <data name="Edit Category" xml:space="preserve">
     <value>Edit Category</value>
   </data>
+  <data name="Edit Media" xml:space="preserve">
+    <value>Edit Media</value>
+  </data>
+  <data name="Edit the data of the selected attachment." xml:space="preserve">
+    <value>Edit the data of the selected media.</value>
+  </data>
   <data name="Edit the data of the selected category." xml:space="preserve">
     <value>Edit the data of the selected category.</value>
   </data>
@@ -227,6 +239,9 @@
   </data>
   <data name="Export" xml:space="preserve">
     <value>Export</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
   </data>
   <data name="For local debugging, enable the &lt;strong&gt;Development&lt;/strong&gt; environment by setting the &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; environment variable to &lt;strong&gt;Development&lt;/strong&gt; and restarting the app." xml:space="preserve">
     <value>For local debugging, enable the &lt;strong&gt;Development&lt;/strong&gt; environment by setting the &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; environment variable to &lt;strong&gt;Development&lt;/strong&gt; and restarting the app.</value>
@@ -258,8 +273,14 @@
   <data name="Manage your categories" xml:space="preserve">
     <value>Manage your categories</value>
   </data>
+  <data name="Manage your media" xml:space="preserve">
+    <value>Manage your media</value>
+  </data>
   <data name="Manage your tags" xml:space="preserve">
     <value>Manage your tags</value>
+  </data>
+  <data name="Media" xml:space="preserve">
+    <value>Media</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -339,6 +360,18 @@
   <data name="Title" xml:space="preserve">
     <value>Title</value>
   </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="Upload a media file to the system." xml:space="preserve">
+    <value>Upload a media file to the system.</value>
+  </data>
+  <data name="Upload Media" xml:space="preserve">
+    <value>Upload Media</value>
+  </data>
+  <data name="Upload New" xml:space="preserve">
+    <value>Upload New</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
@@ -347,6 +380,9 @@
   </data>
   <data name="View category details" xml:space="preserve">
     <value>View category details</value>
+  </data>
+  <data name="View media details" xml:space="preserve">
+    <value>View media details</value>
   </data>
   <data name="View tag details" xml:space="preserve">
     <value>View tag details</value>

@@ -30,6 +30,10 @@ namespace BlogAdecco.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Alt")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<string>("Container")
                         .IsRequired()
                         .HasMaxLength(63)
@@ -50,11 +54,6 @@ namespace BlogAdecco.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Guid")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<int>("Location")
                         .HasColumnType("int");
 
@@ -68,6 +67,11 @@ namespace BlogAdecco.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("ThumbContainer")
                         .HasMaxLength(63)
                         .HasColumnType("nvarchar(63)");
@@ -76,11 +80,15 @@ namespace BlogAdecco.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("Title")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("Guid")
+                    b.HasIndex("Slug")
                         .IsUnique();
 
                     b.ToTable("Attachment");
@@ -528,7 +536,7 @@ namespace BlogAdecco.Data.Migrations
             modelBuilder.Entity("BlogAdecco.Models.Category", b =>
                 {
                     b.HasOne("BlogAdecco.Models.Category", "Parent")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
@@ -586,7 +594,7 @@ namespace BlogAdecco.Data.Migrations
             modelBuilder.Entity("BlogAdecco.Models.Tag", b =>
                 {
                     b.HasOne("BlogAdecco.Models.Tag", "Parent")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
@@ -676,6 +684,16 @@ namespace BlogAdecco.Data.Migrations
             modelBuilder.Entity("BlogAdecco.Models.Attachment", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("BlogAdecco.Models.Category", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("BlogAdecco.Models.Tag", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

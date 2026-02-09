@@ -7,22 +7,18 @@ using BlogAdecco.Areas.Admin.Models.TagViewModels;
 using BlogAdecco.Data;
 using BlogAdecco.Models;
 using BlogAdecco.Utils;
-using MDWidgets.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 
 namespace BlogAdecco.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Roles = Globals.RoleAdmin + "," + Globals.RoleSupervisor)]
 public class TagsController(ApplicationDbContext _context,
-        IStringLocalizer<SharedResources> L,
         IBlogAdeccoUtils _blogAdeccoUtils) : Controller
 {
-
     // GET: Admin/Tags
     public async Task<IActionResult> Index()
     {

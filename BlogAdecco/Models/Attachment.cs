@@ -13,7 +13,7 @@ namespace BlogAdecco.Models;
 /// <summary>
 /// Model for storing an uploaded photo or document
 /// </summary>
-[Index(nameof(Guid), IsUnique = true)]
+[Index(nameof(Slug), IsUnique = true)]
 public class Attachment
 {
     public int Id { get; set; }
@@ -27,16 +27,32 @@ public class Attachment
     public string File { get; set; } = string.Empty;
 
     /// <summary>
-    /// The slug, or SEO friendly slug for the post
+    /// The slug, or SEO friendly slug for the attachment
     /// </summary>
     [RegularExpression(Globals.GuidRegex, ErrorMessage = "Only letters, number and dashes allowed.")]
     [StringLength(200, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
     [Required(ErrorMessage = "The '{0}' field is required.")]
-    [Display(Name = "Guid")]
-    public string Guid { get; set; } = default!;
+    [Display(Name = "Slug")]
+    public string Slug { get; set; } = default!;
 
     /// <summary>
-    /// The description of the category
+    /// The alternative text of the attachment
+    /// </summary>
+    [SanitizeHtml]
+    [StringLength(300, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    [Display(Name = "Alt")]
+    public string? Alt { get; set; } = default!;
+
+    /// <summary>
+    /// The title of the attachment
+    /// </summary>
+    [SanitizeHtml]
+    [StringLength(300, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+    [Display(Name = "Title")]
+    public string? Title { get; set; } = default!;
+
+    /// <summary>
+    /// The description of the attachment
     /// </summary>
     [SanitizeHtml]
     [StringLength(300, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
@@ -115,6 +131,11 @@ public class Attachment
     /// </summary>
     [Display(Name = "Posts")]
     public List<Post> Posts { get; set; } = [];
+
+    /// <summary>
+    /// Determine if the attachment corresponds to an image
+    /// </summary>
+    public bool IsImage => ImageUtils.IsImage(MimeType);
 }
 
 /// <summary>

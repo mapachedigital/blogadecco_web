@@ -1,5 +1,5 @@
 ﻿// Copyright (c) 2021, Mapache Digital
-// Version: 1.1.3
+// Version: 1.2.4
 // Author: Samuel Kobelkowsky
 // Email: samuel@mapachedigital.com
 
@@ -9,10 +9,12 @@ using BlogAdecco.Models;
 using BlogAdecco.Utils;
 using Ganss.Xss;
 using ImportWordpress.Data;
+using MDWidgets;
 using MDWidgets.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using PhpSerializerNET;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
@@ -71,6 +73,7 @@ public partial class ImportWordpress
     private readonly IUserStore<ApplicationUser> _userStore;
     private readonly IUserEmailStore<ApplicationUser> _emailStore;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IStorageUtils _storageUtils;
     private readonly Dictionary<ulong, string> userList = [];
 
     /// <summary>
@@ -82,7 +85,8 @@ public partial class ImportWordpress
         IUserUtils userUtils,
         UserManager<ApplicationUser> userManager,
         IConfigUtils configUtils,
-        IUserStore<ApplicationUser> userStore)
+        IUserStore<ApplicationUser> userStore,
+        IStorageUtils storageUtils)
     {
         _blogContext = blogContext;
         _wpContext = wpContext;
@@ -91,6 +95,7 @@ public partial class ImportWordpress
         _userManager = userManager;
         _userStore = userStore;
         _emailStore = (IUserEmailStore<ApplicationUser>)_userStore;
+        _storageUtils = storageUtils;
 
         // Check the configuration
         configUtils.CheckConfig();
@@ -322,6 +327,10 @@ public partial class ImportWordpress
             .Where(p => p.PostType == "attachment")
             .Include(p => p.PostMeta);
 
+        if (_storageUtils.GetFileLocation == FileLocation.Local)
+            Console.WriteLine("Importing attachments...\n\nPlease move the imported attachments to their path.  They will be imported in:\n" +
+                Path.Combine(_storageUtils.GetBasePath, Globals.StorageContainerNameAttachments) + "\n\n");
+
         foreach (var wpPost in wpPosts)
         {
             //Examples:
@@ -342,27 +351,26 @@ public partial class ImportWordpress
             var finalFileRelativePath = isScaled ? originalFileRelativePath.Replace("-scaled.", ".") : originalFileRelativePath;
             finalFileRelativePath = FixGuid(finalFileRelativePath);
 
-            // Get the description of the file used as "alt" in the image tags
+            // Get the description of the file
             // Note, more info (sizes, camera info, keywords etc) is available in the PostMeta with key _wp_attachment_metadata, stored as a PHP serialized object
-            var alt = wpPost.PostMeta.FirstOrDefault(x => x.MetaKey == "_wp_attachment_image_alt")?.MetaValue;
-
-            // Currently we're only storing locally the imported files
-            var attachment = new Attachment
+            string? description = null;
+            string? title = null;
+            var meta = wpPost.PostMeta.FirstOrDefault(x => x.MetaKey == "_wp_attachment_metadata")?.MetaValue;
+            if (meta != null
+                && PhpSerialization.Deserialize(meta) is Dictionary<object, object> phpObject
+                && phpObject.ContainsKey("image_meta")
+                && phpObject["image_meta"] is Dictionary<object, object> image_meta)
             {
-                Container = Globals.StorageContainerNameAttachments,
-                ThumbContainer = Globals.StorageContainerNameAttachments,
+                if (image_meta["caption"] != null && image_meta["caption"].ToString() != "")
+                {
+                    description = image_meta["caption"].ToString();
+                }
 
-                Created = wpPost.PostDate,
-                CreatedById = adminId,
-                Location = FileLocation.Local,
-                MimeType = wpPost.PostMimeType,
-                Description = string.IsNullOrWhiteSpace(alt) ? null : alt.Trim(),
-
-                OriginalFilename = Path.GetFileName(finalFileRelativePath),
-                Guid = "/uploads/" + FixGuid(isScaled ? metaValue.Replace("-scaled.", ".") : metaValue),
-                File = finalFileRelativePath,
-                ThumbFile = finalFileRelativePath,
-            };
+                if (image_meta["title"] != null && image_meta["title"].ToString() != "")
+                {
+                    title = image_meta["title"].ToString();
+                }
+            }
 
             var originalFileFullPath = Path.Combine(oldUploadsPath, originalFileRelativePath);
             if (!File.Exists(originalFileFullPath))
@@ -372,10 +380,42 @@ public partial class ImportWordpress
                 //throw new IOException($"File not found {originalFileFullPath}.");
             }
 
-            var newFilePath = Path.Combine(destinationUploadsPath, finalFileRelativePath);
-            var newFileDirectory = Path.GetDirectoryName(newFilePath) ?? throw new IOException($"Cannot determine directory name of path {newFilePath}");
-            if (!Path.Exists(newFileDirectory)) Directory.CreateDirectory(newFileDirectory);
-            File.Copy(originalFileFullPath, newFilePath);
+            using var fileStream = File.OpenRead(originalFileFullPath);
+            var storedFile = await _storageUtils.UploadFileAsync(fileStream, wpPost.PostMimeType, Globals.StorageContainerNameAttachments);
+
+            // Currently we're only storing locally the imported files
+            var attachment = new Attachment
+            {
+                File = storedFile.Name,
+                Container = storedFile.Container,
+                Location = storedFile.Location,
+
+                Created = wpPost.PostDate,
+                CreatedById = await GetOrCreateUserAsync(wpPost.PostAuthor),
+                MimeType = wpPost.PostMimeType,
+                Description = description?.Trim(),
+                Title = title?.Trim(),
+                Alt = wpPost.PostMeta.FirstOrDefault(x => x.MetaKey == "_wp_attachment_image_alt")?.MetaValue,
+
+                OriginalFilename = Path.GetFileName(finalFileRelativePath),
+                Slug = "/uploads/" + FixGuid(isScaled ? metaValue.Replace("-scaled.", ".") : metaValue),
+            };
+
+            // If the attachment is an image, create a thumbnail
+            if (MDGlobals.AcceptedImages.Contains(wpPost.PostMimeType))
+            {
+                fileStream.Position = 0;
+                fileStream.Seek(0, SeekOrigin.Begin);
+
+                // Create the thumbnail
+                var image = ImageUtils.CreateThumbnail(fileStream, wpPost.PostMimeType, MDGlobals.ThumbWidth);
+                if (image != null)
+                {
+                    var thumbnail = await _storageUtils.UploadFileAsync(image, wpPost.PostMimeType, attachment.Container);
+                    attachment.ThumbFile = thumbnail.Name;
+                    attachment.ThumbContainer = thumbnail.Container;
+                }
+            }
 
             TryValidate(attachment);
             _blogContext.Attachment.Add(attachment);
@@ -453,7 +493,7 @@ public partial class ImportWordpress
                 if (wpImage != null)
                 {
                     // We should have imported previously all the attachments to our new blog, so we find the post thumbnail in the already imported database
-                    var image = await _blogContext.Attachment.FirstOrDefaultAsync(x => x.Guid == FixGuid(wpImage.Guid));
+                    var image = await _blogContext.Attachment.FirstOrDefaultAsync(x => x.Slug == FixGuid(wpImage.Guid));
                     if (image != null)
                     {
                         // And attach it as the featured image of the post
@@ -562,7 +602,6 @@ public partial class ImportWordpress
         userList.Add(id, user.Id);
         return user.Id;
     }
-
 
     /// <summary>
     /// Return the Guid (unique URI) for an attachment edited to meet our needs, for example with the first part of the URL

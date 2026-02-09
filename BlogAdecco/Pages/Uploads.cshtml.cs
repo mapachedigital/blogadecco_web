@@ -24,21 +24,23 @@ public partial class UploadsModel(ApplicationDbContext _context, IStorageUtils _
     [FromRoute]
     public string Path { get; set; } = default!;
 
-
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(string? size = null)
     {
         // Since the database was imported from WordPress, it contains several 'derived' URLs for different image sizes.
         // However, as we only have one source URL, we need to strip these suffixes to normalize the paths.
         Path = FixPath(Path);
 
-        var attachment = await _context.Attachment.FirstOrDefaultAsync(x => x.Guid == $"/uploads/{Year:D2}/{Month:D2}/{Path}");
+        var attachment = await _context.Attachment.FirstOrDefaultAsync(x => x.Slug == $"/uploads/{Year:D2}/{Month:D2}/{Path}");
 
         if (attachment == null)
         {
             return NotFound();
         }
 
-        var upload = await _storageUtils.GetFileAsync(attachment.File, attachment.Container, attachment.Location);
+        var file = size == "thumbnail" && attachment.ThumbFile != null ? attachment.ThumbFile : attachment.File;
+        var container = size == "thumbnail" && attachment.ThumbContainer != null ? attachment.ThumbContainer : attachment.Container;
+
+        var upload = await _storageUtils.GetFileAsync(file, container, attachment.Location);
         if (upload == null)
         {
             return NotFound();

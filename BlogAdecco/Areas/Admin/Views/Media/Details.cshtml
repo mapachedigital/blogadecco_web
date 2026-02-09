@@ -1,0 +1,106 @@
+﻿@model BlogAdecco.Models.Attachment
+@inject IBlogAdeccoUtils BlogAdeccoUtils
+@{
+    ViewData["Title"] = @R["Details"];
+}
+
+<div class="heading my-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-end mb-6 gap-3">
+        <div class="w-100 w-lg-auto">
+            <h1 class="anton mb-2">@R["Details"] - @R["Media"]</h1>
+            <p class="text-muted mb-0">@R["View media details"]</p>
+        </div>
+        <div class="d-flex gap-2 w-100 w-lg-auto justify-content-lg-end">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-pencil-square"></i>
+                <span>@R["Edit"]</span>
+            </a>    
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-trash3"></i>
+                <span>@R["Delete"]</span>
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-arrow-left"></i>
+                <span>@R["Back to List"]</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Basic Information Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-custom-header text-dark py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-tag me-2"></i>
+            @R["Basic Information"]
+        </h5>
+    </div>
+    <div class="card-body custom-card-body p-4">
+        <div class="row">
+            <div class="col-7 mb-3">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold" asp-for="Alt"></label>
+                        <input class="form-control" asp-for="Alt" disabled />
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold" asp-for="Title"></label>
+                        <input class="form-control" asp-for="Title" disabled />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="form-label fw-semibold" asp-for="MimeType"></label>
+                        <input class="form-control" asp-for="MimeType" disabled />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="form-label fw-semibold" asp-for="Posts"></label>
+                        <input class="form-control" asp-for="Posts.Count" disabled />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-5 mb-3 justify-content-center">
+                <a href="@await BlogAdeccoUtils.GetAttachmentUrlAsync(Model, Url)" target="_blank">
+                    @if (Model.IsImage)
+                    {
+                        <img src="@await BlogAdeccoUtils.GetAttachmentUrlAsync(Model, Url)" class="img-thumbnail img-fluid media-detail-thumbnail" />
+                    }
+                    else
+                    {
+                        <div class="img-thumbnail img-fluid gallery-thumbnail text-center align-content-center">@Model.OriginalFilename</div>
+                    }
+                </a>
+            </div>
+
+            <div class="col-12 mb-3">
+                <label class="form-label fw-semibold">Url</label>
+                <input class="form-control" value="@await BlogAdeccoUtils.GetAttachmentUrlAsync(Model, Url)" disabled />
+            </div>
+            <div class="col-12 mb-3">
+                <label class="form-label fw-semibold" asp-for="Description"></label>
+                <textarea class="form-control" asp-for="Description" disabled></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Audit Information Card -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-custom-header text-dark py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-clock-history me-2"></i>
+            @R["Audit Information"]
+        </h5>
+    </div>
+    <div class="card-body custom-card-body p-4">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.Created)</label>
+                <input type="text" class="form-control" value="@Model.Created" disabled />
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label class="form-label fw-semibold">@Html.DisplayNameFor(model => model.CreatedBy)</label>
+                <input type="text" class="form-control" value="@Model.CreatedBy?.FullName" disabled />
+            </div>
+        </div>
+    </div>
+</div>

@@ -38,7 +38,12 @@ public interface IBlogAdeccoUtils
     /// <summary>
     /// Get the URL of an attachment
     /// </summary>
-    Task<string?> GetAttachmentUrlAsync(Attachment attachment, IUrlHelper urlHelper);
+    /// <param name="attachment">The attachment to return when the user follows the URL</param>
+    /// <param name="urlHelper">The URLHelper for the controller or page generating the link</param>
+    /// <param name="thumbnail">Wheter or not return the actual attachment or just its thumbnail image</param>
+    /// <returns>The URL that points to the attachment download, or its thumbnail image</returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    Task<string?> GetAttachmentUrlAsync(Attachment attachment, IUrlHelper urlHelper, bool thumbnail = false);
 
     /// <summary>
     /// Create a SEO friendly slug for a category based on a string
@@ -49,6 +54,11 @@ public interface IBlogAdeccoUtils
     /// Create a SEO friendly slug for a tag based on a string
     /// </summary>
     string GetTagSlug(string title, int? id = null);
+
+    /// <summary>
+    /// Create a SEO friendly slug for an attachment based on a string
+    /// </summary>
+    public string GetAttachmentSlug(string filename, int? id = null);
 }
 
 public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, IUserUtils _userUtils, ApplicationDbContext _context) : IBlogAdeccoUtils
@@ -146,18 +156,38 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
     /// <summary>
     /// Get the URL of an attachment
     /// </summary>
-    public async Task<string?> GetAttachmentUrlAsync(Attachment attachment, IUrlHelper urlHelper)
+    /// <param name="attachment">The attachment to return when the user follows the URL</param>
+    /// <param name="urlHelper">The URLHelper for the controller or page generating the link</param>
+    /// <param name="thumbnail">Wheter or not return the actual attachment or just its thumbnail image</param>
+    /// <returns>The URL that points to the attachment download, or its thumbnail image</returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<string?> GetAttachmentUrlAsync(Attachment attachment, IUrlHelper urlHelper, bool thumbnail = false)
     {
         var regex = GuidUrlMatch();
-        var match = regex.Match(attachment.Guid);
+        var match = regex.Match(attachment.Slug);
         if (!match.Success) return null;
 
-        var link = urlHelper.PageLink("/Uploads", values: new
+        string? link;
+
+        if (!thumbnail)
         {
-            Year = match.Groups[1].Value,
-            Month = match.Groups[2].Value,
-            Path = match.Groups[3].Value,
-        });
+            link = urlHelper.PageLink("/Uploads", values: new
+            {
+                Year = match.Groups[1].Value,
+                Month = match.Groups[2].Value,
+                Path = match.Groups[3].Value,
+            });
+        }
+        else
+        {
+            link = urlHelper.PageLink("/Uploads", values: new
+            {
+                Year = match.Groups[1].Value,
+                Month = match.Groups[2].Value,
+                Path = match.Groups[3].Value,
+                size = "thumbnail",
+            });
+        }
 
         if (!Uri.TryCreate(link, UriKind.Absolute, out _)) throw new InvalidOperationException("Generated URL is not absolute");
 
@@ -180,7 +210,7 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
             throw new InvalidOperationException("Invalid name.");
         }
 
-        var trialSlug= name.ToSlug();
+        var trialSlug = name.ToSlug();
 
         if (!_context.Category.Any(x => x.Slug == trialSlug && x.Id != id)) return trialSlug;
 
@@ -191,7 +221,7 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
         {
             retrial++;
             newSlug = $"{trialSlug}-{retrial}";
-        } while (_context.Category.Any(x => x.Slug == newSlug));
+        } while (_context.Category.Any(x => x.Slug == newSlug && x.Id != id));
 
         return newSlug;
     }
@@ -217,8 +247,37 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
         {
             retrial++;
             newSlug = $"{trialSlug}-{retrial}";
-        } while (_context.Tag.Any(x => x.Slug == newSlug));
+        } while (_context.Tag.Any(x => x.Slug == newSlug && x.Id != id));
 
         return newSlug;
+    }
+
+    /// <summary>
+    /// Create a SEO friendly slug for an attachment based on a string
+    /// </summary>
+    public string GetAttachmentSlug(string filename, int? id = null)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new InvalidOperationException("Invalid name.");
+        }
+
+        var filenamebase = Path.GetFileNameWithoutExtension(filename);
+        var filenameext = Path.GetExtension(filename);
+
+        var trialGuid = $"/uploads/{DateTime.Now.Year:D2}/{DateTime.Now.Month:D2}/{filenamebase}{filenameext}";
+
+        if (!_context.Attachment.Any(x => x.Slug == trialGuid && x.Id != id)) return trialGuid;
+
+        // We cannot have repeated slugs
+        var retrial = 0;
+        var newGuid = string.Empty;
+        do
+        {
+            retrial++;
+            newGuid = $"/uploads/{DateTime.Now.Year:D2}/{DateTime.Now.Month:D2}/{filenamebase}-{retrial}{filenameext}";
+        } while (_context.Attachment.Any(x => x.Slug == newGuid && x.Id != id));
+
+        return newGuid;
     }
 }

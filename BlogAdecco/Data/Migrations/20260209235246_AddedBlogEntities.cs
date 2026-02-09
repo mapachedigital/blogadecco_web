@@ -11,6 +11,95 @@ namespace BlogAdecco.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<bool>(
+                name: "AcceptTermsOfService",
+                table: "AspNetUsers",
+                type: "bit",
+                nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "Approved",
+                table: "AspNetUsers",
+                type: "bit",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Bio",
+                table: "AspNetUsers",
+                type: "nvarchar(500)",
+                maxLength: 500,
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Company",
+                table: "AspNetUsers",
+                type: "nvarchar(80)",
+                maxLength: 80,
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Discriminator",
+                table: "AspNetUsers",
+                type: "nvarchar(21)",
+                maxLength: 21,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "DisplayName",
+                table: "AspNetUsers",
+                type: "nvarchar(80)",
+                maxLength: 80,
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Firstname",
+                table: "AspNetUsers",
+                type: "nvarchar(80)",
+                maxLength: 80,
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Language",
+                table: "AspNetUsers",
+                type: "nvarchar(16)",
+                maxLength: 16,
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "LastAccess",
+                table: "AspNetUsers",
+                type: "datetime2",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Lastname",
+                table: "AspNetUsers",
+                type: "nvarchar(80)",
+                maxLength: 80,
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Linkedin",
+                table: "AspNetUsers",
+                type: "nvarchar(280)",
+                maxLength: 280,
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Position",
+                table: "AspNetUsers",
+                type: "nvarchar(80)",
+                maxLength: 80,
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Twitter",
+                table: "AspNetUsers",
+                type: "nvarchar(280)",
+                maxLength: 280,
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Attachment",
                 columns: table => new
@@ -18,7 +107,9 @@ namespace BlogAdecco.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     File = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Guid = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Alt = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     Container = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     ThumbFile = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -98,7 +189,8 @@ namespace BlogAdecco.Data.Migrations
                     ModifiedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     FeaturedImageId = table.Column<int>(type: "int", nullable: true),
-                    Fixed = table.Column<bool>(type: "bit", nullable: false)
+                    Fixed = table.Column<bool>(type: "bit", nullable: false),
+                    Metadata = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,9 +266,9 @@ namespace BlogAdecco.Data.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attachment_Guid",
+                name: "IX_Attachment_Slug",
                 table: "Attachment",
-                column: "Guid",
+                column: "Slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -253,6 +345,58 @@ namespace BlogAdecco.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Attachment");
+
+            migrationBuilder.DropColumn(
+                name: "AcceptTermsOfService",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Approved",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Bio",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Company",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Discriminator",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "DisplayName",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Firstname",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Language",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "LastAccess",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Lastname",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Linkedin",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Position",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Twitter",
+                table: "AspNetUsers");
         }
     }
 }

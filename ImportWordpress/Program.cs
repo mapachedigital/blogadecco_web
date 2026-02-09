@@ -2,7 +2,9 @@
 using BlogAdecco.Models;
 using BlogAdecco.Utils;
 using ImportWordpress.Data;
+using ImportWordpress.Utils;
 using MDWidgets.Utils;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -54,6 +56,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddScoped<IConfigUtils, ConfigUtils>();
 builder.Services.AddScoped<IUserUtils, UserUtils>();
+builder.Services.AddSingleton<IWebHostEnvironment, MyWebHostEnvironment>();
+builder.Services.AddSingleton<IStorageUtils, StorageUtils>();
 
 var app = builder.Build();
 
@@ -67,6 +71,7 @@ var userUtils = services.GetRequiredService<IUserUtils>();
 var configuration = services.GetRequiredService<IConfiguration>();
 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 var userStore = services.GetRequiredService<IUserStore<ApplicationUser>>();
+var storageUtils = services.GetRequiredService<IStorageUtils>();
 
 // Do the actual import
 var wordpress = new ImportWordpress.ImportWordpress(
@@ -76,5 +81,7 @@ var wordpress = new ImportWordpress.ImportWordpress(
     userUtils: userUtils,
     userManager: userManager,
     userStore: userStore,
-    configUtils: configUtils);
+    configUtils: configUtils,
+    storageUtils: storageUtils);
+
 await wordpress.ImportAsync();

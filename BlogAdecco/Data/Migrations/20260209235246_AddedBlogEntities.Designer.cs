@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogAdecco.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251219224009_AddedBlogEntities")]
+    [Migration("20260209235246_AddedBlogEntities")]
     partial class AddedBlogEntities
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace BlogAdecco.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "10.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -32,6 +32,10 @@ namespace BlogAdecco.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Alt")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Container")
                         .IsRequired()
@@ -53,11 +57,6 @@ namespace BlogAdecco.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Guid")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<int>("Location")
                         .HasColumnType("int");
 
@@ -71,6 +70,11 @@ namespace BlogAdecco.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("ThumbContainer")
                         .HasMaxLength(63)
                         .HasColumnType("nvarchar(63)");
@@ -79,11 +83,15 @@ namespace BlogAdecco.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("Title")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("Guid")
+                    b.HasIndex("Slug")
                         .IsUnique();
 
                     b.ToTable("Attachment");
@@ -358,7 +366,7 @@ namespace BlogAdecco.Data.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator().HasValue("IdentityUser");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
 
                     b.UseTphMappingStrategy();
                 });
@@ -473,8 +481,16 @@ namespace BlogAdecco.Data.Migrations
                     b.Property<bool>("Approved")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Bio")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Company")
                         .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("DisplayName")
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
@@ -496,6 +512,18 @@ namespace BlogAdecco.Data.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
+                    b.Property<string>("Linkedin")
+                        .HasMaxLength(280)
+                        .HasColumnType("nvarchar(280)");
+
+                    b.Property<string>("Position")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("Twitter")
+                        .HasMaxLength(280)
+                        .HasColumnType("nvarchar(280)");
+
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
@@ -511,7 +539,7 @@ namespace BlogAdecco.Data.Migrations
             modelBuilder.Entity("BlogAdecco.Models.Category", b =>
                 {
                     b.HasOne("BlogAdecco.Models.Category", "Parent")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
@@ -531,9 +559,37 @@ namespace BlogAdecco.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ModifiedById");
 
+                    b.OwnsMany("BlogAdecco.Models.Metadata", "Metadata", b1 =>
+                        {
+                            b1.Property<int>("PostId");
+
+                            b1.Property<int>("__synthesizedOrdinal")
+                                .ValueGeneratedOnAddOrUpdate();
+
+                            b1.Property<string>("Key")
+                                .IsRequired()
+                                .HasJsonPropertyName("key");
+
+                            b1.Property<string>("Value")
+                                .HasJsonPropertyName("value");
+
+                            b1.HasKey("PostId", "__synthesizedOrdinal");
+
+                            b1.ToTable("Post");
+
+                            b1
+                                .ToJson("Metadata")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PostId");
+                        });
+
                     b.Navigation("CreatedBy");
 
                     b.Navigation("FeaturedImage");
+
+                    b.Navigation("Metadata");
 
                     b.Navigation("ModifiedBy");
                 });
@@ -541,7 +597,7 @@ namespace BlogAdecco.Data.Migrations
             modelBuilder.Entity("BlogAdecco.Models.Tag", b =>
                 {
                     b.HasOne("BlogAdecco.Models.Tag", "Parent")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
@@ -631,6 +687,16 @@ namespace BlogAdecco.Data.Migrations
             modelBuilder.Entity("BlogAdecco.Models.Attachment", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("BlogAdecco.Models.Category", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("BlogAdecco.Models.Tag", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }
