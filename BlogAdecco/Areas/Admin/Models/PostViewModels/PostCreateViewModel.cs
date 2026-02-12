@@ -59,6 +59,7 @@ public class PostCreateViewModel
     /// <summary>
     /// A list of categories or tags for the post
     /// </summary>
+    [Required(ErrorMessage = "The '{0}' field is required.")]
     [Display(Name = "Categories")]
     public List<int> CategoryId { get; set; } = [];
 
@@ -66,7 +67,7 @@ public class PostCreateViewModel
     /// A list of categories or tags for the post
     /// </summary>
     [Display(Name = "Tags")]
-    public List<int> TagId { get; set; } = [];
+    public List<int>? TagId { get; set; } = [];
 
     /// <summary>
     /// Indicates that the post must be shown first

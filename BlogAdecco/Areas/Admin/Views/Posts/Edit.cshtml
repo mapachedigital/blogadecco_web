@@ -40,17 +40,17 @@
                 </div>
                 <div class="col-6 mb-3">
                     <label asp-for="Status" class="form-label fw-semibold"></label>
-                    <select asp-for="Status" class="form-select" asp-items="@Html.GetEnumSelectList<PostStatus>()"><option value="">@R["Select an option..."]</option></select>
+                    <select asp-for="Status" class="form-select" asp-items="@Html.GetEnumSelectList<PostStatus>()"></select>
                     <span asp-validation-for="Status" class="text-danger small"></span>
                 </div>
                 <div class="col-6 mb-3">
                     <label asp-for="CategoryId" class="form-label fw-semibold"></label>
-                    <select asp-for="CategoryId" class="form-select" asp-items="@ViewBag.Categories"><option value="">@R["Select an option..."]</option></select>
+                    <select asp-for="CategoryId" class="form-select" asp-items="@ViewBag.Categories"></select>
                     <span asp-validation-for="CategoryId" class="text-danger small"></span>
                 </div>
                 <div class="col-6 mb-3">
                     <label asp-for="TagId" class="form-label fw-semibold"></label>
-                    <select asp-for="TagId" class="form-select" asp-items="@ViewBag.Tags"><option value="">@R["Select an option..."]</option></select>
+                    <select asp-for="TagId" class="form-select" asp-items="@ViewBag.Tags"></select>
                     <span asp-validation-for="TagId" class="text-danger small"></span>
                 </div>
                 <div class="col-12 mb-3">
@@ -58,9 +58,9 @@
                     <textarea asp-for="Summary" class="form-control" rows="5"></textarea>
                     <span asp-validation-for="Summary" class="text-danger small"></span>
                 </div>
-                <div class="col-12 mb-3">
+                <div class="col-12 mb-3 entry-content">
                     <label asp-for="Content" class="form-label fw-semibold"></label>
-                    <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                    <textarea asp-for="Content" class="form-control"></textarea>
                     <span asp-validation-for="Content" class="text-danger small"></span>
                 </div>
                 <div class="col-6 mb-3">
@@ -117,6 +117,15 @@
                 minimumResultsForSearch: 10,
                 tags: true,
                 placeholder: "@R["Select one or many options..."]"
+            });
+
+            tinymce.init({
+                selector: '#Content',
+                language: '@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName',
+                menubar: 'edit view insert format',
+                plugins: 'code image',
+                toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | code image',
+                height: 600
             });
         });
     </script>

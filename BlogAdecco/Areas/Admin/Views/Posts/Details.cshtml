@@ -51,8 +51,8 @@
                 <textarea class="form-control" asp-for="Content" rows="5" disabled></textarea>
             </div>
             <div class="col-6 mb-3">
-                <label class="form-label fw-semibold" asp-for="Slug"></label>
-                <input class="form-control" asp-for="Slug" disabled />
+                <label class="form-label fw-semibold">@R["URL"] <a href="#" id="copy-button"><i class="bi bi-copy"></i></a></label>
+                <input class="form-control" value="@await BlogAdeccoUtils.GetPostUrlAsync(Model, Url)" disabled />
             </div>
             <div class="col-6 mb-3">
                 <label class="form-label">&nbsp;</label>
@@ -147,3 +147,13 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <script>
+        jQuery('#copy-button').on('click', function(e) {
+            e.preventDefault();
+            navigator.clipboard.writeText('@await BlogAdeccoUtils.GetPostUrlAsync(Model, Url)');
+        });
+    </script>
+}

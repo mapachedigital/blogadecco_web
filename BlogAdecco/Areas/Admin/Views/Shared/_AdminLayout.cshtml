@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject IConfiguration Configuration
+<!DOCTYPE html>
 <html lang="@SiteUtils.GetDefaultLanguage()">
 <head>
     <meta charset="utf-8" />
@@ -36,6 +37,8 @@
     <script src="~/lib/select2/js/select2.min.js"></script>
     <script src="~/lib/select2/js/i18n/es.min.js"></script>
     <script src="~/js/admin.js" asp-append-version="true"></script>
+
+    <script src="https://cdn.tiny.cloud/1/@(Configuration[Globals.ConfigTinyMCELicenseKey] ?? "no-api-key")/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
