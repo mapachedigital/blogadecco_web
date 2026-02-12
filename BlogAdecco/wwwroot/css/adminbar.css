@@ -34,6 +34,7 @@ html {
 
     #adminbar .container {
         padding: 0 12px;
+        max-width: var(--max-width);
     }
 
     #adminbar .dropdown-menu {
