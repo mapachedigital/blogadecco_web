@@ -16,6 +16,7 @@ public class Globals
     public const string ConfigSuperAdminEmail = "SuperAdmin:Email";
     public const string ConfigSuperAdminFirstname = "SuperAdmin:Firstname";
     public const string ConfigSuperAdminLastname = "SuperAdmin:Lastname";
+    public const string ConfigSuperAdminDisplayName = "SuperAdmin:DisplayName";
     public const string ConfigSuperAdminCompany = "SuperAdmin:Company";
     public const string ConfigSuperAdminPhoneNumber = "SuperAdmin:PhoneNumber";
     public const string ConfigSuperAdminPassword = "SuperAdmin:Password";

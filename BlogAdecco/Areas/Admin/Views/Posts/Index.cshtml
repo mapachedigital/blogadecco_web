@@ -1,0 +1,90 @@
+﻿@model IEnumerable<BlogAdecco.Models.Post>
+@inject IBlogAdeccoUtils BlogAdeccoUtils
+@{
+    ViewData["Title"] = @R["Posts"];
+}
+
+<div class="heading my-4">
+    <!-- Title Section -->
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-end mb-4 gap-3">
+        <div class="w-100 w-lg-auto">
+            <h1 class="anton mb-2">@R["Posts"]</h1>
+            <p class="text-muted mb-0">@R["Manage your posts"]</p>
+        </div>
+        <div class="d-flex gap-2 w-100 w-lg-auto justify-content-lg-end">
+            <a asp-action="Create" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-plus-circle"></i>
+                <span>@R["Create New"]</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <!-- Table Header -->
+    <div class="card-header bg-primary text-white py-3">
+        <div class="row align-items-center fw-bold gx-2">
+            <div class="col-12 col-lg-3">
+                @Html.DisplayNameFor(model => model.Title)
+            </div>
+            <div class="col-12 col-lg-2">
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </div>
+            <div class="col-12 col-lg-2">
+                @Html.DisplayNameFor(model => model.Categories)
+            </div>
+            <div class="col-12 col-lg-2">
+                @Html.DisplayNameFor(model => model.Tags)
+            </div>
+            <div class="col-12 col-lg-2">
+                @Html.DisplayNameFor(model => model.Created)
+            </div>
+            <div class="d-none d-lg-block col-lg-auto ms-auto text-end">
+                @R["Actions"]
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Body -->
+    <div class="card-body custom-card-body p-0">
+        @foreach (var item in Model)
+        {
+            <div class="row align-items-center py-3 px-3 border-bottom gx-2">
+                <div class="col-12 col-lg-3 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@Html.DisplayNameFor(model => model.Title)</span>
+                    <div class="fw-medium">@Html.DisplayFor(modelItem => item.Title)</div>
+                </div>
+                <div class="col-12 col-lg-2 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@Html.DisplayNameFor(model => model.CreatedBy)</span>
+                    <div class="fw-medium">@Html.DisplayFor(modelItem => item.CreatedBy!.FullName)</div>
+                </div>
+                <div class="col-12 col-lg-2 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@Html.DisplayNameFor(model => model.Categories)</span>
+                    <div class="fw-medium">@string.Join(", ", item.Categories.Select(x => x.Name))</div>
+                </div>
+                <div class="col-12 col-lg-2 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@Html.DisplayNameFor(model => model.Tags)</span>
+                    <div class="fw-medium">@string.Join(", ", item.Tags.Select(x => x.Name))</div>
+                </div>
+                <div class="col-12 col-lg-2 mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@Html.DisplayNameFor(model => model.Created)</span>
+                    <div class="fw-medium">@Html.DisplayFor(modelItem => item.Created)</div>
+                </div>
+                <div class="col-12 col-lg-auto ms-lg-auto text-lg-end mb-2 mb-lg-0">
+                    <span class="d-lg-none fw-bold text-muted small d-block mb-1">@R["Actions"]</span>
+                    <div class="d-flex gap-2 justify-content-lg-end">
+                        <a class="btn btn-outline-primary d-flex align-items-center justify-content-center flex-fill btn-short" title="@R["Edit"]" asp-action="Edit" asp-route-id="@item.Id">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn btn-outline-info d-flex align-items-center justify-content-center flex-fill btn-short" title="@R["Details"]" asp-action="Details" asp-route-id="@item.Id">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a class="btn btn-outline-danger d-flex align-items-center justify-content-center flex-fill btn-short" title="@R["Delete"]" asp-action="Delete" asp-route-id="@item.Id">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

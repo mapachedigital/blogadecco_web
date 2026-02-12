@@ -56,6 +56,11 @@ public interface IBlogAdeccoUtils
     string GetTagSlug(string title, int? id = null);
 
     /// <summary>
+    /// Create a SEO friendly slug for a post based on a string
+    /// </summary>
+    string GetPostSlug(string title, int? id = null);
+
+    /// <summary>
     /// Create a SEO friendly slug for an attachment based on a string
     /// </summary>
     public string GetAttachmentSlug(string filename, int? id = null);
@@ -253,6 +258,32 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
     }
 
     /// <summary>
+    /// Create a SEO friendly slug for a post based on a string
+    /// </summary>
+    public string GetPostSlug(string title, int? id = null)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            throw new InvalidOperationException("Invalid name.");
+        }
+
+        var trialSlug = title.ToSlug();
+
+        if (!_context.Post.Any(x => x.Slug == trialSlug && x.Id != id)) return trialSlug;
+
+        // We cannot have repeated slugs
+        var retrial = 0;
+        var newSlug = string.Empty;
+        do
+        {
+            retrial++;
+            newSlug = $"{trialSlug}-{retrial}";
+        } while (_context.Post.Any(x => x.Slug == newSlug && x.Id != id));
+
+        return newSlug;
+    }
+
+    /// <summary>
     /// Create a SEO friendly slug for an attachment based on a string
     /// </summary>
     public string GetAttachmentSlug(string filename, int? id = null)
@@ -279,5 +310,57 @@ public partial class BlogAdeccoUtils(UserManager<ApplicationUser> _userManager, 
         } while (_context.Attachment.Any(x => x.Slug == newGuid && x.Id != id));
 
         return newGuid;
+    }
+
+    /// <summary>
+    /// Return the Guid (unique URI) for an attachment edited to meet our needs, for example with the first part of the URL
+    /// </summary>
+    public static string FixSlug(string filename)
+    {
+        // Remove unwanted characters
+        filename = filename.Replace(" ", "-"); // Spaces convert to hyphen
+        filename = filename.Replace("–", "-"); // Dash converts to hyphen
+        filename = filename.Replace("@", "-"); // @ converts to hyphen
+
+        // Get the array of invalid characters for a filename
+        char[] invalidChars = Path.GetInvalidFileNameChars();
+
+        // Create a regex pattern to match any of the invalid characters.
+        // Regex.Escape is used to ensure special regex characters in the invalidChars array
+        // (like ']') are treated as literals within the character class '[...]'.
+        string pattern = string.Format("[{0}]", Regex.Escape(new string(invalidChars)));
+
+        var replacement = "-";
+
+        // Use Regex.Replace to replace all invalid characters with the specified replacement string (default is "-").
+        string sanitizedFileName = Regex.Replace(filename, pattern, replacement);
+
+
+        // Optional: Ensure the result is not an empty string or just the replacement character(s)
+        if (string.IsNullOrWhiteSpace(sanitizedFileName))
+        {
+            return "untitled"; // Or some other default name
+        }
+
+        return sanitizedFileName;
+    }
+
+    /// <summary>
+    /// Checks that a file is not used in the database on more than one entity and if so, removes it
+    /// </summary>
+    /// <param name="_context">The database context, as this is a static function</param>
+    /// <param name="type">The type of the attachment</param>
+    /// <param name="attachment">The attachment to be checked</param>
+    public static void RemoveAttachmentIfNotUsed(ApplicationDbContext _context, Type type, Attachment attachment)
+    {
+        if (type == typeof(Post))
+        {
+            if (_context.Attachment.Any(x => x.Posts.Count() == 0))
+                _context.Attachment.Remove(attachment);
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
     }
 }

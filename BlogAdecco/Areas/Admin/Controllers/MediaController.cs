@@ -89,7 +89,7 @@ public class MediaController(ApplicationDbContext _context,
                 Created = DateTime.Now,
                 CreatedById = user.Id,
 
-                Slug = _blogAdeccoUtils.GetAttachmentSlug(FixSlug(filename)),
+                Slug = _blogAdeccoUtils.GetAttachmentSlug(BlogAdeccoUtils.FixSlug(filename)),
             };
 
             // If the attachment is an image, create a thumbnail
@@ -240,38 +240,5 @@ public class MediaController(ApplicationDbContext _context,
     private bool AttachmentExists(int id)
     {
         return _context.Attachment.Any(e => e.Id == id);
-    }
-
-    /// <summary>
-    /// Return the Guid (unique URI) for an attachment edited to meet our needs, for example with the first part of the URL
-    /// </summary>
-    private static string FixSlug(string filename)
-    {
-        // Remove unwanted characters
-        filename = filename.Replace(" ", "-"); // Spaces convert to hyphen
-        filename = filename.Replace("–", "-"); // Dash converts to hyphen
-        filename = filename.Replace("@", "-"); // @ converts to hyphen
-
-        // Get the array of invalid characters for a filename
-        char[] invalidChars = Path.GetInvalidFileNameChars();
-
-        // Create a regex pattern to match any of the invalid characters.
-        // Regex.Escape is used to ensure special regex characters in the invalidChars array
-        // (like ']') are treated as literals within the character class '[...]'.
-        string pattern = string.Format("[{0}]", Regex.Escape(new string(invalidChars)));
-
-        var replacement = "-";
-
-        // Use Regex.Replace to replace all invalid characters with the specified replacement string (default is "-").
-        string sanitizedFileName = Regex.Replace(filename, pattern, replacement);
-
-
-        // Optional: Ensure the result is not an empty string or just the replacement character(s)
-        if (string.IsNullOrWhiteSpace(sanitizedFileName))
-        {
-            return "untitled"; // Or some other default name
-        }
-
-        return sanitizedFileName;
-    }
+    }   
 }

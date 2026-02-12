@@ -46,9 +46,9 @@
                     <span asp-validation-for="Lastname" class="text-danger small"></span>
                 </div>
                 <div class="col-12 col-md-4 mb-3">
-                    <label asp-for="Email" class="form-label fw-semibold"></label>
-                    <input asp-for="Email" class="form-control" autocomplete="email" />
-                    <span asp-validation-for="Email" class="text-danger small"></span>
+                    <label asp-for="DisplayName" class="form-label fw-semibold"></label>
+                    <input asp-for="DisplayName" class="form-control" />
+                    <span asp-validation-for="DisplayName" class="text-danger small"></span>
                 </div>
             </div>
         </div>
@@ -92,6 +92,11 @@
                     <label asp-for="MobilePhone" class="form-label fw-semibold"></label>
                     <input asp-for="MobilePhone" class="form-control" placeholder="@R["+52 55 12345678"]" />
                     <span asp-validation-for="MobilePhone" class="text-danger small"></span>
+                </div>
+                <div class="col-12 col-md-4 mb-3">
+                    <label asp-for="Email" class="form-label fw-semibold"></label>
+                    <input asp-for="Email" class="form-control" autocomplete="email" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
                 </div>
             </div>
         </div>

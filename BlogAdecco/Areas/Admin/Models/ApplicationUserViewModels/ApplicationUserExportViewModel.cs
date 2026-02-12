@@ -14,6 +14,7 @@ public class ApplicationUserExportViewModel
 {
     public string Firstname { get; set; } = default!;
     public string Lastname { get; set; } = default!;
+    public string? DisplayName { get; set; }
     public string Company { get; set; } = default!;
     public string? Position { get; set; }
     public string? Email { get; set; }
@@ -34,6 +35,7 @@ public sealed class ApplicationUserExportViewModelMap : ClassMap<ApplicationUser
     {
         Map(m => m.Firstname).Name("Nombres");
         Map(m => m.Lastname).Name("Apellidos");
+        Map(m => m.DisplayName).Name("Nombre para mostrar");
         Map(m => m.Company).Name("Empresa");
         Map(m => m.Position).Name("Puesto");
         Map(m => m.Email).Name("Correo electrónico");

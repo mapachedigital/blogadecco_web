@@ -1,0 +1,123 @@
+﻿@model BlogAdecco.Areas.Admin.Models.PostViewModels.PostCreateViewModel
+
+@{
+    ViewData["Title"] = @R["Edit"];
+}
+
+<div class="heading my-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-end mb-6 gap-3">
+        <div class="w-100 w-lg-auto">
+            <h1 class="anton mb-2">@R["Edit Post"]</h1>
+            <p class="text-muted mb-0">@R["Edit the data of the selected post."]</p>
+        </div>
+        <div class="d-flex gap-2 w-100 w-lg-auto justify-content-lg-end">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2 flex-fill flex-lg-grow-0">
+                <i class="bi bi-arrow-left"></i>
+                <span>@R["Back to List"]</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <!-- Basic Information Card -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-custom-header text-dark py-3">
+            <h5 class="mb-0">
+                <i class="bi bi-folder me-2"></i>
+                @R["Basic Information"]
+            </h5>
+        </div>
+        <div class="card-body custom-card-body p-4">
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label asp-for="Title" class="form-label fw-semibold"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="Status" class="form-label fw-semibold"></label>
+                    <select asp-for="Status" class="form-select" asp-items="@Html.GetEnumSelectList<PostStatus>()"><option value="">@R["Select an option..."]</option></select>
+                    <span asp-validation-for="Status" class="text-danger small"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="CategoryId" class="form-label fw-semibold"></label>
+                    <select asp-for="CategoryId" class="form-select" asp-items="@ViewBag.Categories"><option value="">@R["Select an option..."]</option></select>
+                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="TagId" class="form-label fw-semibold"></label>
+                    <select asp-for="TagId" class="form-select" asp-items="@ViewBag.Tags"><option value="">@R["Select an option..."]</option></select>
+                    <span asp-validation-for="TagId" class="text-danger small"></span>
+                </div>
+                <div class="col-12 mb-3">
+                    <label asp-for="Summary" class="form-label fw-semibold"></label>
+                    <textarea asp-for="Summary" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Summary" class="text-danger small"></span>
+                </div>
+                <div class="col-12 mb-3">
+                    <label asp-for="Content" class="form-label fw-semibold"></label>
+                    <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Content" class="text-danger small"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="FeaturedImage" class="form-label fw-semibold"></label>
+                    <input asp-for="FeaturedImage" class="form-control" accept="@string.Join(",", MDWidgets.MDGlobals.AcceptedImages)" />
+                    <span asp-validation-for="FeaturedImage" class="text-danger small"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label fw-semibold">&nbsp;</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="Fixed" />
+                        <label class="form-check-label" asp-for="Fixed"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
+            <i class="bi bi-check-circle me-2"></i>
+            @R["Save"]
+        </button>
+    </div>
+
+    <div class="form-loading spinner-border spinner-border-sm d-none position-fixed top-50 start-50">
+        <span class="visually-hidden">@R["Loading..."]</span>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        jQuery.validator.setDefaults({
+            submitHandler: showLoaderHideSubmit
+        });
+
+        jQuery(document).ready(function () {
+            jQuery('#CategoryId').select2({
+                allowClear: true,
+                width: '100%',
+                minimumResultsForSearch: 10,
+                tags: true,
+                placeholder: "@R["Select one or many options..."]"
+            });
+
+            jQuery('#TagId').select2({
+                allowClear: true,
+                width: '100%',
+                minimumResultsForSearch: 10,
+                tags: true,
+                placeholder: "@R["Select one or many options..."]"
+            });
+        });
+    </script>
+}

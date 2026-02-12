@@ -17,6 +17,9 @@ namespace BlogAdecco.Areas.Admin.Models.ApplicationUserViewModels
         [Display(Name = "Lastname")]
         public string Lastname { get; set; } = default!;
 
+        [Display(Name = "Display Name")]
+        public string? DisplayName { get; set; }
+
         [Display(Name = "Company")]
         public string Company { get; set; } = default!;
 

@@ -120,6 +120,9 @@
   <data name="Approved" xml:space="preserve">
     <value>Approved</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
   <data name="Children" xml:space="preserve">
     <value>Children</value>
   </data>
@@ -129,14 +132,26 @@
   <data name="Confirm password" xml:space="preserve">
     <value>Confirm password</value>
   </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
   <data name="Created" xml:space="preserve">
     <value>Created</value>
   </data>
   <data name="Created By" xml:space="preserve">
     <value>Created By</value>
   </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Draft</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -150,8 +165,14 @@
   <data name="Firstname" xml:space="preserve">
     <value>Firstname</value>
   </data>
+  <data name="Fixed" xml:space="preserve">
+    <value>Fixed</value>
+  </data>
   <data name="I agree with Grupo Adecco privacy policy" xml:space="preserve">
     <value>I agree with Grupo Adecco privacy policy</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
   </data>
   <data name="Invalid Email Address." xml:space="preserve">
     <value>Invalid Email Address.</value>
@@ -167,6 +188,12 @@
   </data>
   <data name="Mobile Phone Number" xml:space="preserve">
     <value>Mobile Phone Number</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Modified By" xml:space="preserve">
+    <value>Modified By</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -186,6 +213,9 @@
   <data name="Posts" xml:space="preserve">
     <value>Posts</value>
   </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+  </data>
   <data name="Reassign existing entities to the following user:" xml:space="preserve">
     <value>Reassign existing entities to the following user:</value>
   </data>
@@ -197,6 +227,15 @@
   </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
   </data>
   <data name="The '{0}' field can't be in the future." xml:space="preserve">
     <value>The '{0}' field can't be in the future.</value>

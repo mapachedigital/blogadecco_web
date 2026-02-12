@@ -89,6 +89,7 @@ namespace BlogAdecco.Areas.Identity.Pages.Account
                  "<dl>" +
                  "<dt>" + L["Firstname"] + "</dt><dd>" + user.Firstname + "<dd>" +
                  "<dt>" + L["Lastname"] + "</dt><dd>" + user.Lastname + "<dd>" +
+                 "<dt>" + L["Display Name"] + "</dt><dd>" + user.DisplayName + "<dd>" +
                  "<dt>" + L["Company"] + "</dt><dd>" + user.Company + "<dd>" +
                  "<dt>" + L["Mobile Phone"] + "</dt><dd>" + user.PhoneNumber + "<dd>" +
                  "<dt>" + L["Email"] + "</dt><dd>" + user.Email + "<dd>" +

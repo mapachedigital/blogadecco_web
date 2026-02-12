@@ -72,7 +72,7 @@ public class ApplicationUser : IdentityUser
     [Display(Name = "Display Name")]
     [PersonalData]
     [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
-    public string? DisplayName { get; set; } = default!;
+    public string? DisplayName { get; set; }
 
     [Display(Name = "Position")]
     [PersonalData]
@@ -104,7 +104,7 @@ public class ApplicationUser : IdentityUser
     {
         get
         {
-            return DisplayName ?? (Firstname + " " + Lastname).Trim();
+            return string.IsNullOrWhiteSpace(DisplayName) ? (Firstname + " " + Lastname).Trim() : DisplayName;
         }
     }
 }

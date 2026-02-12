@@ -126,6 +126,9 @@
   <data name="Add a new category to the system." xml:space="preserve">
     <value>Añadir una nueva categoría al sistema.</value>
   </data>
+  <data name="Add a new post to the system." xml:space="preserve">
+    <value>Añadir una nueva entrada al sistema.</value>
+  </data>
   <data name="Add a new tag to the system." xml:space="preserve">
     <value>Añadir una nueva etiqueta al sistema.</value>
   </data>
@@ -162,6 +165,9 @@
   <data name="Categories" xml:space="preserve">
     <value>Categorías</value>
   </data>
+  <data name="Categorization" xml:space="preserve">
+    <value>Categorización</value>
+  </data>
   <data name="Category" xml:space="preserve">
     <value>Categoría</value>
   </data>
@@ -182,6 +188,9 @@
   </data>
   <data name="Create New" xml:space="preserve">
     <value>Crear nuevo</value>
+  </data>
+  <data name="Create Post" xml:space="preserve">
+    <value>Crear entrada</value>
   </data>
   <data name="Create Tag" xml:space="preserve">
     <value>Crear etiqueta</value>
@@ -222,11 +231,17 @@
   <data name="Edit Media" xml:space="preserve">
     <value>Editar medio</value>
   </data>
+  <data name="Edit Post" xml:space="preserve">
+    <value>Editar entrada</value>
+  </data>
   <data name="Edit the data of the selected attachment." xml:space="preserve">
     <value>Editar los datos del medio seleccionado.</value>
   </data>
   <data name="Edit the data of the selected category." xml:space="preserve">
     <value>Editar los datos de la categoría seleccionada.</value>
+  </data>
+  <data name="Edit the data of the selected post." xml:space="preserve">
+    <value>Editar los datos de la entrada seleccionada.</value>
   </data>
   <data name="Edit the data of the selected user." xml:space="preserve">
     <value>Editar los datos del usuario seleccionado.</value>
@@ -275,6 +290,9 @@
   </data>
   <data name="Manage your media" xml:space="preserve">
     <value>Administrar sus medios</value>
+  </data>
+  <data name="Manage your posts" xml:space="preserve">
+    <value>Administrar sus entradas</value>
   </data>
   <data name="Manage your tags" xml:space="preserve">
     <value>Administrar sus etiquetas</value>
@@ -339,6 +357,9 @@
   <data name="Select an option..." xml:space="preserve">
     <value>Seleccione una opción...</value>
   </data>
+  <data name="Select one or many options..." xml:space="preserve">
+    <value>Seleccione una o más opciones...</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Estado</value>
   </data>
@@ -383,6 +404,9 @@
   </data>
   <data name="View media details" xml:space="preserve">
     <value>Ver detalles del medio</value>
+  </data>
+  <data name="View post details" xml:space="preserve">
+    <value>Ver detalles de la entrada</value>
   </data>
   <data name="View tag details" xml:space="preserve">
     <value>Ver detalles de la etiqueta</value>

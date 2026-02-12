@@ -22,6 +22,10 @@ namespace BlogAdecco.Areas.Admin.Models.ApplicationUserViewModels
         [Display(Name = "Lastname")]
         public string Lastname { get; set; } = default!;
 
+        [Display(Name = "Display Name")]
+        [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+        public string? DisplayName { get; set; }
+
         [Required(ErrorMessage = "The '{0}' field is required.")]
         [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
         [Display(Name = "Company")]

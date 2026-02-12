@@ -24,6 +24,11 @@
                     <span asp-validation-for="Input.Lastname" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
+                    <input asp-for="Input.DisplayName" class="form-control" aria-required="true" placeholder="@P["Display Name"]" />
+                    <label asp-for="Input.DisplayName"></label>
+                    <span asp-validation-for="Input.DisplayName" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
                     <input asp-for="Input.Company" class="form-control" aria-required="true" placeholder="@P["Company"]" />
                     <label asp-for="Input.Company"></label>
                     <span asp-validation-for="Input.Company" class="text-danger"></span>

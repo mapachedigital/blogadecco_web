@@ -29,6 +29,7 @@
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="Firstname" />
                 <input type="hidden" asp-for="Lastname" />
+                <input type="hidden" asp-for="DisplayName" />
                 <input type="hidden" asp-for="Company" />
                 <input type="hidden" asp-for="Email" />
                 <input type="hidden" asp-for="MobilePhone" />
@@ -58,6 +59,10 @@
     <div class="col-6 col-md-4 mb-4">
         <b class="d-block text-center">@Html.DisplayNameFor(model => model.Lastname)</b>
         <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.Lastname)</span>
+    </div>
+    <div class="col-6 col-md-4 mb-4">
+        <b class="d-block text-center">@Html.DisplayNameFor(model => model.DisplayName)</b>
+        <span class="bg-body-tertiary text-body d-block text-center font-size-medium">@Html.DisplayFor(model => model.DisplayName)</span>
     </div>
     <div class="col-6 col-md-4 mb-4">
         <b class="d-block text-center">@Html.DisplayNameFor(model => model.Company)</b>

@@ -18,9 +18,9 @@
             <div class="col-12 col-md-4 mb-4">
                 <a class="no-line text-decoration-none text-muted d-block rounded-3 post-title" href="@await BlogAdeccoUtils.GetPostUrlAsync(post, Url)" title="@post.Title">
                     <div class="image-wrapper position-relative mb-3">
-                        @if (post.FeaturedImageId != null)
+                        @if (post.FeaturedImage != null)
                         {
-                            <img src="@Url.Action("Thumb", "Home", new { Id = post.FeaturedImageId, Area = "Attachments" })" alt="@post.Title" class="position-absolute top-0 start-0 w-100 h-100" />
+                            <img src="@await BlogAdeccoUtils.GetAttachmentUrlAsync(post.FeaturedImage, Url, true)" alt="@post.Title" class="position-absolute top-0 start-0 w-100 h-100" />
                         }
                         else
                         {

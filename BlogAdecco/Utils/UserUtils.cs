@@ -268,6 +268,7 @@ public class UserUtils : IUserUtils
         var superAdminEmail = _configuration[Globals.ConfigSuperAdminEmail] ?? throw new Exception("Super Admin Email config not found");
         var superAdminFirstname = _configuration[Globals.ConfigSuperAdminFirstname] ?? throw new Exception("Super Admin Firstname config not found");
         var superAdminLastname = _configuration[Globals.ConfigSuperAdminLastname] ?? throw new Exception("Super Admin Lastname config not found");
+        var superAdminDisplayName = _configuration[Globals.ConfigSuperAdminDisplayName] ?? "Admin";
         var superAdminCompany = _configuration[Globals.ConfigSuperAdminCompany] ?? throw new Exception("Super Admin Company config not found");
         var superAdminPassword = _configuration[Globals.ConfigSuperAdminPassword] ?? throw new Exception("Super Admin password config not found");
 
@@ -277,6 +278,7 @@ public class UserUtils : IUserUtils
                                                      firstname: superAdminFirstname,
                                                      lastname: superAdminLastname,
                                                      company: superAdminCompany,
+                                                     displayName: superAdminDisplayName,
                                                      acceptTermsOfService: true,
                                                      email: superAdminEmail,
                                                      emailConfirmed: true,
@@ -376,13 +378,14 @@ public class UserUtils : IUserUtils
     /// <param name="firstname">The firstname of the user.</param>
     /// <param name="lastname">The lastname of the user.</param>
     /// <param name="company">The company of the user.</param>
+    /// <param name="displayName">The display name of the user.</param>
     /// <param name="email">The email of the user.</param>
     /// <param name="phoneNumber">The phone number of the user.</param>
     /// <param name="emailConfirmed">Whether the email is confirmed.  If not, depending on the site policy it won't be able to access until confirmed.</param>
     /// <param name="password">The password for the user.</param>
     /// <returns>The newly created user.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the user creation is not successful.</exception>
-    public async Task<ApplicationUser> CreateUserAsync(string username, string firstname, string lastname, string company, string email, bool acceptTermsOfService, bool emailConfirmed, bool approved, string password)
+    public async Task<ApplicationUser> CreateUserAsync(string username, string firstname, string lastname, string displayName, string company, string email, bool acceptTermsOfService, bool emailConfirmed, bool approved, string password)
     {
         ApplicationUser user;
 
@@ -399,6 +402,7 @@ public class UserUtils : IUserUtils
 
         user.Firstname = firstname;
         user.Lastname = lastname;
+        user.DisplayName = displayName;
         user.Company = company;
         user.EmailConfirmed = emailConfirmed;
         user.AcceptTermsOfService = acceptTermsOfService;

@@ -86,6 +86,10 @@ namespace BlogAdecco.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "The '{0}' field is required.")]
             public string Lastname { get; set; }
 
+            [Display(Name = "Display Name")]
+            [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+            public string DisplayName { get; set; }
+
             [Display(Name = "Company")]
             [StringLength(100, ErrorMessage = "The '{0}' field must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             [Required(ErrorMessage = "The '{0}' field is required.")]
@@ -146,6 +150,7 @@ namespace BlogAdecco.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.Firstname = Input.Firstname?.Trim();
                 user.Lastname = Input.Lastname?.Trim();
+                user.DisplayName = Input.DisplayName?.Trim();
                 user.Company = Input.Company?.Trim();
                 user.AcceptTermsOfService = Input.AcceptTermsOfService;
                 user.EmailConfirmed = false;

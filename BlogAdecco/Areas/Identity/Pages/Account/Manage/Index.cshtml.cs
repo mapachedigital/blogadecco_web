@@ -76,6 +76,11 @@ namespace BlogAdecco.Areas.Identity.Pages.Account.Manage
             [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
             public string Lastname { get; set; }
 
+            [PersonalData]
+            [Display(Name = "Display Name")]
+            [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+            public string DisplayName { get; set; }
+
             [Required(ErrorMessage = "The '{0}' field is required.")]
             [PersonalData]
             [Display(Name = "Company")]
@@ -95,6 +100,7 @@ namespace BlogAdecco.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var firstname = user.Firstname;
             var lastname = user.Lastname;
+            var displayName = user.DisplayName;
             var company = user.Company;
             var acceptTermsOfService = user.AcceptTermsOfService;
 
@@ -105,6 +111,7 @@ namespace BlogAdecco.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 Firstname = firstname,
                 Lastname = lastname,
+                DisplayName = displayName,
                 Company = company,
                 AcceptTermsOfService = acceptTermsOfService,
             };
@@ -138,11 +145,13 @@ namespace BlogAdecco.Areas.Identity.Pages.Account.Manage
 
             if (user.Firstname != Input.Firstname ||
                 user.Lastname != Input.Lastname ||
+                user.DisplayName != Input.DisplayName ||
                 user.Company != Input.Company ||
                 user.AcceptTermsOfService != Input.AcceptTermsOfService)
             {
                 user.Firstname = Input.Firstname.Trim();
                 user.Lastname = Input.Lastname.Trim();
+                user.DisplayName = Input.DisplayName.Trim();
                 user.Company = Input.Company.Trim();
                 user.AcceptTermsOfService = Input.AcceptTermsOfService;
 

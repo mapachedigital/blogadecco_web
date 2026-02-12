@@ -126,6 +126,9 @@
   <data name="Add a new category to the system." xml:space="preserve">
     <value>Add a new category to the system.</value>
   </data>
+  <data name="Add a new post to the system." xml:space="preserve">
+    <value>Add a new post to the system.</value>
+  </data>
   <data name="Add a new tag to the system." xml:space="preserve">
     <value>Add a new tag to the system.</value>
   </data>
@@ -162,6 +165,9 @@
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="Categorization" xml:space="preserve">
+    <value>Categorization</value>
+  </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
@@ -182,6 +188,9 @@
   </data>
   <data name="Create New" xml:space="preserve">
     <value>Create New</value>
+  </data>
+  <data name="Create Post" xml:space="preserve">
+    <value>Create Post</value>
   </data>
   <data name="Create Tag" xml:space="preserve">
     <value>Create Tag</value>
@@ -222,11 +231,17 @@
   <data name="Edit Media" xml:space="preserve">
     <value>Edit Media</value>
   </data>
+  <data name="Edit Post" xml:space="preserve">
+    <value>Edit Post</value>
+  </data>
   <data name="Edit the data of the selected attachment." xml:space="preserve">
     <value>Edit the data of the selected media.</value>
   </data>
   <data name="Edit the data of the selected category." xml:space="preserve">
     <value>Edit the data of the selected category.</value>
+  </data>
+  <data name="Edit the data of the selected post." xml:space="preserve">
+    <value>Edit the data of the selected post.</value>
   </data>
   <data name="Edit the data of the selected user." xml:space="preserve">
     <value>Edit the data of the selected user.</value>
@@ -275,6 +290,9 @@
   </data>
   <data name="Manage your media" xml:space="preserve">
     <value>Manage your media</value>
+  </data>
+  <data name="Manage your posts" xml:space="preserve">
+    <value>Manage your posts</value>
   </data>
   <data name="Manage your tags" xml:space="preserve">
     <value>Manage your tags</value>
@@ -339,6 +357,9 @@
   <data name="Select an option..." xml:space="preserve">
     <value>Select an option...</value>
   </data>
+  <data name="Select one or many options..." xml:space="preserve">
+    <value>Select one or many options...</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
@@ -383,6 +404,9 @@
   </data>
   <data name="View media details" xml:space="preserve">
     <value>View media details</value>
+  </data>
+  <data name="View post details" xml:space="preserve">
+    <value>View post details</value>
   </data>
   <data name="View tag details" xml:space="preserve">
     <value>View tag details</value>

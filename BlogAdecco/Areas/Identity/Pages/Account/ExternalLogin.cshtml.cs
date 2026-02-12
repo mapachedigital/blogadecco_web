@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using BlogAdecco.Data;
 using BlogAdecco.Models;
 using MDWidgets;
 using MDWidgets.Utils;
@@ -92,6 +91,10 @@ namespace BlogAdecco.Areas.Identity.Pages.Account
             [EmailAddress(ErrorMessage = "The value '{0}' is invalid.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Display(Name = "Display Name")]
+            [StringLength(80, ErrorMessage = "The '{0}' field must have a maximum of {1} characters.")]
+            public string DisplayName { get; set; }
 
             [Display(Name = "Company")]
             [StringLength(100, ErrorMessage = "The '{0}' field must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
@@ -215,6 +218,7 @@ namespace BlogAdecco.Areas.Identity.Pages.Account
                 user.Email = Email;
                 user.Firstname = Firstname;
                 user.Lastname = Lastname;
+                user.DisplayName = Input.DisplayName?.Trim();
                 user.Company = Input.Company?.Trim();
                 user.AcceptTermsOfService = Input.AcceptTermsOfService;
 

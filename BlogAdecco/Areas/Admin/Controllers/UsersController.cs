@@ -3,12 +3,12 @@
 // Author: Samuel Kobelkowsky
 // Email: samuel@mapachedigital.com
 
-using CsvHelper;
-using CsvHelper.Configuration;
 using BlogAdecco.Areas.Admin.Models.ApplicationUserViewModels;
 using BlogAdecco.Data;
 using BlogAdecco.Models;
 using BlogAdecco.Utils;
+using CsvHelper;
+using CsvHelper.Configuration;
 using MDWidgets;
 using MDWidgets.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +27,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
     public partial class UsersController(ApplicationDbContext _context,
         UserManager<ApplicationUser> _userManager,
         IUserUtils _userUtils,
-        IBlogAdeccoUtils _BlogAdeccoUtils,
+        IBlogAdeccoUtils _blogAdeccoUtils,
         ISiteUtils _siteUtils,
         IConfiguration _configuration,
         IUserStore<ApplicationUser> _userStore,
@@ -46,6 +46,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
             // TODO: Store in a cookie
             ViewData["FirstnameSortParam"] = string.IsNullOrEmpty(sortOrder) ? "firstname_desc" : "";
             ViewData["LastnameSortParm"] = sortOrder == "lastname" ? "lastname_desc" : "lastname";
+            ViewData["DisplayNameSortParm"] = sortOrder == "display_name" ? "display_name_desc" : "display_name";
             ViewData["CompanySortParm"] = sortOrder == "company" ? "company_desc" : "company";
             ViewData["ApprovedSortParam"] = sortOrder == "approved" ? "approved_desc" : "approved";
             ViewData["EmailSortParm"] = sortOrder == "email" ? "email_desc" : "email";
@@ -79,6 +80,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
                     x.Company.Contains(searchString) ||
                     (x.Firstname + " " + x.Lastname).Contains(searchString) ||
                     (x.Lastname + " " + x.Firstname).Contains(searchString) ||
+                    (x.DisplayName != null && x.DisplayName.Contains(searchString)) ||
                     (x.Email != null && x.Email.Contains(searchString)) ||
                     (x.PhoneNumber != null && x.PhoneNumber.Contains(searchString)));
             }
@@ -89,6 +91,8 @@ namespace BlogAdecco.Areas.Admin.Controllers
                 "firstname_desc" => users.OrderByDescending(x => x.Firstname),
                 "lastname_desc" => users.OrderByDescending(x => x.Lastname),
                 "lastname" => users.OrderBy(x => x.Lastname),
+                "display_name_desc" => users.OrderByDescending(x => x.DisplayName),
+                "display_name" => users.OrderBy(x => x.DisplayName),
                 "company_desc" => users.OrderByDescending(x => x.Company),
                 "company" => users.OrderBy(x => x.Company),
                 "approved_desc" => users.OrderByDescending(x => x.Approved),
@@ -141,7 +145,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
         // POST: UsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Id,Firstname,Lastname,Company,CompanyWebsite,LandlinePhone,MobilePhone,Position,AcceptTermsOfService,AcceptUsageOfLogo,Email,EmailConfirmed,Approved,UserName,Role,Password,ConfirmPassword")] ApplicationUserCreateViewModel userVM)
+        public async Task<ActionResult> Create([Bind("Id,Firstname,Lastname,DisplayName,Company,CompanyWebsite,LandlinePhone,MobilePhone,Position,AcceptTermsOfService,AcceptUsageOfLogo,Email,EmailConfirmed,Approved,UserName,Role,Password,ConfirmPassword")] ApplicationUserCreateViewModel userVM)
         {
             if (!await _userUtils.IsAdminAsync(onlySuperAdmin: true) && userVM.Role != Globals.RoleCompanyUser)
             {
@@ -164,6 +168,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
                 {
                     Firstname = userVM.Firstname.Trim(),
                     Lastname = userVM.Lastname.Trim(),
+                    DisplayName = userVM.DisplayName?.Trim(),
                     Company = userVM.Company.Trim(),
                     Position = userVM.Position?.Trim(),
                     AcceptTermsOfService = userVM.AcceptTermsOfService,
@@ -178,7 +183,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
 
                 await _userStore.SetUserNameAsync(user, userVM.Email, CancellationToken.None);
                 await _userUtils.GetEmailStore().SetEmailAsync(user, userVM.Email, CancellationToken.None);
-                
+
                 createResult = await _userManager.CreateAsync(user, userVM.Password);
 
                 if (createResult.Succeeded)
@@ -233,6 +238,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
                 Id = user.Id,
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
+                DisplayName = user.DisplayName,
                 Company = user.Company,
                 AcceptTermsOfService = user.AcceptTermsOfService,
                 Position = user.Position,
@@ -252,7 +258,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(string id, [Bind("Id,Firstname,Lastname,Company,CompanyWebsite,LandlinePhone,MobilePhone,Position,AcceptTermsOfService,AcceptUsageOfLogo,Email,EmailConfirmed,Approved,UserName,Role,Password,ConfirmPassword,Enabled")] ApplicationUserEditViewModel userVM)
+        public async Task<ActionResult> Edit(string id, [Bind("Id,Firstname,Lastname,DisplayName,Company,CompanyWebsite,LandlinePhone,MobilePhone,Position,AcceptTermsOfService,AcceptUsageOfLogo,Email,EmailConfirmed,Approved,UserName,Role,Password,ConfirmPassword,Enabled")] ApplicationUserEditViewModel userVM)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -294,6 +300,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
 
                 user.Firstname = userVM.Firstname.Trim();
                 user.Lastname = userVM.Lastname.Trim();
+                user.DisplayName = userVM.DisplayName?.Trim();
                 user.Company = userVM.Company.Trim();
                 user.AcceptTermsOfService = userVM.AcceptTermsOfService;
                 user.Position = userVM.Position?.Trim();
@@ -305,7 +312,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
                 await _userManager.SetLockoutEndDateAsync(user, userVM.Enabled ? DateTimeOffset.MinValue : DateTimeOffset.MaxValue);
 
                 await _userUtils.GetEmailStore().SetEmailAsync(user, userVM.Email, CancellationToken.None);
-            
+
                 updateResult = await _userManager.UpdateAsync(user);
                 if (updateResult.Succeeded)
                 {
@@ -381,6 +388,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
                 Id = user.Id,
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
+                DisplayName = user.DisplayName,
                 Company = user.Company,
                 AcceptTermsOfService = user.AcceptTermsOfService,
                 Position = user.Position,
@@ -421,6 +429,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
                 Id = user.Id,
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
+                DisplayName = user.DisplayName,
                 Company = user.Company,
                 AcceptTermsOfService = user.AcceptTermsOfService,
                 Position = user.Position,
@@ -485,6 +494,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
             {
                 Firstname = x.ApplicationUser.Firstname,
                 Lastname = x.ApplicationUser.Lastname,
+                DisplayName = x.ApplicationUser.DisplayName,
                 Company = x.ApplicationUser.Company,
                 Position = x.ApplicationUser.Position,
                 Email = x.ApplicationUser.Email ?? string.Empty,
@@ -505,7 +515,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
         // POST: UsersController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id, [Bind("Id,Firstname,Lastname,Company,Email,PhoneNumber,Role,Enabled,NewId")] ApplicationUserDeleteViewModel userVM)
+        public async Task<ActionResult> DeleteConfirmed(string id, [Bind("Id,Firstname,Lastname,DisplayName,Company,Email,PhoneNumber,Role,Enabled,NewId")] ApplicationUserDeleteViewModel userVM)
         {
             var user = await _userManager.FindByIdAsync(id);
             var currentUserId = _userUtils.GetUserId();
@@ -581,7 +591,7 @@ namespace BlogAdecco.Areas.Admin.Controllers
         /// </summary>
         private async Task<SelectList> GetAllowedRolesSelectList(string? selectedValue = null)
         {
-            var allowedRoles = await _BlogAdeccoUtils.MySubordinatedRolesAsync();
+            var allowedRoles = await _blogAdeccoUtils.MySubordinatedRolesAsync();
             if (await _userUtils.IsAdminAsync(onlySuperAdmin: true))
             {
                 if (!allowedRoles.Contains(Globals.RoleAdmin)) allowedRoles.Add(Globals.RoleAdmin);
