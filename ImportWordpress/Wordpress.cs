@@ -327,6 +327,8 @@ public partial class ImportWordpress
             .Where(p => p.PostType == "attachment")
             .Include(p => p.PostMeta);
 
+        await _storageUtils.EmptyContainerAsync(Globals.StorageContainerNameAttachments, _storageUtils.GetFileLocation);
+
         if (_storageUtils.GetFileLocation == FileLocation.Local)
             Console.WriteLine("Importing attachments...\n\nPlease move the imported attachments to their path.  They will be imported in:\n" +
                 Path.Combine(_storageUtils.GetBasePath, Globals.StorageContainerNameAttachments) + "\n\n");

@@ -3,6 +3,7 @@ using BlogAdecco.Models;
 using BlogAdecco.Utils;
 using ImportWordpress.Data;
 using ImportWordpress.Utils;
+using MDWidgets;
 using MDWidgets.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
 
 /************
  * This project imports a Wordpress blog into .NET using our own defined classes
@@ -73,6 +75,30 @@ var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 var userStore = services.GetRequiredService<IUserStore<ApplicationUser>>();
 var storageUtils = services.GetRequiredService<IStorageUtils>();
 
+// Start azurite local emulator in case it is needed
+Process? azuriteProcess = null;
+var fileLocation = Enum.Parse<FileLocation>(configuration[MDGlobals.ConfigStorageLocation] ?? throw new InvalidOperationException("Storage location config not found"));
+var needsAzurite = fileLocation == FileLocation.Azure && configuration[MDGlobals.ConfigStorageRemoteConnectionString] == "UseDevelopmentStorage=true";
+if (needsAzurite)
+{
+    var azuritePath = @"C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Azure Storage Emulator\azurite.exe";
+
+    if (!File.Exists(azuritePath))
+    {
+        throw new InvalidOperationException($"Azurite executable not found at {azuritePath}");
+    }
+
+    var startInfo = new ProcessStartInfo
+    {
+        FileName = azuritePath,
+        Arguments = @"--skipApiVersionCheck --location %USERPROFILE%\Downloads\AzuriteData",
+        UseShellExecute = true,
+    };
+
+    azuriteProcess = Process.Start(startInfo);
+    Thread.Sleep(2000);
+}
+
 // Do the actual import
 var wordpress = new ImportWordpress.ImportWordpress(
     blogContext: dbContext,
@@ -85,3 +111,12 @@ var wordpress = new ImportWordpress.ImportWordpress(
     storageUtils: storageUtils);
 
 await wordpress.ImportAsync();
+
+// Stop Azurite if needed
+if (needsAzurite)
+{
+    Console.WriteLine("Process finished, you can now stop the Azurite emulator window");
+
+    // Stop the azurite local emulator
+    azuriteProcess?.WaitForExit();
+}
