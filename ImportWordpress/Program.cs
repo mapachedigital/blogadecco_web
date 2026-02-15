@@ -81,17 +81,20 @@ var fileLocation = Enum.Parse<FileLocation>(configuration[MDGlobals.ConfigStorag
 var needsAzurite = fileLocation == FileLocation.Azure && configuration[MDGlobals.ConfigStorageRemoteConnectionString] == "UseDevelopmentStorage=true";
 if (needsAzurite)
 {
-    var azuritePath = @"C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Azure Storage Emulator\azurite.exe";
+    var azuriteExecPath = @"C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\Azure Storage Emulator\azurite.exe";
+    var azureDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @".vstools", "azurite");
 
-    if (!File.Exists(azuritePath))
+    Console.WriteLine("Azure emulator location: " + azureDataPath);
+
+    if (!File.Exists(azuriteExecPath))
     {
-        throw new InvalidOperationException($"Azurite executable not found at {azuritePath}");
+        throw new InvalidOperationException($"Azurite executable not found at {azuriteExecPath}");
     }
 
     var startInfo = new ProcessStartInfo
     {
-        FileName = azuritePath,
-        Arguments = @"--skipApiVersionCheck --location %USERPROFILE%\Downloads\AzuriteData",
+        FileName = azuriteExecPath,
+        Arguments = @$"--skipApiVersionCheck --location {azureDataPath}",
         UseShellExecute = true,
     };
 
