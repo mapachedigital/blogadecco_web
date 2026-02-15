@@ -232,6 +232,12 @@ public class MediaController(ApplicationDbContext _context,
             _context.Update(item);
         }
 
+        await _storageUtils.RemoveFileAsync(attachment.File, attachment.Container, attachment.Location);
+        if (attachment.ThumbFile != null && attachment.ThumbContainer != null)
+        {
+            await _storageUtils.RemoveFileAsync(attachment.ThumbFile, attachment.ThumbContainer, attachment.Location);
+        }
+
         _context.Attachment.Remove(attachment);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
@@ -240,5 +246,5 @@ public class MediaController(ApplicationDbContext _context,
     private bool AttachmentExists(int id)
     {
         return _context.Attachment.Any(e => e.Id == id);
-    }   
+    }
 }

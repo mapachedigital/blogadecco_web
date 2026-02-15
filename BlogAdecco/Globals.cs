@@ -25,8 +25,8 @@ public class Globals
 
     public const string GoogleTagManagerCode = "GTM-PWLRVCKL";
 
-    public const string StorageContainerNameAttachments = "attachments";
+    public const string StorageContainerNameAttachments = "blog-attachments";
 
     public const int DefaultPageSize = 9;
-    public const string GuidRegex = @"^\/uploads\/([\d]{4})\/([\d]{2})\/([\w\-.]+)$";
+    public const string GuidRegex = @"^\/uploads\/([\d]{4})\/([\d]{2})\/([\w\-.\(\)]+)$";
 }
