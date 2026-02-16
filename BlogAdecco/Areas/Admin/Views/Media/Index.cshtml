@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BlogAdecco.Models.Attachment>
+﻿@model PaginatedList<BlogAdecco.Models.Attachment>
 @inject IBlogAdeccoUtils BlogAdeccoUtils
 @{
     ViewData["Title"] = @R["Media"];
@@ -17,6 +17,11 @@
                 <span>@R["Upload New"]</span>
             </a>
         </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="mb-4">
+        <partial name="_IndexFilterPartial" model="Model" />
     </div>
 </div>
 
@@ -43,3 +48,5 @@
         </div>
     </div>
 </div>
+
+<vc:pagination page-index="@Model.PageIndex" total-pages="@Model.TotalPages" total-items="@Model.TotalItems" page-items="@Model.Count" page-size="@Model.PageSize" default-page-sizes="[12, 48, 120]" />

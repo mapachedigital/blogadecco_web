@@ -23,12 +23,73 @@ public class MediaController(ApplicationDbContext _context,
         IStorageUtils _storageUtils) : Controller
 {
     // GET: Admin/Attachments
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? sortorder,
+             string? searchString,
+             int? pageNumber,
+             int? pageSize,
+             bool? resetCookie)
     {
-        return View(await _context.Attachment
-            .Include(x => x.Posts)
-            .OrderByDescending(x => x.Created)
-            .ToListAsync());
+        // Get a sensible page size depending on what we received from GET variable and what is stored in a cookie.
+        pageSize = this.CookiePageSize(pageSize, defaultPageSize: 12);
+
+        // Preserve the sort order between calls
+        ViewData["CurrentSort"] = sortorder;
+
+        // Default order
+        sortorder = string.IsNullOrEmpty(sortorder) ? "created_desc" : sortorder;
+
+        ViewData["CurrentFilter"] = searchString;
+        ViewData["PageSize"] = pageSize == MDGlobals.PageSizeDefault ? "" : pageSize.ToString();
+
+        // This model sorting
+        ViewData["AltSortParam"] = sortorder == "alt" ? "alt_desc" : "alt";
+        ViewData["SlugSortParam"] = sortorder == "slug" ? "slug_desc" : "slug";
+        ViewData["TitleSortParam"] = sortorder == "title" ? "title_desc" : "title";
+        ViewData["DescriptionSortParam"] = sortorder == "description" ? "description_desc" : "description";
+        ViewData["OriginalFilenameSortParam"] = sortorder == "original_filename" ? "original_filename_desc" : "original_filename";
+        ViewData["CreatedSortParamSortParam"] = sortorder == "created" ? "created_desc" : "created";
+
+        // Obtain the items from the database        
+        var applicationDbContext = _context.Attachment.Select(x => x);
+
+        // Perform the search
+        searchString = searchString?.Trim();
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            applicationDbContext = applicationDbContext.Where(s =>
+                s.Slug.Contains(searchString) ||
+                (s.Alt != null && s.Alt.Contains(searchString)) ||
+                (s.Title != null && s.Title.Contains(searchString)) ||
+                (s.Description != null && s.Description.Contains(searchString)) ||
+                (s.OriginalFilename != null && s.OriginalFilename.Contains(searchString)));
+        }
+
+        // Reset the pagination when a new search is performed
+        if (resetCookie == true)
+        {
+            pageNumber = 1;
+        }
+
+        applicationDbContext = sortorder switch
+        {
+            "alt" => applicationDbContext.OrderBy(s => s.Alt),
+            "alt_desc" => applicationDbContext.OrderByDescending(s => s.Alt),
+            "slug" => applicationDbContext.OrderBy(s => s.Slug),
+            "slug_desc" => applicationDbContext.OrderByDescending(s => s.Slug),
+            "title" => applicationDbContext.OrderBy(s => s.Title),
+            "title_desc" => applicationDbContext.OrderByDescending(s => s.Title),
+            "description" => applicationDbContext.OrderBy(s => s.Description),
+            "description_desc" => applicationDbContext.OrderByDescending(s => s.Description),
+            "original_filename" => applicationDbContext.OrderBy(s => s.OriginalFilename),
+            "original_filename_desc" => applicationDbContext.OrderByDescending(s => s.OriginalFilename),
+            "created" => applicationDbContext.OrderBy(s => s.Created),
+            "created_desc" => applicationDbContext.OrderByDescending(s => s.Created),
+            "created_by" => applicationDbContext.OrderBy(s => s.CreatedBy != null ? s.CreatedBy.DisplayName : ""),
+            "created_by_desc" => applicationDbContext.OrderByDescending(s => s.CreatedBy != null ? s.CreatedBy.DisplayName : ""),
+            _ => applicationDbContext.OrderByDescending(s => s.Created),
+        };
+
+        return View(await PaginatedList<Attachment>.CreateAsync(applicationDbContext.AsNoTracking(), pageNumber ?? 1, pageSize ?? MDGlobals.PageSizeDefault));
     }
 
     // GET: Admin/Attachments/Details/5

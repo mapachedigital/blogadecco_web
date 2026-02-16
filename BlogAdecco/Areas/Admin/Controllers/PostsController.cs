@@ -20,14 +20,74 @@ namespace BlogAdecco.Areas.Admin.Controllers;
 public class PostsController(ApplicationDbContext _context, IUserUtils _userUtils, IStorageUtils _storageUtils, IBlogAdeccoUtils _blogAdeccoUtils) : Controller
 {
     // GET: Admin/Posts
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? sortorder,
+             string? searchString,
+             int? pageNumber,
+             int? pageSize,
+             bool? resetCookie)
     {
-        return View(await _context.Post
-            .OrderByDescending(x => x.Created)
+        // Get a sensible page size depending on what we received from GET variable and what is stored in a cookie.
+        pageSize = this.CookiePageSize(pageSize);
+
+        // Preserve the sort order between calls
+        ViewData["CurrentSort"] = sortorder;
+
+        // Default order
+        sortorder = string.IsNullOrEmpty(sortorder) ? "created_desc" : sortorder;
+
+        ViewData["CurrentFilter"] = searchString;
+        ViewData["PageSize"] = pageSize == 12 ? "" : pageSize.ToString();
+
+        // This model sorting
+        ViewData["TitleSortParam"] = sortorder == "title" ? "title_desc" : "title";
+        ViewData["SummarySortParam"] = sortorder == "summary" ? "summary_desc" : "summary";
+        ViewData["ContentSortParam"] = sortorder == "content" ? "content_desc" : "content";
+        ViewData["SlugSortParam"] = sortorder == "slug" ? "slug_desc" : "slug";
+        ViewData["CreatedSortParam"] = sortorder == "created" ? "created_desc" : "created";
+        ViewData["CreatedBySortParam"] = sortorder == "created_by" ? "created_by_desc" : "created_by";
+
+        // Obtain the items from the database
+        var applicationDbContext = _context.Post
             .Include(x => x.CreatedBy)
-            .Include(x => x.Categories)
             .Include(x => x.Tags)
-            .ToListAsync());
+            .Include(x => x.Categories)
+            .Select(x => x);
+
+        // Perform the search
+        searchString = searchString?.Trim();
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            applicationDbContext = applicationDbContext.Where(s =>
+               (s.Summary != null && s.Summary.Contains(searchString)) ||
+                s.Title.Contains(searchString) ||
+                s.Content.Contains(searchString) ||
+                s.Slug.Contains(searchString));
+        }
+
+        // Reset the pagination when a new search is performed
+        if (resetCookie == true)
+        {
+            pageNumber = 1;
+        }
+
+        applicationDbContext = sortorder switch
+        {
+            "title" => applicationDbContext.OrderBy(s => s.Title),
+            "title_desc" => applicationDbContext.OrderByDescending(s => s.Title),
+            "summary" => applicationDbContext.OrderBy(s => s.Summary),
+            "summary_desc" => applicationDbContext.OrderByDescending(s => s.Summary),
+            "content" => applicationDbContext.OrderBy(s => s.Content),
+            "content_desc" => applicationDbContext.OrderByDescending(s => s.Content),
+            "slug" => applicationDbContext.OrderBy(s => s.Slug),
+            "slug_desc" => applicationDbContext.OrderByDescending(s => s.Slug),
+            "created" => applicationDbContext.OrderBy(s => s.Created),
+            "created_desc" => applicationDbContext.OrderByDescending(s => s.Created),
+            "created_by" => applicationDbContext.OrderBy(s => s.CreatedBy != null ? s.CreatedBy.DisplayName : ""),
+            "created_by_desc" => applicationDbContext.OrderByDescending(s => s.CreatedBy != null ? s.CreatedBy.DisplayName : ""),
+            _ => applicationDbContext.OrderByDescending(s => s.Created),
+        };
+
+        return View(await PaginatedList<Post>.CreateAsync(applicationDbContext.AsNoTracking(), pageNumber ?? 1, pageSize ?? MDGlobals.PageSizeDefault));
     }
 
     // GET: Admin/Posts/Details/5
