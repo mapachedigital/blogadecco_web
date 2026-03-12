@@ -61,6 +61,15 @@ namespace BlogAdecco.Areas.Identity.Pages.Account
                 return NotFound(L["Unable to load user with ID '{0}'.", userId]);
             }
 
+            // Don't let the user know they have already confirmed their email, to prevent account enumeration
+            if (await _userManager.IsEmailConfirmedAsync(user))
+            {
+                StatusMessage = L["Thank you for confirming your email.  You will be redirected in 3 seconds."];
+                Success = true;
+                ReturnUrl = returnUrl;
+                return Page();
+            }
+
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
             //StatusMessage = result.Succeeded ? L["Thank you for confirming your email.  Your account  still needs to be approved by an administrator in order to be able to login."] : L["Error confirming your email."];
