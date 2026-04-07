@@ -9,6 +9,7 @@
 
 html {
     --adminbar-height: 52px;
+    --adminbar-bg-color: #d0e7dd;
     margin-top: var(--adminbar-height) !important;
 }
 
@@ -28,17 +29,16 @@ html {
     z-index: 1000;
     width: 100%;
     font-size: 12px;
-    height: var(--adminbar-height);
-    background-color: #d0e7dd;
+    background-color: var(--adminbar-bg-color);
 }
 
     #adminbar .container {
         padding: 0 12px;
-        max-width: var(--max-width);
     }
 
     #adminbar .dropdown-menu {
         --bs-dropdown-font-size: 12.6px;
+        background-color: var(--adminbar-bg-color);
     }
 
     #adminbar .nav-link {

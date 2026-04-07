@@ -20,7 +20,6 @@ public class Globals
     public const string ConfigSuperAdminCompany = "SuperAdmin:Company";
     public const string ConfigSuperAdminPhoneNumber = "SuperAdmin:PhoneNumber";
     public const string ConfigSuperAdminPassword = "SuperAdmin:Password";
-    public const string ConfigGoogleApiKey = "Google:ApiKey";
     public const string ConfigTinyMCELicenseKey = "TinyMCE:LicenseKey";
 
     public const string GoogleTagManagerCode = "GTM-PWLRVCKL";

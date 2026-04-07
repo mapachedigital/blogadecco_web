@@ -194,7 +194,7 @@ public class PostsController(ApplicationDbContext _context, IUserUtils _userUtil
                 Created = DateTime.Now,
                 CreatedById = user.Id,
                 Categories = [.. _context.Category.Where(x => postVM.CategoryId.Contains(x.Id))],
-                Tags = [.. _context.Tag.Where(x => postVM.TagId.Contains(x.Id))],
+                Tags = postVM.TagId != null ? [.. _context.Tag.Where(x => postVM.TagId.Contains(x.Id))] : [],
                 Fixed = postVM.Fixed,
                 Published = postVM.Status == PostStatus.Published ? DateTime.Now : null,
             };
@@ -330,7 +330,7 @@ public class PostsController(ApplicationDbContext _context, IUserUtils _userUtil
                 post.Status = postVM.Status;
                 post.Fixed = postVM.Fixed;
                 post.Categories = [.. _context.Category.Where(x => postVM.CategoryId.Contains(x.Id))];
-                post.Tags = [.. _context.Tag.Where(x => postVM.TagId.Contains(x.Id))];
+                post.Tags = postVM.TagId != null ? [.. _context.Tag.Where(x => postVM.TagId.Contains(x.Id))] : [];
                 post.Modified = DateTime.Now;
                 post.ModifiedById = user.Id;
                 post.Published = postVM.Status != PostStatus.Published ? null : (post.Published == null ? DateTime.Now : post.Published);
